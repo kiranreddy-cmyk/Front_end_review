@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reviews &amp; Ratings — ArtVista Online Art Gallery</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="brand-logo">
+        <img src="images/logo.svg" alt="ArtVista Logo">
+      </a>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle Navigation">☰</button>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="artworks.html">Gallery</a></li>
+        <li><a href="artist-profile.html">Artists</a></li>
+        <li><a href="auction.html">Auctions</a></li>
+        <li><a href="reviews.html" class="active">Reviews</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+
+      <div class="nav-actions" id="navActions">
+        <!-- Injected dynamically via auth.js -->
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="container" style="padding-top: 40px;">
+      <!-- Page Header -->
+      <div class="section-header" style="text-align: left; margin-bottom: 30px;">
+        <span class="section-subtitle">Community Feedback</span>
+        <h1 style="font-size: 2.2rem; font-weight: 800;">Artwork Reviews &amp; Ratings</h1>
+        <p class="section-desc" style="margin-top: 6px;">
+          Authentic impressions, critical acclaim, and star ratings from verified art collectors.
+        </p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1.6fr; gap: 36px; align-items: start;">
+        <!-- Submit Review Card (Flexbox & Form) -->
+        <div style="background-color: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 30px; box-shadow: var(--shadow-sm); position: sticky; top: 100px;">
+          <h2 style="font-size: 1.35rem; font-weight: 800; margin-bottom: 16px;">Write a Review</h2>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">
+            Share your perspective on an artwork's aesthetics, emotional impact, and craftsmanship.
+          </p>
+
+          <form onsubmit="handleGlobalReviewSubmit(event)">
+            <div class="form-group">
+              <label for="reviewArtworkSelect">Select Artwork *</label>
+              <select id="reviewArtworkSelect" class="form-control" required>
+                <!-- Populated via reviews.js -->
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Rating (1 to 5 Stars) *</label>
+              <div class="star-picker" style="justify-content: flex-end;">
+                <input type="radio" id="gStar5" name="globalRatingStar" value="5" checked><label for="gStar5">★</label>
+                <input type="radio" id="gStar4" name="globalRatingStar" value="4"><label for="gStar4">★</label>
+                <input type="radio" id="gStar3" name="globalRatingStar" value="3"><label for="gStar3">★</label>
+                <input type="radio" id="gStar2" name="globalRatingStar" value="2"><label for="gStar2">★</label>
+                <input type="radio" id="gStar1" name="globalRatingStar" value="1"><label for="gStar1">★</label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="globalReviewComment">Your Critique / Comment *</label>
+              <textarea id="globalReviewComment" class="form-control" rows="4" placeholder="What moved you about this piece? Discuss lighting, composition, or concept..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-accent btn-block">Publish Review</button>
+          </form>
+        </div>
+
+        <!-- Reviews Feed -->
+        <div>
+          <h2 style="font-size: 1.35rem; font-weight: 800; margin-bottom: 20px;">Recent Collector Reviews</h2>
+          <div id="communityReviewsFeed">
+            <!-- Rendered dynamically via reviews.js -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-bottom">
+      <div>&copy; 2026 ArtVista Online Art Gallery. All rights reserved.</div>
+      <div>Reviews Module • SDC Project Review-1</div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/reviews.js"></script>
+</body>
+</html>

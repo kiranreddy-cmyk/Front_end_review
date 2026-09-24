@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="paperTexture" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f5f5f4" />
+      <stop offset="50%" stop-color="#e7e5e4" />
+      <stop offset="100%" stop-color="#d6d3d1" />
+    </linearGradient>
+  </defs>
+  <rect width="600" height="450" fill="url(#paperTexture)" />
+  <!-- Shading cross hatches & charcoal lines -->
+  <g stroke="#292524" stroke-linecap="round" opacity="0.85">
+    <!-- Horse head charcoal sketch outline -->
+    <path d="M 180 380 C 190 320 220 250 260 210 C 270 170 290 130 330 90 C 335 80 340 95 342 110 C 355 100 370 70 380 60 C 385 75 385 100 380 120 C 400 130 420 150 435 180 C 450 210 440 250 410 270 C 380 290 360 300 350 350 C 340 400 335 430 330 450" fill="none" stroke-width="4.5" />
+    <!-- Nostril and muzzle -->
+    <path d="M 430 200 C 445 210 440 230 425 240 C 415 245 405 240 400 230" fill="none" stroke-width="3" />
+    <ellipse cx="420" cy="225" rx="10" ry="14" fill="#292524" transform="rotate(-20 420 225)" />
+    <!-- Eye and eyebrow arch -->
+    <path d="M 335 150 Q 355 140 370 155 Q 350 165 335 150 Z" fill="#1c1917" />
+    <path d="M 325 142 C 345 130 368 135 380 148" fill="none" stroke-width="3.5" />
+    <!-- Mane strokes -->
+    <path d="M 325 90 Q 280 120 260 180" fill="none" stroke-width="3" />
+    <path d="M 315 110 Q 270 140 250 210" fill="none" stroke-width="2.5" />
+    <path d="M 300 140 Q 250 180 230 250" fill="none" stroke-width="3.2" />
+    <path d="M 280 180 Q 230 230 210 310" fill="none" stroke-width="2.8" />
+    <!-- Cross-hatching shading -->
+    <g opacity="0.4" stroke-width="1.2">
+      <line x1="330" y1="180" x2="380" y2="230" />
+      <line x1="335" y1="175" x2="385" y2="225" />
+      <line x1="340" y1="170" x2="390" y2="220" />
+      <line x1="345" y1="165" x2="395" y2="215" />
+      <line x1="350" y1="160" x2="400" y2="210" />
+      <line x1="280" y1="280" x2="330" y2="330" />
+      <line x1="285" y1="275" x2="335" y2="325" />
+      <line x1="290" y1="270" x2="340" y2="320" />
+    </g>
+  </g>
+  <text x="570" y="420" font-family="'Segoe UI', sans-serif" font-size="14" font-weight="700" fill="#44403c" text-anchor="end">Graphite Elegance • Charcoal on Paper</text>
+</svg>

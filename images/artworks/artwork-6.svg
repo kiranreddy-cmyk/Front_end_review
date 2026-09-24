@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="oceanSky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="40%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#bae6fd" />
+    </linearGradient>
+    <linearGradient id="deepWater" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0369a1" />
+      <stop offset="50%" stop-color="#075985" />
+      <stop offset="100%" stop-color="#082f49" />
+    </linearGradient>
+  </defs>
+  <!-- Sky -->
+  <rect width="600" height="230" fill="url(#oceanSky)" />
+  <!-- Clouds -->
+  <ellipse cx="140" cy="80" rx="90" ry="25" fill="#ffffff" opacity="0.6" />
+  <ellipse cx="450" cy="110" rx="120" ry="30" fill="#ffffff" opacity="0.5" />
+  <!-- Ocean Horizon & Deep Water -->
+  <rect y="230" width="600" height="220" fill="url(#deepWater)" />
+  <!-- Crashing Waves (Impressionist style) -->
+  <path d="M 0 250 Q 80 230 160 255 Q 240 280 320 250 Q 400 220 480 255 Q 540 280 600 250 L 600 450 L 0 450 Z" fill="#0284c7" opacity="0.7" />
+  <path d="M 0 310 Q 100 280 200 320 Q 300 360 400 300 Q 500 270 600 315 L 600 450 L 0 450 Z" fill="#0ea5e9" opacity="0.65" />
+  <!-- Whitecaps & Spray -->
+  <path d="M 120 255 Q 160 235 200 255 M 340 245 Q 380 225 420 248 M 40 310 Q 100 275 160 305" stroke="#ffffff" stroke-width="5" fill="none" stroke-linecap="round" opacity="0.8" />
+  <!-- Big foreground wave curl -->
+  <path d="M 0 380 C 120 330 220 310 320 360 C 420 410 520 340 600 390 L 600 450 L 0 450 Z" fill="#38bdf8" opacity="0.4" />
+  <path d="M 180 340 C 240 310 300 320 340 360" stroke="#f0f9ff" stroke-width="7" fill="none" stroke-linecap="round" opacity="0.9" />
+  <!-- Foam dots -->
+  <circle cx="210" cy="330" r="3" fill="#ffffff" />
+  <circle cx="230" cy="325" r="4" fill="#ffffff" />
+  <circle cx="260" cy="328" r="3.5" fill="#ffffff" />
+  <circle cx="280" cy="340" r="2.5" fill="#ffffff" />
+  <text x="570" y="420" font-family="'Segoe UI', sans-serif" font-size="14" font-weight="700" fill="#bae6fd" text-anchor="end">Whispers of the Ocean • Seascape</text>
+</svg>

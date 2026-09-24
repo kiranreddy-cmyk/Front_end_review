@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Collector Dashboard — ArtVista Online Art Gallery</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="brand-logo">
+        <img src="images/logo.svg" alt="ArtVista Logo">
+      </a>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle Navigation">☰</button>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="artworks.html">Gallery</a></li>
+        <li><a href="artist-profile.html">Artists</a></li>
+        <li><a href="auction.html">Auctions</a></li>
+        <li><a href="reviews.html">Reviews</a></li>
+        <li><a href="user-dashboard.html" class="active">Dashboard</a></li>
+      </ul>
+
+      <div class="nav-actions" id="navActions">
+        <!-- Injected dynamically via auth.js -->
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <!-- Dashboard Header Banner -->
+    <div class="dashboard-header">
+      <div class="container dashboard-header-inner">
+        <div class="dashboard-greeting">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span class="role-tag role-user">Collector Account</span>
+          </div>
+          <h1 id="userGreeting">Welcome, Collector</h1>
+          <p>Track your saved artworks, auction bids, purchase transactions, and community reviews.</p>
+        </div>
+        <div style="display: flex; gap: 10px;">
+          <a href="artworks.html" class="btn btn-accent">Explore Gallery</a>
+          <button onclick="logout()" class="btn btn-outline">Logout</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- User KPI Metric Cards (CSS Grid) -->
+      <div class="stats-grid">
+        <a href="favorites.html" class="stat-card" style="text-decoration: none;">
+          <div class="stat-icon stat-icon-red">♥</div>
+          <div class="stat-info">
+            <h3 id="userTotalFavorites">0</h3>
+            <p>Saved Favorites</p>
+          </div>
+        </a>
+
+        <a href="purchases.html" class="stat-card" style="text-decoration: none;">
+          <div class="stat-icon stat-icon-green">🛍️</div>
+          <div class="stat-info">
+            <h3 id="userTotalPurchases">0</h3>
+            <p>Art Purchases</p>
+          </div>
+        </a>
+
+        <a href="auction.html" class="stat-card" style="text-decoration: none;">
+          <div class="stat-icon stat-icon-gold">🔨</div>
+          <div class="stat-info">
+            <h3 id="userTotalBids">0</h3>
+            <p>Active Bids</p>
+          </div>
+        </a>
+
+        <a href="reviews.html" class="stat-card" style="text-decoration: none;">
+          <div class="stat-icon stat-icon-blue">⭐</div>
+          <div class="stat-info">
+            <h3 id="userTotalReviews">0</h3>
+            <p>My Reviews</p>
+          </div>
+        </a>
+      </div>
+
+      <!-- Quick Action Cards (CSS Grid) -->
+      <h2 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 20px;">Quick Actions &amp; Services</h2>
+      <div class="category-grid" style="margin-bottom: 40px;">
+        <a href="artworks.html" class="category-card">
+          <div class="category-icon-box">🎨</div>
+          <h3>Browse Gallery</h3>
+          <p>Explore all 8 artwork categories with real-time search &amp; filters.</p>
+        </a>
+
+        <a href="favorites.html" class="category-card">
+          <div class="category-icon-box">♥</div>
+          <h3>View Favorites</h3>
+          <p>Inspect and manage your shortlisted paintings and sculptures.</p>
+        </a>
+
+        <a href="auction.html" class="category-card">
+          <div class="category-icon-box">⏱️</div>
+          <h3>Live Auctions</h3>
+          <p>Join competitive bidding and track your winning bids in real time.</p>
+        </a>
+
+        <a href="purchases.html" class="category-card">
+          <div class="category-icon-box">📜</div>
+          <h3>Purchase Receipts</h3>
+          <p>View confirmed orders, invoices, and collection acquisitions.</p>
+        </a>
+      </div>
+
+      <!-- Recent Purchases Preview Table -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <h2 style="font-size: 1.4rem; font-weight: 800;">Recent Acquisitions</h2>
+        <a href="purchases.html" class="btn btn-sm btn-outline">View All Purchases &rarr;</a>
+      </div>
+
+      <div class="table-container">
+        <table class="custom-table">
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Artwork Name</th>
+              <th>Artist</th>
+              <th>Amount Paid</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="userRecentPurchasesTable">
+            <!-- Populated via user.js -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-bottom">
+      <div>&copy; 2026 ArtVista Online Art Gallery. All rights reserved.</div>
+      <div>User Module • SDC Project Review-1</div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/user.js"></script>
+</body>
+</html>

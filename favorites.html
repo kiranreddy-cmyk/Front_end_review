@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Favorites — ArtVista Online Art Gallery</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="brand-logo">
+        <img src="images/logo.svg" alt="ArtVista Logo">
+      </a>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle Navigation">☰</button>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="artworks.html">Gallery</a></li>
+        <li><a href="artist-profile.html">Artists</a></li>
+        <li><a href="auction.html">Auctions</a></li>
+        <li><a href="reviews.html">Reviews</a></li>
+        <li><a href="favorites.html" class="active">Favorites</a></li>
+      </ul>
+
+      <div class="nav-actions" id="navActions">
+        <!-- Injected dynamically via auth.js -->
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="container" style="padding-top: 40px;">
+      <!-- Page Header -->
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 28px; flex-wrap: wrap; gap: 12px;">
+        <div>
+          <span class="section-subtitle">Personal Collection Wishlist</span>
+          <h1 style="font-size: 2.2rem; font-weight: 800;">Saved Favorites</h1>
+          <p style="color: var(--text-muted); font-size: 0.95rem;">Artworks you have favorited across paintings, sculptures, and auctions.</p>
+        </div>
+        <a href="artworks.html" class="btn btn-outline">+ Discover More Art</a>
+      </div>
+
+      <!-- Favorites Grid (CSS Grid, populated via user.js) -->
+      <div class="artwork-grid" id="favoritesGrid">
+        <!-- Rendered via user.js / renderFavoritesPage() -->
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-bottom">
+      <div>&copy; 2026 ArtVista Online Art Gallery. All rights reserved.</div>
+      <div>Favorites Module • SDC Project Review-1</div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/artworks.js"></script>
+  <script src="js/user.js"></script>
+</body>
+</html>

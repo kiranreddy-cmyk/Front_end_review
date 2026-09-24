@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login — ArtVista Online Art Gallery</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="brand-logo">
+        <img src="images/logo.svg" alt="ArtVista Logo">
+      </a>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle Navigation">☰</button>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="artworks.html">Gallery</a></li>
+        <li><a href="artist-profile.html">Artists</a></li>
+        <li><a href="auction.html">Auctions</a></li>
+        <li><a href="reviews.html">Reviews</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+
+      <div class="nav-actions" id="navActions">
+        <a href="login.html" class="btn btn-sm btn-outline active">Login</a>
+        <a href="signup.html" class="btn btn-sm btn-accent">Sign Up</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="container">
+      <div class="auth-wrapper">
+        <div class="auth-header">
+          <h2>Welcome Back</h2>
+          <p>Sign in to access your ArtVista dashboard, favorites, bids, and purchases.</p>
+        </div>
+
+        <form id="loginForm">
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" class="form-control" placeholder="name@example.com" required autofocus>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" class="form-control" placeholder="••••••••" required>
+          </div>
+
+          <div id="loginError" class="form-error" style="margin-bottom: 16px;"></div>
+
+          <button type="submit" class="btn btn-primary btn-block btn-lg">Sign In</button>
+        </form>
+
+        <p style="text-align: center; margin-top: 20px; font-size: 0.95rem; color: var(--text-muted);">
+          Don't have an account? <a href="signup.html" style="color: var(--accent); font-weight: 600;">Create Account</a>
+        </p>
+
+        <!-- SDC Review-1 Demo Credentials Quick-Fill -->
+        <div class="demo-credentials-box">
+          <h4>⚡ Quick-Fill Demo Credentials (SDC Review)</h4>
+          <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 10px;">
+            Click any role button below to automatically populate test credentials:
+          </p>
+          <div class="demo-buttons-row">
+            <button type="button" onclick="fillCredentials('admin')" class="btn btn-sm btn-outline" style="flex: 1;">
+              👑 Admin
+            </button>
+            <button type="button" onclick="fillCredentials('user')" class="btn btn-sm btn-outline" style="flex: 1;">
+              👤 User
+            </button>
+            <button type="button" onclick="fillCredentials('artist')" class="btn btn-sm btn-outline" style="flex: 1;">
+              🎨 Artist
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-bottom">
+      <div>&copy; 2026 ArtVista Online Art Gallery. All rights reserved.</div>
+      <div>SDC Project Review-1 • Pure HTML, CSS &amp; Vanilla JavaScript</div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>

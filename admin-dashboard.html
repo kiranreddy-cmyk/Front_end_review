@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard — ArtVista Online Art Gallery</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="brand-logo">
+        <img src="images/logo.svg" alt="ArtVista Logo">
+      </a>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle Navigation">☰</button>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="artworks.html">Gallery</a></li>
+        <li><a href="artist-profile.html">Artists</a></li>
+        <li><a href="auction.html">Auctions</a></li>
+        <li><a href="reviews.html">Reviews</a></li>
+        <li><a href="admin-dashboard.html" class="active">Admin Panel</a></li>
+      </ul>
+
+      <div class="nav-actions" id="navActions">
+        <!-- Injected dynamically via auth.js -->
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <!-- Dashboard Header Banner -->
+    <div class="dashboard-header">
+      <div class="container dashboard-header-inner">
+        <div class="dashboard-greeting">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span class="role-tag role-admin">System Administrator</span>
+            <span style="color: var(--text-muted); font-size: 0.85rem;">• SDC Evaluation Mode</span>
+          </div>
+          <h1>Admin Control Center</h1>
+          <p>Monitor platform statistics, moderate users, manage artworks, categories, purchases, and auctions.</p>
+        </div>
+        <div style="display: flex; gap: 10px;">
+          <button onclick="openAddArtworkModal()" class="btn btn-accent">
+            + Add New Artwork
+          </button>
+          <button onclick="logout()" class="btn btn-outline" style="color: var(--danger); border-color: var(--danger);">
+            Logout
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- Dynamic KPI Metric Cards (CSS Grid) -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon stat-icon-blue">👥</div>
+          <div class="stat-info">
+            <h3 id="statTotalUsers">0</h3>
+            <p>Total Users</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon stat-icon-gold">🎨</div>
+          <div class="stat-info">
+            <h3 id="statTotalArtists">0</h3>
+            <p>Total Artists</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon stat-icon-purple">🖼️</div>
+          <div class="stat-info">
+            <h3 id="statTotalArtworks">0</h3>
+            <p>Total Artworks</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon stat-icon-green">🛍️</div>
+          <div class="stat-info">
+            <h3 id="statTotalPurchases">0</h3>
+            <p>Total Purchases</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon stat-icon-gold">🔨</div>
+          <div class="stat-info">
+            <h3 id="statTotalAuctions">0</h3>
+            <p>Live Auctions</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon stat-icon-blue">⭐</div>
+          <div class="stat-info">
+            <h3 id="statTotalReviews">0</h3>
+            <p>Total Reviews</p>
+          </div>
+        </div>
+
+        <div class="stat-card" style="grid-column: span 2;">
+          <div class="stat-icon stat-icon-green">💰</div>
+          <div class="stat-info">
+            <h3 id="statTotalRevenue">₹0</h3>
+            <p>Platform Sales Volume</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs (Flexbox) -->
+      <div class="dashboard-tabs">
+        <button class="dash-tab-btn active" data-target="tabArtworks">Manage Artworks</button>
+        <button class="dash-tab-btn" data-target="tabUsers">Manage Users</button>
+        <button class="dash-tab-btn" data-target="tabCategories">Manage Categories</button>
+        <button class="dash-tab-btn" data-target="tabPurchases">Purchases Log</button>
+        <button class="dash-tab-btn" data-target="tabAuctions">Auctions Log</button>
+        <button class="dash-tab-btn" data-target="tabReviews">Reviews Moderation</button>
+      </div>
+
+      <!-- Tab Panes -->
+      <!-- 1. Manage Artworks -->
+      <div class="tab-pane active" id="tabArtworks">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
+          <div>
+            <h2 style="font-size: 1.4rem; font-weight: 800;">Catalog Artworks</h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Add, edit metadata, update prices, or remove artworks from gallery.</p>
+          </div>
+          <button onclick="openAddArtworkModal()" class="btn btn-sm btn-accent">+ Add Artwork</button>
+        </div>
+
+        <div class="table-container">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Thumbnail</th>
+                <th>Artwork Name</th>
+                <th>Artist</th>
+                <th>Category</th>
+                <th>Type</th>
+                <th>Price / Bid</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="adminArtworksTableBody">
+              <!-- Rendered via admin.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 2. Manage Users -->
+      <div class="tab-pane" id="tabUsers">
+        <div style="margin-bottom: 18px;">
+          <h2 style="font-size: 1.4rem; font-weight: 800;">Registered Accounts</h2>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">View registered collectors, artists, and system administrators.</p>
+        </div>
+
+        <div class="table-container">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>User</th>
+                <th>Email Address</th>
+                <th>Role</th>
+                <th>Joined Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="adminUsersTableBody">
+              <!-- Rendered via admin.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 3. Manage Categories -->
+      <div class="tab-pane" id="tabCategories">
+        <div style="margin-bottom: 18px;">
+          <h2 style="font-size: 1.4rem; font-weight: 800;">Artwork Categories</h2>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">Active collection categories and their current artwork distribution.</p>
+        </div>
+
+        <div class="category-grid" id="adminCategoriesContainer">
+          <!-- Rendered via admin.js -->
+        </div>
+      </div>
+
+      <!-- 4. Purchases Log -->
+      <div class="tab-pane" id="tabPurchases">
+        <div style="margin-bottom: 18px;">
+          <h2 style="font-size: 1.4rem; font-weight: 800;">Transactions &amp; Purchases Log</h2>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">Audit trail of all artwork acquisitions made across the platform.</p>
+        </div>
+
+        <div class="table-container">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Artwork</th>
+                <th>Buyer</th>
+                <th>Artist</th>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="adminPurchasesTableBody">
+              <!-- Rendered via admin.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 5. Auctions Log -->
+      <div class="tab-pane" id="tabAuctions">
+        <div style="margin-bottom: 18px;">
+          <h2 style="font-size: 1.4rem; font-weight: 800;">Active Auction Items</h2>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">Current highest bids and bidders on all active auction lots.</p>
+        </div>
+
+        <div class="table-container">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>Lot ID</th>
+                <th>Artwork</th>
+                <th>Artist</th>
+                <th>Starting Price</th>
+                <th>Current High Bid</th>
+                <th>Top Bidder</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="adminAuctionsTableBody">
+              <!-- Rendered via admin.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 6. Reviews Moderation -->
+      <div class="tab-pane" id="tabReviews">
+        <div style="margin-bottom: 18px;">
+          <h2 style="font-size: 1.4rem; font-weight: 800;">Community Reviews &amp; Ratings</h2>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">Moderate collector feedback and star ratings.</p>
+        </div>
+
+        <div class="table-container">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Artwork</th>
+                <th>Reviewer</th>
+                <th>Rating</th>
+                <th>Comment</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="adminReviewsTableBody">
+              <!-- Rendered via admin.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-bottom">
+      <div>&copy; 2026 ArtVista Online Art Gallery. All rights reserved.</div>
+      <div>Admin Module • SDC Project Review-1</div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

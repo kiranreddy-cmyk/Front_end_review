@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Artwork Details — ArtVista Online Art Gallery</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="brand-logo">
+        <img src="images/logo.svg" alt="ArtVista Logo">
+      </a>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle Navigation">☰</button>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="artworks.html" class="active">Gallery</a></li>
+        <li><a href="artist-profile.html">Artists</a></li>
+        <li><a href="auction.html">Auctions</a></li>
+        <li><a href="reviews.html">Reviews</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+
+      <div class="nav-actions" id="navActions">
+        <!-- Injected dynamically via auth.js -->
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="container" style="padding-top: 36px;">
+      <!-- Breadcrumb Navigation -->
+      <div style="margin-bottom: 20px; font-size: 0.9rem; color: var(--text-muted);">
+        <a href="index.html">Home</a> &gt; <a href="artworks.html">Gallery</a> &gt; <span id="breadcrumbTitle" style="color: var(--text-main); font-weight: 600;">Artwork Details</span>
+      </div>
+
+      <!-- Artwork Details Component (CSS Grid) -->
+      <div id="artworkDetailsContainer">
+        <!-- Rendered dynamically via artworks.js -->
+      </div>
+
+      <!-- Customer Reviews & Ratings Section -->
+      <div style="background-color: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 36px; box-shadow: var(--shadow-sm); margin-top: 40px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px;">
+          <div>
+            <h2 style="font-size: 1.5rem; font-weight: 800;">Collector Reviews &amp; Ratings</h2>
+            <span id="artworkReviewCount" style="color: var(--text-muted); font-size: 0.9rem;">(0 Reviews)</span>
+          </div>
+        </div>
+
+        <!-- Write Review Form -->
+        <div style="background-color: var(--surface-alt); border-radius: var(--radius-md); padding: 24px; margin-bottom: 30px;">
+          <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 12px;">Leave Your Review &amp; Star Rating</h3>
+          <form onsubmit="handleDetailsPageReviewSubmit(event)">
+            <div class="form-group" style="margin-bottom: 14px;">
+              <label>Select Rating (1 to 5 Stars):</label>
+              <div class="star-picker">
+                <input type="radio" id="star5" name="ratingStar" value="5" checked><label for="star5" title="5 stars">★</label>
+                <input type="radio" id="star4" name="ratingStar" value="4"><label for="star4" title="4 stars">★</label>
+                <input type="radio" id="star3" name="ratingStar" value="3"><label for="star3" title="3 stars">★</label>
+                <input type="radio" id="star2" name="ratingStar" value="2"><label for="star2" title="2 stars">★</label>
+                <input type="radio" id="star1" name="ratingStar" value="1"><label for="star1" title="1 star">★</label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="reviewCommentInput">Your Comments &amp; Critique:</label>
+              <textarea id="reviewCommentInput" class="form-control" rows="3" placeholder="Share your thoughts on the composition, brushwork, emotional resonance..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit Review</button>
+          </form>
+        </div>
+
+        <!-- List of existing reviews -->
+        <div id="artworkReviewsList">
+          <!-- Rendered via reviews.js -->
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-bottom">
+      <div>&copy; 2026 ArtVista Online Art Gallery. All rights reserved.</div>
+      <div>SDC Project Review-1 • Vanilla JS, CSS Grid &amp; Local Storage</div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/reviews.js"></script>
+  <script src="js/artworks.js"></script>
+  <script>
+    function handleDetailsPageReviewSubmit(e) {
+      const urlParams = new URLSearchParams(window.location.search);
+      const artworkId = Number(urlParams.get('id')) || 1;
+      submitArtworkReview(e, artworkId);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 100" width="100%" height="100%">
+  <defs>
+    <linearGradient id="artGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#b45309" />
+    </linearGradient>
+    <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#334155" />
+    </linearGradient>
+  </defs>
+  <!-- Palette Icon -->
+  <g transform="translate(10, 10)">
+    <path d="M 40 5 C 18 5 0 23 0 45 C 0 67 18 85 40 85 C 47 85 52 80 52 73 C 52 70 51 67 49 64 C 47 61 45 57 45 53 C 45 44 52 37 61 37 L 68 37 C 77 37 84 30 84 21 C 84 12 64 5 40 5 Z" fill="url(#artGrad)" />
+    <!-- Color dabs -->
+    <circle cx="22" cy="30" r="6" fill="#ef4444" />
+    <circle cx="38" cy="20" r="6" fill="#3b82f6" />
+    <circle cx="58" cy="25" r="6" fill="#10b981" />
+    <circle cx="30" cy="55" r="6" fill="#8b5cf6" />
+    <!-- Thumb hole -->
+    <ellipse cx="65" cy="62" rx="7" ry="10" fill="#ffffff" />
+  </g>
+  <!-- Brand Text -->
+  <text x="110" y="58" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif" font-size="38" font-weight="800" fill="url(#textGrad)" letter-spacing="1">Art<tspan fill="#d97706">Vista</tspan></text>
+  <text x="112" y="80" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif" font-size="12" font-weight="600" fill="#64748b" letter-spacing="3">ONLINE ART GALLERY</text>
+</svg>

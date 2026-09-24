@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live Auctions — ArtVista Online Art Gallery</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="brand-logo">
+        <img src="images/logo.svg" alt="ArtVista Logo">
+      </a>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle Navigation">☰</button>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="artworks.html">Gallery</a></li>
+        <li><a href="artist-profile.html">Artists</a></li>
+        <li><a href="auction.html" class="active">Auctions</a></li>
+        <li><a href="reviews.html">Reviews</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+
+      <div class="nav-actions" id="navActions">
+        <!-- Injected dynamically via auth.js -->
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="container" style="padding-top: 40px;">
+      <!-- Page Header -->
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 28px; flex-wrap: wrap; gap: 12px;">
+        <div>
+          <span class="section-subtitle">Live Bidding Arena</span>
+          <h1 style="font-size: 2.2rem; font-weight: 800;">Curated Fine Art Auctions</h1>
+          <p style="color: var(--text-muted); font-size: 0.95rem;">Place competitive bids on certified original creations with live highest-bid tracking.</p>
+        </div>
+        <div>
+          <span class="badge badge-auction" id="activeAuctionsCount" style="font-size: 0.9rem; padding: 6px 14px;">Loading...</span>
+        </div>
+      </div>
+
+      <!-- Live Auction Cards Grid (CSS Grid) -->
+      <div class="artwork-grid" id="auctionGrid" style="margin-bottom: 50px;">
+        <!-- Rendered dynamically via auction.js -->
+      </div>
+
+      <!-- My Bids History Section -->
+      <div id="myBidsSection" style="background-color: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 32px; box-shadow: var(--shadow-sm);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+          <div>
+            <h2 style="font-size: 1.5rem; font-weight: 800;">My Auction Bids History</h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Review all bids you have placed and your current winning status.</p>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>Bid Reference</th>
+                <th>Artwork Piece</th>
+                <th>Your Bid Amount</th>
+                <th>Bid Timestamp</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="myBidsTableBody">
+              <!-- Rendered via auction.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-bottom">
+      <div>&copy; 2026 ArtVista Online Art Gallery. All rights reserved.</div>
+      <div>Auction Module • SDC Project Review-1</div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/artworks.js"></script>
+  <script src="js/auction.js"></script>
+</body>
+</html>

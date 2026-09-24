@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Artist Studio Dashboard — ArtVista Online Art Gallery</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="brand-logo">
+        <img src="images/logo.svg" alt="ArtVista Logo">
+      </a>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle Navigation">☰</button>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="artworks.html">Gallery</a></li>
+        <li><a href="artist-profile.html">Artists</a></li>
+        <li><a href="auction.html">Auctions</a></li>
+        <li><a href="reviews.html">Reviews</a></li>
+        <li><a href="artist-dashboard.html" class="active">Artist Studio</a></li>
+      </ul>
+
+      <div class="nav-actions" id="navActions">
+        <!-- Injected dynamically via auth.js -->
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <!-- Dashboard Header Banner -->
+    <div class="dashboard-header">
+      <div class="container dashboard-header-inner">
+        <div class="dashboard-greeting">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span class="role-tag role-artist">Exhibiting Artist</span>
+            <span style="color: var(--text-muted); font-size: 0.85rem;">• Studio Workspace</span>
+          </div>
+          <h1 id="artistGreeting">Welcome, Artist</h1>
+          <p>Showcase your artwork, configure auction lots, monitor collector acquisitions, and update your public portfolio.</p>
+        </div>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <button onclick="openArtistAddModal()" class="btn btn-accent">
+            + Upload New Artwork
+          </button>
+          <a href="artist-profile.html" id="artistProfileLink" class="btn btn-outline">
+            View Public Profile
+          </a>
+          <button onclick="logout()" class="btn btn-outline" style="color: var(--danger); border-color: var(--danger);">
+            Logout
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- Artist Studio KPI Metric Cards (CSS Grid) -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon stat-icon-purple">🎨</div>
+          <div class="stat-info">
+            <h3 id="artistTotalArtworks">0</h3>
+            <p>My Exhibited Works</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon stat-icon-green">💰</div>
+          <div class="stat-info">
+            <h3 id="artistTotalSales">₹0</h3>
+            <p>Total Sales Revenue</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon stat-icon-gold">🔨</div>
+          <div class="stat-info">
+            <h3 id="artistActiveAuctions">0</h3>
+            <p>Live Auction Lots</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon stat-icon-blue">⭐</div>
+          <div class="stat-info">
+            <h3 id="artistTotalReviews">0</h3>
+            <p>Collector Reviews</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- My Artworks Table Section -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
+        <div>
+          <h2 style="font-size: 1.4rem; font-weight: 800;">My Artwork Catalog</h2>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">You can modify details, update asking prices, or delete your own artworks.</p>
+        </div>
+        <button onclick="openArtistAddModal()" class="btn btn-sm btn-accent">+ Upload Artwork</button>
+      </div>
+
+      <div class="table-container">
+        <table class="custom-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Artwork</th>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Type</th>
+              <th>Price / High Bid</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="artistArtworksTableBody">
+            <!-- Rendered dynamically via artist.js -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-bottom">
+      <div>&copy; 2026 ArtVista Online Art Gallery. All rights reserved.</div>
+      <div>Artist Studio Module • SDC Project Review-1</div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/artist.js"></script>
+</body>
+</html>

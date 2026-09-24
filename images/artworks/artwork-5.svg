@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450" width="100%" height="100%">
+  <defs>
+    <radialGradient id="portraitBg" cx="60%" cy="40%" r="70%">
+      <stop offset="0%" stop-color="#451a03" />
+      <stop offset="60%" stop-color="#1c1917" />
+      <stop offset="100%" stop-color="#0c0a09" />
+    </radialGradient>
+    <linearGradient id="saffronDrape" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24" />
+      <stop offset="50%" stop-color="#d97706" />
+      <stop offset="100%" stop-color="#9a3412" />
+    </linearGradient>
+    <linearGradient id="skinTone" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fed7aa" />
+      <stop offset="70%" stop-color="#fba478" />
+      <stop offset="100%" stop-color="#c27751" />
+    </linearGradient>
+  </defs>
+  <rect width="600" height="450" fill="url(#portraitBg)" />
+  <!-- Stylized Elegant Portrait -->
+  <g transform="translate(160, 40)">
+    <!-- Hair -->
+    <path d="M 90 120 C 70 50 140 10 200 25 C 260 40 280 110 250 210 C 230 250 200 300 240 380 L 120 380 C 100 310 90 230 90 120 Z" fill="#18181b" />
+    <!-- Face / Neck Profile -->
+    <path d="M 120 120 C 130 90 160 80 180 90 C 200 100 210 130 205 165 C 200 195 180 230 160 250 L 165 310 L 135 310 L 130 245 C 120 230 115 170 120 120 Z" fill="url(#skinTone)" />
+    <!-- Closed serene eye & eyelashes -->
+    <path d="M 155 135 Q 170 145 185 138" stroke="#451a03" stroke-width="2.5" fill="none" stroke-linecap="round" />
+    <path d="M 150 122 Q 170 118 185 125" stroke="#292524" stroke-width="2.5" fill="none" stroke-linecap="round" />
+    <!-- Lips -->
+    <path d="M 175 190 Q 188 198 178 206 Q 168 198 175 190 Z" fill="#b91c1c" />
+    <!-- Gold Earring -->
+    <circle cx="130" cy="180" r="14" fill="none" stroke="#f59e0b" stroke-width="3.5" />
+    <circle cx="130" cy="198" r="5" fill="#fef08a" />
+    <!-- Saffron Fabric Drape -->
+    <path d="M 80 300 C 120 270 180 260 220 300 C 260 340 280 390 280 410 L 40 410 C 50 360 60 320 80 300 Z" fill="url(#saffronDrape)" />
+    <!-- Golden embroidery fold accents -->
+    <path d="M 80 300 Q 140 330 210 320" stroke="#fef08a" stroke-width="2.5" fill="none" stroke-dasharray="4,6" />
+    <path d="M 100 340 Q 160 370 240 350" stroke="#fef08a" stroke-width="2.5" fill="none" stroke-dasharray="4,6" />
+  </g>
+  <text x="570" y="420" font-family="'Segoe UI', sans-serif" font-size="14" font-weight="700" fill="#fcd34d" text-anchor="end">Lady in Saffron • Acrylic Portrait</text>
+</svg>

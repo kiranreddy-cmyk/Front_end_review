@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450" width="100%" height="100%">
+  <defs>
+    <radialGradient id="studioLighting" cx="50%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#334155" />
+      <stop offset="60%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#020617" />
+    </radialGradient>
+    <linearGradient id="bronzeMetallic" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d97706" />
+      <stop offset="35%" stop-color="#b45309" />
+      <stop offset="70%" stop-color="#78350f" />
+      <stop offset="100%" stop-color="#451a03" />
+    </linearGradient>
+    <linearGradient id="pedestalGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="50%" stop-color="#475569" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+  </defs>
+  <rect width="600" height="450" fill="url(#studioLighting)" />
+  <!-- Pedestal Base -->
+  <polygon points="200,360 400,360 440,410 160,410" fill="url(#pedestalGrad)" />
+  <rect x="160" y="410" width="280" height="25" fill="#0f172a" />
+  <!-- Abstract Bronze Sculpture (Fluid ribbon / Mobius infinity loop) -->
+  <g transform="translate(300, 200)">
+    <!-- Back loop -->
+    <path d="M -70 50 C -120 -80 0 -150 70 -70 C 120 0 100 120 0 140 C -80 150 -100 80 -70 50" fill="none" stroke="#78350f" stroke-width="45" stroke-linecap="round" />
+    <!-- Front loop with highlight -->
+    <path d="M -70 50 C -120 -80 0 -150 70 -70 C 120 0 100 120 0 140 C -80 150 -100 80 -70 50" fill="none" stroke="url(#bronzeMetallic)" stroke-width="36" stroke-linecap="round" />
+    <!-- Golden specular gleams -->
+    <path d="M -50 -60 C -10 -110 50 -80 60 -50" fill="none" stroke="#fde047" stroke-width="8" stroke-linecap="round" opacity="0.65" />
+    <path d="M 65 30 C 55 80 20 110 -15 115" fill="none" stroke="#fde047" stroke-width="6" stroke-linecap="round" opacity="0.6" />
+    <!-- Central suspended polished bronze sphere -->
+    <circle cx="0" cy="-10" r="32" fill="url(#bronzeMetallic)" />
+    <circle cx="-8" cy="-18" r="10" fill="#fef08a" opacity="0.75" />
+  </g>
+  <text x="570" y="420" font-family="'Segoe UI', sans-serif" font-size="14" font-weight="700" fill="#f59e0b" text-anchor="end">Bronze Harmony • Cast Bronze on Slate</text>
+</svg>

@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450" width="100%" height="100%">
+  <defs>
+    <radialGradient id="sepiaVignette" cx="50%" cy="45%" r="65%">
+      <stop offset="0%" stop-color="#451a03" />
+      <stop offset="50%" stop-color="#291305" />
+      <stop offset="100%" stop-color="#0f0702" />
+    </radialGradient>
+    <linearGradient id="warmLight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fed7aa" />
+      <stop offset="60%" stop-color="#ea580c" />
+      <stop offset="100%" stop-color="#7c2d12" />
+    </linearGradient>
+  </defs>
+  <rect width="600" height="450" fill="url(#sepiaVignette)" />
+  <!-- Workshop Background Elements (Wood carving tools, ambient warmth) -->
+  <g opacity="0.25" stroke="#fed7aa" stroke-width="2">
+    <line x1="80" y1="50" x2="80" y2="200" />
+    <line x1="120" y1="40" x2="120" y2="180" />
+    <line x1="160" y1="60" x2="160" y2="220" />
+    <rect x="420" y="80" width="120" height="180" fill="none" />
+  </g>
+  <!-- Atmospheric Chiaroscuro Portrait Lighting -->
+  <g transform="translate(180, 70)">
+    <!-- Hat / Cap -->
+    <path d="M 60 100 C 65 40 180 35 200 95 C 220 95 240 105 220 120 C 180 115 100 115 60 100 Z" fill="#1c1917" />
+    <!-- Weathered Face in Side-Angle Light -->
+    <path d="M 90 105 C 120 105 160 115 170 145 C 180 175 165 210 145 230 C 135 250 140 275 110 300 C 95 300 85 285 85 260 L 75 230 C 65 200 70 140 90 105 Z" fill="url(#warmLight)" />
+    <!-- Character lines / Beard -->
+    <path d="M 95 215 C 80 250 90 320 140 330 C 170 330 180 270 170 230" fill="#e2e8f0" opacity="0.85" />
+    <!-- Focused Eye & Brow -->
+    <ellipse cx="140" cy="150" rx="6" ry="4" fill="#1c1917" />
+    <path d="M 125 142 Q 142 135 155 145" stroke="#292524" stroke-width="3" fill="none" />
+    <!-- Glasses Rim -->
+    <ellipse cx="140" cy="152" rx="15" ry="13" fill="none" stroke="#d97706" stroke-width="2.5" />
+    <line x1="125" y1="150" x2="105" y2="148" stroke="#d97706" stroke-width="2" />
+    <!-- Weathered hands working wood chisel -->
+    <path d="M 50 350 C 70 320 130 330 160 360 C 180 380 160 410 120 410 Z" fill="#d97706" />
+    <!-- Chisel tool & wood shavings -->
+    <polygon points="170,350 240,320 245,330 175,360" fill="#cbd5e1" stroke="#475569" stroke-width="1.5" />
+    <path d="M 190 335 Q 210 300 230 310 Q 220 325 200 340" fill="#fef08a" opacity="0.9" />
+  </g>
+  <text x="570" y="420" font-family="'Segoe UI', sans-serif" font-size="14" font-weight="700" fill="#fed7aa" text-anchor="end">The Old Craftsman • Documentary Photo</text>
+</svg>

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450" width="100%" height="100%">
+  <defs>
+    <radialGradient id="forestBokeh" cx="30%" cy="40%" r="70%">
+      <stop offset="0%" stop-color="#14532d" />
+      <stop offset="50%" stop-color="#064e3b" />
+      <stop offset="100%" stop-color="#022c22" />
+    </radialGradient>
+  </defs>
+  <rect width="600" height="450" fill="url(#forestBokeh)" />
+  <!-- Bokeh light circles -->
+  <circle cx="120" cy="100" r="30" fill="#a7f3d0" opacity="0.15" />
+  <circle cx="200" cy="80" r="45" fill="#fef08a" opacity="0.2" />
+  <circle cx="480" cy="140" r="60" fill="#6ee7b7" opacity="0.18" />
+  <circle cx="520" cy="280" r="40" fill="#fde047" opacity="0.12" />
+  <circle cx="80" cy="320" r="50" fill="#34d399" opacity="0.1" />
+  <!-- Majestic Deer Silhouette in Mist -->
+  <g transform="translate(180, 110)">
+    <!-- Antlers -->
+    <path d="M 120 70 C 100 30 70 20 50 10 M 65 18 C 75 8 90 2 105 5 M 85 45 C 55 35 40 40 30 50 M 120 70 C 140 30 170 20 190 10 M 175 18 C 165 8 150 2 135 5 M 155 45 C 185 35 200 40 210 50" stroke="#f8fafc" stroke-width="4.5" fill="none" stroke-linecap="round" />
+    <!-- Deer Head & Body Silhouette -->
+    <path d="M 105 75 C 95 85 90 105 92 125 C 94 145 100 170 95 210 L 80 290 L 98 290 L 115 220 L 125 220 L 140 290 L 158 290 L 145 210 C 140 170 146 145 148 125 C 150 105 145 85 135 75 Z" fill="#0f172a" opacity="0.95" />
+    <!-- Glowing Eye -->
+    <circle cx="112" cy="98" r="2.5" fill="#fef08a" />
+  </g>
+  <!-- Mist Layers -->
+  <path d="M 0 380 Q 150 360 300 390 Q 450 420 600 375 L 600 450 L 0 450 Z" fill="#f0fdf4" opacity="0.25" />
+  <path d="M 0 410 Q 200 390 400 415 Q 500 425 600 405 L 600 450 L 0 450 Z" fill="#ecfdf5" opacity="0.35" />
+  <text x="570" y="420" font-family="'Segoe UI', sans-serif" font-size="14" font-weight="700" fill="#86efac" text-anchor="end">Soul of the Wild • Fine Art Photography</text>
+</svg>
