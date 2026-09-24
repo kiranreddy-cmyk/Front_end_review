@@ -1,6 +1,6 @@
 /**
  * admin.js - Professional Admin Dashboard & Management Functions
- * Online Art Gallery (ArtVista) - SDC Project Review-1
+ * Online Art Gallery (ArtLoom) - SDC Project Review-1
  * Strictly Vanilla JavaScript & LocalStorage
  */
 
@@ -41,7 +41,7 @@ function renderAdminStats() {
   const reviews = getData('reviews', []);
 
   const totalUsers = users.length;
-  const totalArtists = users.filter(u => u.role === 'artist').length;
+  const totalArtists = users.filter(u => (u.role || '').toLowerCase() === 'artist').length;
   const totalArtworks = artworks.length;
   const totalPurchases = purchases.length;
   const totalAuctions = artworks.filter(a => a.type === 'Auction').length;

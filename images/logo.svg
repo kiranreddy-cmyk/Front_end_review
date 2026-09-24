@@ -21,6 +21,6 @@
     <ellipse cx="65" cy="62" rx="7" ry="10" fill="#ffffff" />
   </g>
   <!-- Brand Text -->
-  <text x="110" y="58" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif" font-size="38" font-weight="800" fill="url(#textGrad)" letter-spacing="1">Art<tspan fill="#d97706">Vista</tspan></text>
+  <text x="110" y="58" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif" font-size="38" font-weight="800" fill="url(#textGrad)" letter-spacing="1">Art<tspan fill="#d97706">Loom</tspan></text>
   <text x="112" y="80" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif" font-size="12" font-weight="600" fill="#64748b" letter-spacing="3">ONLINE ART GALLERY</text>
 </svg>

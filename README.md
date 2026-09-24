@@ -1,4 +1,4 @@
-# Online Art Gallery — ArtVista
+# Online Art Gallery — ArtLoom
 
 **SDC Project Review-1 | Frontend Web Development**
 
@@ -23,7 +23,7 @@ In strict accordance with the college guidelines:
 Traditional art commerce frequently marginalizes emerging artists through prohibitive exhibition costs, high gallery commissions, and lack of accessible digital storefronts. Concurrently, collectors struggle to find verified original art across diverse media (paintings, photography, digital art, sculptures) with transparent pricing and real-time bidding mechanisms.
 
 ### The Solution
-**ArtVista** is a lightweight, responsive online art gallery web application providing:
+**ArtLoom** is a lightweight, responsive online art gallery web application providing:
 1. **Curated Art Discovery**: 8 distinct categories with instant search, category filtering, and sorting.
 2. **Collector Ecosystem**: Full purchase simulation, receipt tracking, wishlist favoriting, and critique reviews.
 3. **Live Auction Simulation**: Dynamic bidding system with real-time validation and leading/outbid tracking.
@@ -92,7 +92,7 @@ front_end_review_1/
 │   └── reviews.js             # Review submission, Average rating & Stars renderer
 │
 ├── images/
-│   ├── logo.svg               # ArtVista SVG Brand Logo
+│   ├── logo.svg               # ArtLoom SVG Brand Logo
 │   ├── avatar-admin.svg       # Administrator Avatar
 │   ├── avatar-user.svg        # Collector Avatar
 │   ├── avatar-artist.svg      # Artist Avatar
@@ -147,7 +147,7 @@ When first opened, sample data is automatically seeded into `localStorage`. On `
 Follow this recommended sequence for the examiner/evaluator:
 
 ### Phase 1: Visitor Experience & Catalog Exploration
-1. Open `index.html`. Observe the **ArtVista** header, hero section, 8 categories, and featured artworks.
+1. Open `index.html`. Observe the **ArtLoom** header, hero section, 8 categories, and featured artworks.
 2. Click **Gallery** (`artworks.html`).
 3. Test **Real-time Search**: Type `Landscape` or `Elena`. Observe real-time filtering without page refresh.
 4. Test **Category Filter**: Click `Sculpture` or `Digital Art`.

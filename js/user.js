@@ -1,6 +1,6 @@
 /**
  * user.js - User Dashboard, Favorites Management, & Purchases History
- * Online Art Gallery (ArtVista) - SDC Project Review-1
+ * Online Art Gallery (ArtLoom) - SDC Project Review-1
  * Strictly Vanilla JavaScript & LocalStorage
  */
 

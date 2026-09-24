@@ -1,6 +1,6 @@
 /**
  * artist.js - Artist Dashboard, My Artworks CRUD, & Artist Profile Showcase
- * Online Art Gallery (ArtVista) - SDC Project Review-1
+ * Online Art Gallery (ArtLoom) - SDC Project Review-1
  * Strictly Vanilla JavaScript & LocalStorage
  */
 
@@ -11,7 +11,8 @@ function getAuthorizedArtist() {
     window.location.href = 'login.html';
     return null;
   }
-  if (user.role !== 'artist' && user.role !== 'admin') {
+  const role = (user.role || '').toLowerCase();
+  if (role !== 'artist' && role !== 'admin') {
     window.location.href = 'user-dashboard.html';
     return null;
   }

@@ -1,8 +1,14 @@
 /**
  * auth.js - Authentication, Role Protection, and Dynamic Navigation
- * Online Art Gallery (ArtVista) - SDC Project Review-1
+ * Online Art Gallery (ArtLoom) - SDC Project Review-1
  * Strictly Vanilla JavaScript & LocalStorage
  */
+
+// Helper to safely get normalized lowercase role
+function getNormalizedRole(user) {
+  if (!user || !user.role) return '';
+  return String(user.role).trim().toLowerCase();
+}
 
 // Get Logged In User
 function getCurrentUser() {
@@ -32,56 +38,99 @@ function requireAuth(allowedRoles = []) {
     return null;
   }
 
-  if (allowedRoles.length > 0 && !allowedRoles.includes(user.role)) {
-    // Unauthorized role
-    if (user.role === 'admin') {
-      window.location.href = 'admin-dashboard.html';
-    } else if (user.role === 'artist') {
-      window.location.href = 'artist-dashboard.html';
-    } else {
-      window.location.href = 'user-dashboard.html';
+  const role = getNormalizedRole(user);
+
+  if (allowedRoles.length > 0) {
+    const normalizedAllowed = allowedRoles.map(r => String(r).trim().toLowerCase());
+    if (!normalizedAllowed.includes(role)) {
+      // Unauthorized role - redirect to appropriate dashboard
+      if (role === 'admin') {
+        window.location.href = 'admin-dashboard.html';
+      } else if (role === 'artist') {
+        window.location.href = 'artist-dashboard.html';
+      } else {
+        window.location.href = 'user-dashboard.html';
+      }
+      return null;
     }
-    return null;
   }
 
   return user;
 }
 
-// Render Dynamic Header Navigation
+// Render Dynamic Header Navigation Consistently Across All Pages
 function renderNavigation() {
   const user = getCurrentUser();
   const navLinksContainer = document.getElementById('navLinks');
   const navActionsContainer = document.getElementById('navActions');
 
-  if (!navActionsContainer) return;
+  const role = getNormalizedRole(user);
 
-  if (user) {
-    // Determine dashboard link based on role
-    let dashboardLink = 'user-dashboard.html';
-    if (user.role === 'admin') dashboardLink = 'admin-dashboard.html';
-    if (user.role === 'artist') dashboardLink = 'artist-dashboard.html';
-
-    const avatarUrl = user.avatar || (user.role === 'artist' ? 'images/avatar-artist.svg' : user.role === 'admin' ? 'images/avatar-admin.svg' : 'images/avatar-user.svg');
-
-    navActionsContainer.innerHTML = `
-      <div class="user-badge-pill">
-        <img src="${avatarUrl}" alt="${user.name}" class="user-avatar-sm">
-        <span>${user.name.split(' ')[0]}</span>
-        <span class="role-tag role-${user.role}">${user.role}</span>
-      </div>
-      <a href="${dashboardLink}" class="btn btn-sm btn-primary">Dashboard</a>
-      <button onclick="logout()" class="btn btn-sm btn-outline" title="Logout">Logout</button>
-    `;
-  } else {
-    navActionsContainer.innerHTML = `
-      <a href="login.html" class="btn btn-sm btn-outline">Login</a>
-      <a href="signup.html" class="btn btn-sm btn-accent">Sign Up</a>
-    `;
+  // Detect current page filename
+  let currentFile = window.location.pathname.split('/').pop().toLowerCase();
+  if (!currentFile || currentFile === '') {
+    currentFile = 'index.html';
   }
 
-  // Setup Mobile Hamburger Menu Toggle
+  // 1. Render main navigation links consistently across ALL pages
+  if (navLinksContainer) {
+    let linksHTML = `
+      <li><a href="index.html" class="${currentFile === 'index.html' ? 'active' : ''}">Home</a></li>
+      <li><a href="artworks.html" class="${currentFile === 'artworks.html' || currentFile === 'artwork-details.html' ? 'active' : ''}">Gallery</a></li>
+      <li><a href="artist-profile.html" class="${currentFile === 'artist-profile.html' ? 'active' : ''}">Artists</a></li>
+      <li><a href="auction.html" class="${currentFile === 'auction.html' ? 'active' : ''}">Auctions</a></li>
+      <li><a href="reviews.html" class="${currentFile === 'reviews.html' ? 'active' : ''}">Reviews</a></li>
+      <li><a href="about.html" class="${currentFile === 'about.html' ? 'active' : ''}">About</a></li>
+    `;
+
+    // Role-specific dashboard link in main navigation
+    if (role === 'admin') {
+      linksHTML += `<li><a href="admin-dashboard.html" class="${currentFile === 'admin-dashboard.html' ? 'active' : ''}">Admin Dashboard</a></li>`;
+    } else if (role === 'artist') {
+      linksHTML += `<li><a href="artist-dashboard.html" class="${currentFile === 'artist-dashboard.html' ? 'active' : ''}">Artist Studio</a></li>`;
+    } else if (role === 'user') {
+      linksHTML += `<li><a href="user-dashboard.html" class="${currentFile === 'user-dashboard.html' ? 'active' : ''}">Dashboard</a></li>`;
+    }
+
+    navLinksContainer.innerHTML = linksHTML;
+  }
+
+  // 2. Render user action controls (Badge, Dashboard, Logout or Login/Signup)
+  if (navActionsContainer) {
+    if (user) {
+      let dashboardLink = 'user-dashboard.html';
+      let dashboardBtnText = 'Dashboard';
+      if (role === 'admin') {
+        dashboardLink = 'admin-dashboard.html';
+        dashboardBtnText = 'Admin Dashboard';
+      } else if (role === 'artist') {
+        dashboardLink = 'artist-dashboard.html';
+        dashboardBtnText = 'Artist Studio';
+      }
+
+      const avatarUrl = user.avatar || (role === 'artist' ? 'images/avatar-artist.svg' : role === 'admin' ? 'images/avatar-admin.svg' : 'images/avatar-user.svg');
+
+      navActionsContainer.innerHTML = `
+        <div class="user-badge-pill">
+          <img src="${avatarUrl}" alt="${user.name}" class="user-avatar-sm">
+          <span>${user.name.split(' ')[0]}</span>
+          <span class="role-tag role-${role}">${user.role}</span>
+        </div>
+        <a href="${dashboardLink}" class="btn btn-sm btn-primary">${dashboardBtnText}</a>
+        <button onclick="logout()" class="btn btn-sm btn-outline" title="Logout">Logout</button>
+      `;
+    } else {
+      navActionsContainer.innerHTML = `
+        <a href="login.html" class="btn btn-sm btn-outline ${currentFile === 'login.html' ? 'active' : ''}">Login</a>
+        <a href="signup.html" class="btn btn-sm btn-accent ${currentFile === 'signup.html' ? 'active' : ''}">Sign Up</a>
+      `;
+    }
+  }
+
+  // Setup Mobile Hamburger Menu Toggle (safely bind once)
   const menuToggle = document.getElementById('menuToggle');
-  if (menuToggle && navLinksContainer) {
+  if (menuToggle && navLinksContainer && !menuToggle.dataset.bound) {
+    menuToggle.dataset.bound = 'true';
     menuToggle.addEventListener('click', () => {
       navLinksContainer.classList.toggle('show');
     });
@@ -95,15 +144,16 @@ function fillCredentials(role) {
 
   if (!emailInput || !passwordInput) return;
 
-  if (role === 'admin') {
+  const normalized = String(role).trim().toLowerCase();
+  if (normalized === 'admin') {
     emailInput.value = 'admin@artgallery.com';
     passwordInput.value = 'admin123';
     showToast('Filled Admin credentials', 'info');
-  } else if (role === 'artist') {
+  } else if (normalized === 'artist') {
     emailInput.value = 'artist@artgallery.com';
     passwordInput.value = 'artist123';
     showToast('Filled Artist credentials', 'info');
-  } else if (role === 'user') {
+  } else if (normalized === 'user') {
     emailInput.value = 'user@artgallery.com';
     passwordInput.value = 'user123';
     showToast('Filled User credentials', 'info');
@@ -141,16 +191,17 @@ function initLoginForm() {
       return;
     }
 
-    // Login successful
+    // Login successful - store in localStorage
     if (errorEl) errorEl.classList.remove('show');
     setCurrentUser(matchedUser);
     showToast(`Welcome back, ${matchedUser.name}!`, 'success');
 
-    // Role-based redirection
+    // Role-based redirection (handles both "admin" and "Admin")
+    const userRole = getNormalizedRole(matchedUser);
     setTimeout(() => {
-      if (matchedUser.role === 'admin') {
+      if (userRole === 'admin') {
         window.location.href = 'admin-dashboard.html';
-      } else if (matchedUser.role === 'artist') {
+      } else if (userRole === 'artist') {
         window.location.href = 'artist-dashboard.html';
       } else {
         window.location.href = 'user-dashboard.html';
@@ -220,6 +271,8 @@ function initSignupForm() {
       return;
     }
 
+    const normalizedRole = role.toLowerCase();
+
     // Create New User Object
     const newUser = {
       id: getNextId(users),
@@ -227,13 +280,13 @@ function initSignupForm() {
       email: email,
       password: password,
       role: role,
-      avatar: role === 'artist' ? 'images/avatar-artist.svg' : 'images/avatar-user.svg',
+      avatar: normalizedRole === 'artist' ? 'images/avatar-artist.svg' : 'images/avatar-user.svg',
       createdAt: new Date().toISOString().slice(0, 10)
     };
 
-    if (role === 'artist') {
+    if (normalizedRole === 'artist') {
       newUser.specialization = 'Visual Arts';
-      newUser.bio = 'Contemporary artist contributing original creative works to the ArtVista platform.';
+      newUser.bio = 'Contemporary artist contributing original creative works to the ArtLoom platform.';
     }
 
     users.push(newUser);

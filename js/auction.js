@@ -1,6 +1,6 @@
 /**
  * auction.js - Live Auction Hub & User Bidding Simulation
- * Online Art Gallery (ArtVista) - SDC Project Review-1
+ * Online Art Gallery (ArtLoom) - SDC Project Review-1
  * Strictly Vanilla JavaScript & LocalStorage
  */
 

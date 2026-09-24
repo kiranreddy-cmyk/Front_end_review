@@ -1,5 +1,5 @@
 /**
- * style.css - Main Stylesheet for ArtVista Online Art Gallery
+ * style.css - Main Stylesheet for ArtLoom Online Art Gallery
  * SDC Project Review-1
  * Developed using pure CSS3 (CSS Grid & Flexbox) with zero frameworks
  */
@@ -203,9 +203,9 @@ button, input, select, textarea {
   border-radius: var(--radius-full);
   font-weight: 700;
 }
-.role-tag.role-admin { background-color: #ede9fe; color: #6d28d9; }
-.role-tag.role-artist { background-color: var(--accent-light); color: var(--accent-hover); }
-.role-tag.role-user { background-color: var(--info-bg); color: var(--info); }
+.role-tag.role-admin, .role-tag.role-Admin { background-color: #ede9fe; color: #6d28d9; }
+.role-tag.role-artist, .role-tag.role-Artist { background-color: var(--accent-light); color: var(--accent-hover); }
+.role-tag.role-user, .role-tag.role-User { background-color: var(--info-bg); color: var(--info); }
 
 /* Mobile nav toggle */
 .menu-toggle {
