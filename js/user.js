@@ -6,7 +6,7 @@
 
 // 1. Initialize User Dashboard (user-dashboard.html)
 function initUserDashboard() {
-  const user = requireAuth();
+  const user = requireAuth(['user']);
   if (!user) return;
 
   const greetingEl = document.getElementById('userGreeting');

@@ -6,17 +6,7 @@
 
 // Route Guard: Ensure Artist Access
 function getAuthorizedArtist() {
-  const user = getCurrentUser();
-  if (!user) {
-    window.location.href = 'login.html';
-    return null;
-  }
-  const role = (user.role || '').toLowerCase();
-  if (role !== 'artist' && role !== 'admin') {
-    window.location.href = 'user-dashboard.html';
-    return null;
-  }
-  return user;
+  return requireAuth(['artist']);
 }
 
 // 1. Initialize Artist Dashboard

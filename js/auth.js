@@ -4,10 +4,25 @@
  * Strictly Vanilla JavaScript & LocalStorage
  */
 
-// Helper to safely get normalized lowercase role
+// Single-location Admin Security Code configuration (Easy to modify)
+const ADMIN_SECURITY_CODE = 'ARTLOOM-ADMIN-2026';
+
+// Normalize any role string to 'user', 'artist', or 'admin'
+function normalizeRoleString(roleValue) {
+  if (!roleValue) return '';
+  const val = String(roleValue).trim().toLowerCase();
+  if (val === 'buyer' || val === 'buyer / user' || val === 'buyer/user' || val === 'user') {
+    return 'user';
+  }
+  if (val === 'artist') return 'artist';
+  if (val === 'admin' || val === 'administrator') return 'admin';
+  return val;
+}
+
+// Helper to safely get normalized lowercase role from a user object
 function getNormalizedRole(user) {
   if (!user || !user.role) return '';
-  return String(user.role).trim().toLowerCase();
+  return normalizeRoleString(user.role);
 }
 
 // Get Logged In User
@@ -41,7 +56,7 @@ function requireAuth(allowedRoles = []) {
   const role = getNormalizedRole(user);
 
   if (allowedRoles.length > 0) {
-    const normalizedAllowed = allowedRoles.map(r => String(r).trim().toLowerCase());
+    const normalizedAllowed = allowedRoles.map(r => normalizeRoleString(r));
     if (!normalizedAllowed.includes(role)) {
       // Unauthorized role - redirect to appropriate dashboard
       if (role === 'admin') {
@@ -87,9 +102,9 @@ function renderNavigation() {
     if (role === 'admin') {
       linksHTML += `<li><a href="admin-dashboard.html" class="${currentFile === 'admin-dashboard.html' ? 'active' : ''}">Admin Dashboard</a></li>`;
     } else if (role === 'artist') {
-      linksHTML += `<li><a href="artist-dashboard.html" class="${currentFile === 'artist-dashboard.html' ? 'active' : ''}">Artist Studio</a></li>`;
+      linksHTML += `<li><a href="artist-dashboard.html" class="${currentFile === 'artist-dashboard.html' ? 'active' : ''}">Artist Dashboard</a></li>`;
     } else if (role === 'user') {
-      linksHTML += `<li><a href="user-dashboard.html" class="${currentFile === 'user-dashboard.html' ? 'active' : ''}">Dashboard</a></li>`;
+      linksHTML += `<li><a href="user-dashboard.html" class="${currentFile === 'user-dashboard.html' ? 'active' : ''}">User Dashboard</a></li>`;
     }
 
     navLinksContainer.innerHTML = linksHTML;
@@ -99,13 +114,13 @@ function renderNavigation() {
   if (navActionsContainer) {
     if (user) {
       let dashboardLink = 'user-dashboard.html';
-      let dashboardBtnText = 'Dashboard';
+      let dashboardBtnText = 'User Dashboard';
       if (role === 'admin') {
         dashboardLink = 'admin-dashboard.html';
         dashboardBtnText = 'Admin Dashboard';
       } else if (role === 'artist') {
         dashboardLink = 'artist-dashboard.html';
-        dashboardBtnText = 'Artist Studio';
+        dashboardBtnText = 'Artist Dashboard';
       }
 
       const avatarUrl = user.avatar || (role === 'artist' ? 'images/avatar-artist.svg' : role === 'admin' ? 'images/avatar-admin.svg' : 'images/avatar-user.svg');
@@ -137,27 +152,154 @@ function renderNavigation() {
   }
 }
 
+// Show/Hide Admin Security Code field based on selected role
+function handleLoginRoleChange() {
+  const roleSelect = document.getElementById('loginRole');
+  const adminCodeGroup = document.getElementById('adminCodeGroup');
+  const adminCodeInput = document.getElementById('adminCode');
+  const errorEl = document.getElementById('loginError');
+
+  if (!roleSelect) return;
+
+  const selectedRole = normalizeRoleString(roleSelect.value);
+
+  if (errorEl) {
+    errorEl.textContent = '';
+    errorEl.classList.remove('show');
+  }
+
+  if (adminCodeGroup && adminCodeInput) {
+    if (selectedRole === 'admin') {
+      adminCodeGroup.style.display = 'flex';
+      adminCodeInput.required = true;
+    } else {
+      adminCodeGroup.style.display = 'none';
+      adminCodeInput.required = false;
+      adminCodeInput.value = '';
+    }
+  }
+}
+
 // Quick Fill Demo Credentials (For SDC Review-1 Live Presentation)
 function fillCredentials(role) {
+  const roleSelect = document.getElementById('loginRole');
   const emailInput = document.getElementById('email');
   const passwordInput = document.getElementById('password');
+  const adminCodeInput = document.getElementById('adminCode');
 
   if (!emailInput || !passwordInput) return;
 
-  const normalized = String(role).trim().toLowerCase();
+  const normalized = normalizeRoleString(role);
+
+  if (roleSelect) {
+    roleSelect.value = normalized;
+    handleLoginRoleChange();
+  }
+
   if (normalized === 'admin') {
     emailInput.value = 'admin@artgallery.com';
     passwordInput.value = 'admin123';
-    showToast('Filled Admin credentials', 'info');
+    if (adminCodeInput) {
+      adminCodeInput.value = ADMIN_SECURITY_CODE;
+    }
+    showToast('Filled Admin credentials & Security Code', 'info');
   } else if (normalized === 'artist') {
     emailInput.value = 'artist@artgallery.com';
     passwordInput.value = 'artist123';
+    if (adminCodeInput) {
+      adminCodeInput.value = '';
+    }
     showToast('Filled Artist credentials', 'info');
   } else if (normalized === 'user') {
     emailInput.value = 'user@artgallery.com';
     passwordInput.value = 'user123';
-    showToast('Filled User credentials', 'info');
+    if (adminCodeInput) {
+      adminCodeInput.value = '';
+    }
+    showToast('Filled Buyer / User credentials', 'info');
   }
+}
+
+// Core Login Authentication & Role Verification Logic
+function authenticateLogin({ selectedRole, email, password, adminCode }) {
+  const normSelectedRole = normalizeRoleString(selectedRole);
+  const trimmedEmail = String(email || '').trim();
+  const rawPassword = String(password || '');
+  const trimmedAdminCode = String(adminCode || '').trim();
+
+  if (!normSelectedRole || !['user', 'artist', 'admin'].includes(normSelectedRole)) {
+    return { success: false, error: 'Please select a valid Account Type (Buyer / User, Artist, or Admin).' };
+  }
+
+  if (!trimmedEmail || !rawPassword) {
+    return { success: false, error: 'Please enter both Email/Username and Password.' };
+  }
+
+  const users = getData('users', []);
+  const matchedUser = users.find(u => {
+    const emailMatch = u.email && u.email.toLowerCase() === trimmedEmail.toLowerCase();
+    const nameMatch = u.name && u.name.toLowerCase() === trimmedEmail.toLowerCase();
+    return (emailMatch || nameMatch) && u.password === rawPassword;
+  });
+
+  if (!matchedUser) {
+    if (normSelectedRole === 'admin' && trimmedAdminCode !== ADMIN_SECURITY_CODE) {
+      return { success: false, error: 'Invalid Admin credentials or Admin Security Code.' };
+    }
+    return { success: false, error: 'Invalid email/username or password. Please try again.' };
+  }
+
+  const actualUserRole = getNormalizedRole(matchedUser);
+
+  // Strictly validate selected role against stored user role
+  if (actualUserRole !== normSelectedRole) {
+    if (normSelectedRole === 'admin') {
+      return {
+        success: false,
+        error: `Access denied: ${matchedUser.role} accounts are not authorized to log in as Admin.`
+      };
+    }
+    if (actualUserRole === 'admin') {
+      return {
+        success: false,
+        error: 'Access denied: Admin accounts must log in via the Admin option with the Admin Security Code.'
+      };
+    }
+    return {
+      success: false,
+      error: `Role mismatch: This account is registered as "${matchedUser.role}". Please select the correct Account Type.`
+    };
+  }
+
+  // Validate Admin Security Code when logging in as Admin
+  if (normSelectedRole === 'admin') {
+    if (!trimmedAdminCode) {
+      return {
+        success: false,
+        error: 'Admin Security Code is required for Admin login.'
+      };
+    }
+    if (trimmedAdminCode !== ADMIN_SECURITY_CODE) {
+      return {
+        success: false,
+        error: 'Invalid Admin Security Code. Admin login denied.'
+      };
+    }
+  }
+
+  // Determine role-based dashboard redirect
+  let redirectUrl = 'user-dashboard.html';
+  if (actualUserRole === 'admin') {
+    redirectUrl = 'admin-dashboard.html';
+  } else if (actualUserRole === 'artist') {
+    redirectUrl = 'artist-dashboard.html';
+  }
+
+  return {
+    success: true,
+    user: matchedUser,
+    redirectUrl: redirectUrl
+  };
 }
 
 // Handle Login Form Submission
@@ -165,47 +307,48 @@ function initLoginForm() {
   const loginForm = document.getElementById('loginForm');
   if (!loginForm) return;
 
+  const roleSelect = document.getElementById('loginRole');
+  if (roleSelect && !roleSelect.dataset.bound) {
+    roleSelect.dataset.bound = 'true';
+    roleSelect.addEventListener('change', handleLoginRoleChange);
+  }
+  handleLoginRoleChange();
+
   loginForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    const email = document.getElementById('email').value.trim();
+    const selectedRole = roleSelect ? roleSelect.value : 'user';
+    const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
+    const adminCodeEl = document.getElementById('adminCode');
+    const adminCode = adminCodeEl ? adminCodeEl.value : '';
     const errorEl = document.getElementById('loginError');
 
-    if (!email || !password) {
+    const result = authenticateLogin({
+      selectedRole,
+      email,
+      password,
+      adminCode
+    });
+
+    if (!result.success) {
       if (errorEl) {
-        errorEl.textContent = 'Please enter both email and password.';
+        errorEl.textContent = result.error;
         errorEl.classList.add('show');
       }
-      return;
-    }
-
-    const users = getData('users', []);
-    const matchedUser = users.find(u => u.email.toLowerCase() === email.toLowerCase() && u.password === password);
-
-    if (!matchedUser) {
-      if (errorEl) {
-        errorEl.textContent = 'Invalid email or password. Please try again.';
-        errorEl.classList.add('show');
-      }
-      showToast('Invalid login credentials', 'error');
+      showToast(result.error, 'error');
       return;
     }
 
     // Login successful - store in localStorage
-    if (errorEl) errorEl.classList.remove('show');
-    setCurrentUser(matchedUser);
-    showToast(`Welcome back, ${matchedUser.name}!`, 'success');
+    if (errorEl) {
+      errorEl.textContent = '';
+      errorEl.classList.remove('show');
+    }
+    setCurrentUser(result.user);
+    showToast(`Welcome back, ${result.user.name}!`, 'success');
 
-    // Role-based redirection (handles both "admin" and "Admin")
-    const userRole = getNormalizedRole(matchedUser);
     setTimeout(() => {
-      if (userRole === 'admin') {
-        window.location.href = 'admin-dashboard.html';
-      } else if (userRole === 'artist') {
-        window.location.href = 'artist-dashboard.html';
-      } else {
-        window.location.href = 'user-dashboard.html';
-      }
+      window.location.href = result.redirectUrl;
     }, 800);
   });
 }
@@ -271,7 +414,7 @@ function initSignupForm() {
       return;
     }
 
-    const normalizedRole = role.toLowerCase();
+    const normalizedRole = normalizeRoleString(role);
 
     // Create New User Object
     const newUser = {
@@ -279,7 +422,7 @@ function initSignupForm() {
       name: name,
       email: email,
       password: password,
-      role: role,
+      role: normalizedRole,
       avatar: normalizedRole === 'artist' ? 'images/avatar-artist.svg' : 'images/avatar-user.svg',
       createdAt: new Date().toISOString().slice(0, 10)
     };

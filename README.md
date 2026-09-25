@@ -119,11 +119,11 @@ front_end_review_1/
 
 When first opened, sample data is automatically seeded into `localStorage`. On `login.html`, one-click **Quick-Fill** buttons are provided for fast evaluator testing.
 
-| Role | Email Address | Password | Landing Page |
-|---|---|---|---|
-| **Admin** | `admin@artgallery.com` | `admin123` | `admin-dashboard.html` |
-| **User (Collector)** | `user@artgallery.com` | `user123` | `user-dashboard.html` |
-| **Artist** | `artist@artgallery.com` | `artist123` | `artist-dashboard.html` |
+| Role | Email Address | Password | Admin Security Code | Landing Page |
+|---|---|---|---|---|
+| **Admin** | `admin@artgallery.com` | `admin123` | `ARTLOOM-ADMIN-2026` | `admin-dashboard.html` |
+| **Buyer / User** | `user@artgallery.com` | `user123` | *Not Required* | `user-dashboard.html` |
+| **Artist** | `artist@artgallery.com` | `artist123` | *Not Required* | `artist-dashboard.html` |
 
 ---
 
