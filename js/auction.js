@@ -18,6 +18,9 @@ function initAuctionHub() {
     activeAuctionsCountEl.textContent = `${liveAuctions.length} Live Auctions (${artworks.length} Total Lots)`;
   }
 
+  const currentUser = getCurrentUser();
+  const currentRole = getNormalizedRole(currentUser);
+
   // Render Auction Cards
   if (artworks.length === 0) {
     auctionGrid.innerHTML = `
@@ -86,7 +89,49 @@ function initAuctionHub() {
           </div>
         `;
       } else {
-        // LIVE
+        // LIVE AUCTION - Role-based controls
+        let cardControlsHTML = '';
+        if (currentRole === 'artist') {
+          // Artist cannot participate in bidding
+          cardControlsHTML = `
+            <div style="background-color: var(--surface-alt); border: 1px dashed var(--border); border-radius: 6px; padding: 10px; margin: 8px 0; font-size: 0.84rem; color: var(--text-muted); text-align: center;">
+              Artists cannot participate in bidding.
+            </div>
+            <div style="margin-top: 8px; text-align: center;">
+              <a href="artwork-details.html?id=${art.id}" class="btn btn-sm btn-outline btn-block">
+                View Artwork
+              </a>
+            </div>
+          `;
+        } else if (currentRole === 'admin') {
+          // Admin manages auctions, does not participate in bidding
+          cardControlsHTML = `
+            <div style="display: flex; gap: 8px; margin-top: 8px;">
+              <a href="artwork-details.html?id=${art.id}" class="btn btn-sm btn-outline btn-block">
+                View Bids
+              </a>
+              <a href="admin-dashboard.html" class="btn btn-sm btn-primary btn-block">
+                Admin Panel
+              </a>
+            </div>
+          `;
+        } else {
+          // Buyer / User (or guest):
+          cardControlsHTML = `
+            <!-- Quick Bid Form -->
+            <form onsubmit="handleQuickBid(event, ${art.id})" style="display: flex; gap: 8px; margin-top: 4px;">
+              <input type="number" id="quickBidInput_${art.id}" class="form-control" style="padding: 8px 12px; font-size: 0.9rem;" 
+                placeholder="Min ${formatCurrency(minNextBid)}" min="${currentHighest + 1}" required>
+              <button type="submit" class="btn btn-sm btn-accent">Bid</button>
+            </form>
+            <div style="margin-top: 10px; text-align: center;">
+              <a href="artwork-details.html?id=${art.id}" style="font-size: 0.88rem; color: var(--text-muted); text-decoration: underline;">
+                View Details &amp; Full History
+              </a>
+            </div>
+          `;
+        }
+
         actionAreaHTML = `
           <div style="background-color: var(--surface-alt); padding: 12px; border-radius: 8px; margin: 12px 0;">
             <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 4px;">
@@ -101,19 +146,7 @@ function initAuctionHub() {
               Top Bidder: <strong>${art.currentBidder || 'None yet'}</strong>
             </div>
           </div>
-
-          <!-- Quick Bid Form -->
-          <form onsubmit="handleQuickBid(event, ${art.id})" style="display: flex; gap: 8px; margin-top: 4px;">
-            <input type="number" id="quickBidInput_${art.id}" class="form-control" style="padding: 8px 12px; font-size: 0.9rem;" 
-              placeholder="Min ${formatCurrency(minNextBid)}" min="${currentHighest + 1}" required>
-            <button type="submit" class="btn btn-sm btn-accent">Bid</button>
-          </form>
-
-          <div style="margin-top: 10px; text-align: center;">
-            <a href="artwork-details.html?id=${art.id}" style="font-size: 0.88rem; color: var(--text-muted); text-decoration: underline;">
-              View Details &amp; Full History
-            </a>
-          </div>
+          ${cardControlsHTML}
         `;
       }
 
@@ -143,9 +176,11 @@ function initAuctionHub() {
   renderMyBidsHistory();
 }
 
-// Quick Bid Handler on Auction Hub
+// Quick Bid Handler on Auction Hub (Strict Buyer/User Validation)
 function handleQuickBid(e, artId) {
-  e.preventDefault();
+  if (e && e.preventDefault) e.preventDefault();
+
+  // 1. A user must be logged in
   const user = getCurrentUser();
   if (!user) {
     showToast('Please login to place bids', 'warning');
@@ -153,17 +188,21 @@ function handleQuickBid(e, artId) {
     return;
   }
 
+  // 2. The logged-in user's role must be Buyer/User ('user')
+  const role = getNormalizedRole(user);
+  if (role !== 'user') {
+    showToast('Only Buyers can place bids.', 'error');
+    return;
+  }
+
   const artworks = getData('artworks', []);
   const art = artworks.find(a => a.id === artId);
   if (!art) return;
 
+  // 3. The auction must be still LIVE
   const auctionStatus = art.auctionStatus || 'LIVE';
-  if (auctionStatus === 'CLOSED') {
-    showToast('This auction is closed. Waiting for winner announcement.', 'error');
-    return;
-  }
-  if (auctionStatus === 'WINNER ANNOUNCED') {
-    showToast('This auction has ended. The winner has been announced.', 'error');
+  if (auctionStatus === 'CLOSED' || auctionStatus === 'WINNER ANNOUNCED') {
+    showToast('This auction has ended. Bidding is no longer available.', 'error');
     return;
   }
 
@@ -173,8 +212,9 @@ function handleQuickBid(e, artId) {
   const newBid = Number(inputEl.value);
   const currentHighest = Number(art.currentBid || art.startingPrice || art.price);
 
+  // 4. The bid amount must be higher than current highest bid
   if (!newBid || isNaN(newBid) || newBid <= currentHighest) {
-    showToast('Bid must be higher than the current highest bid.', 'error');
+    showToast('Your bid must be higher than the current highest bid.', 'error');
     return;
   }
 
@@ -214,14 +254,15 @@ function handleQuickBid(e, artId) {
   initAuctionHub();
 }
 
-// Render "My Bids" History Table
+// Render "My Bids" History Table (Buyer/User only)
 function renderMyBidsHistory() {
   const tableBody = document.getElementById('myBidsTableBody');
   const myBidsSection = document.getElementById('myBidsSection');
   if (!tableBody) return;
 
   const user = getCurrentUser();
-  if (!user) {
+  const role = getNormalizedRole(user);
+  if (!user || role !== 'user') {
     if (myBidsSection) myBidsSection.style.display = 'none';
     return;
   }

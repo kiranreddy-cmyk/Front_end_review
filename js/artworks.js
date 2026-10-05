@@ -289,6 +289,8 @@ function initArtworkDetailsPage() {
   const auctionStatus = art.auctionStatus || 'LIVE';
   const artworkBids = isAuction ? getData('bids', []).filter(b => Number(b.artworkId) === Number(art.id)) : [];
   const currentHighest = Number(art.currentBid || art.startingPrice || art.price);
+  const currentUser = getCurrentUser();
+  const currentRole = getNormalizedRole(currentUser);
 
   let typeBadgeClass = 'badge-sale';
   let typeBadgeText = art.type;
@@ -344,6 +346,12 @@ function initArtworkDetailsPage() {
         <div style="padding: 14px; background: var(--surface-alt); border-radius: 8px; color: var(--text-muted); font-size: 0.95rem; text-align: center; border: 1px dashed var(--border);">
           🔒 This auction has ended. The winner has been announced.
         </div>
+        ${currentRole === 'admin' ? `
+          <div style="margin-top: 14px; display: flex; gap: 10px; flex-wrap: wrap;">
+            <button type="button" onclick="openArtworkBidHistoryModal(${art.id})" class="btn btn-sm btn-outline">View Bids (${artworkBids.length})</button>
+            <a href="admin-dashboard.html" class="btn btn-sm btn-primary">Admin Control Center</a>
+          </div>
+        ` : ''}
       `;
     } else if (auctionStatus === 'CLOSED') {
       actionBoxHTML = `
@@ -376,9 +384,64 @@ function initArtworkDetailsPage() {
         <div style="padding: 14px; background: var(--surface-alt); border-radius: 8px; color: var(--text-muted); font-size: 0.95rem; text-align: center; border: 1px dashed var(--border);">
           🔒 This auction is closed. Waiting for winner announcement.
         </div>
+        ${currentRole === 'admin' ? `
+          <div style="margin-top: 14px; background: var(--surface-alt); padding: 14px; border-radius: 8px; border: 1px solid var(--border);">
+            <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px; font-weight: 600;">Administrator Actions:</div>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+              <button type="button" onclick="openArtworkBidHistoryModal(${art.id})" class="btn btn-sm btn-outline">View Bids (${artworkBids.length})</button>
+              <button type="button" onclick="openArtworkAnnounceWinnerModal(${art.id})" class="btn btn-sm btn-accent">🏆 Announce Winner</button>
+              <a href="admin-dashboard.html" class="btn btn-sm btn-primary">Admin Control Center</a>
+            </div>
+          </div>
+        ` : ''}
       `;
     } else {
-      // LIVE
+      // LIVE AUCTION - Render role-specific controls
+      let roleBiddingActionHTML = '';
+      if (currentRole === 'artist') {
+        // Artist cannot participate in bidding
+        roleBiddingActionHTML = `
+          <div style="background-color: var(--surface-alt); border: 1.5px dashed var(--border); border-radius: 8px; padding: 16px; margin-top: 16px; text-align: center;">
+            <div style="font-size: 1.25rem; margin-bottom: 4px;">🎨</div>
+            <div style="color: var(--text-muted); font-size: 0.95rem; font-weight: 600;">
+              Artists cannot participate in bidding.
+            </div>
+            <div style="color: var(--text-muted); font-size: 0.82rem; margin-top: 4px;">
+              Artists can monitor their exhibited works and collector purchases from the Artist Dashboard.
+            </div>
+          </div>
+        `;
+      } else if (currentRole === 'admin') {
+        // Admin manages auctions, cannot place bids
+        roleBiddingActionHTML = `
+          <div style="background-color: var(--surface-alt); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-top: 16px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Administrator Auction Controls</span>
+              <span class="badge badge-auction">LIVE AUCTION</span>
+            </div>
+            <p style="font-size: 0.84rem; color: var(--text-muted); margin-bottom: 12px;">
+              Administrators monitor live bids and declare winners, but do not participate in bidding.
+            </p>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+              <button type="button" onclick="openArtworkBidHistoryModal(${art.id})" class="btn btn-sm btn-outline">View Bids (${artworkBids.length})</button>
+              <button type="button" onclick="confirmCloseAuctionFromDetails(${art.id})" class="btn btn-sm btn-danger">Close Auction</button>
+              <a href="admin-dashboard.html" class="btn btn-sm btn-primary">Admin Control Center</a>
+            </div>
+          </div>
+        `;
+      } else {
+        // Buyer / User role (or guest prompting login)
+        roleBiddingActionHTML = `
+          <!-- Bid Input Form -->
+          <form id="bidForm" onsubmit="handlePlaceBid(event, ${art.id})" style="display: flex; gap: 10px; margin-top: 16px;">
+            <input type="number" id="bidAmountInput" class="form-control" 
+              placeholder="Min ${formatCurrency(currentHighest + 1)}" 
+              min="${currentHighest + 1}" required>
+            <button type="submit" class="btn btn-accent">Place Bid</button>
+          </form>
+        `;
+      }
+
       actionBoxHTML = `
         <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 16px;">
           <div>
@@ -395,14 +458,7 @@ function initArtworkDetailsPage() {
             <div style="font-weight: 700; color: var(--text-main);">${formatCurrency(art.startingPrice || art.price)}</div>
           </div>
         </div>
-
-        <!-- Bid Input Form -->
-        <form id="bidForm" onsubmit="handlePlaceBid(event, ${art.id})" style="display: flex; gap: 10px;">
-          <input type="number" id="bidAmountInput" class="form-control" 
-            placeholder="Min ${formatCurrency(currentHighest + 1)}" 
-            min="${currentHighest + 1}" required>
-          <button type="submit" class="btn btn-accent">Place Bid</button>
-        </form>
+        ${roleBiddingActionHTML}
       `;
     }
   } else {
@@ -636,9 +692,11 @@ function confirmPurchase(artId) {
   }, 1200);
 }
 
-// Handle Auction Bidding on details page
+// Handle Auction Bidding on details page (Strict Buyer/User Validation)
 function handlePlaceBid(event, artId) {
-  event.preventDefault();
+  if (event && event.preventDefault) event.preventDefault();
+
+  // 1. A user must be logged in
   const user = getCurrentUser();
   if (!user) {
     showToast('Please login to place bids', 'warning');
@@ -646,17 +704,21 @@ function handlePlaceBid(event, artId) {
     return;
   }
 
+  // 2. The logged-in user's role must be Buyer/User ('user')
+  const role = getNormalizedRole(user);
+  if (role !== 'user') {
+    showToast('Only Buyers can place bids.', 'error');
+    return;
+  }
+
   const artworks = getData('artworks', []);
   const art = artworks.find(a => a.id === artId);
   if (!art) return;
 
+  // 3. The auction must be still LIVE
   const auctionStatus = art.auctionStatus || 'LIVE';
-  if (auctionStatus === 'CLOSED') {
-    showToast('This auction is closed. Waiting for winner announcement.', 'error');
-    return;
-  }
-  if (auctionStatus === 'WINNER ANNOUNCED') {
-    showToast('This auction has ended. The winner has been announced.', 'error');
+  if (auctionStatus === 'CLOSED' || auctionStatus === 'WINNER ANNOUNCED') {
+    showToast('This auction has ended. Bidding is no longer available.', 'error');
     return;
   }
 
@@ -666,8 +728,9 @@ function handlePlaceBid(event, artId) {
   const newBid = Number(bidInput.value);
   const currentHighest = Number(art.currentBid || art.startingPrice || art.price);
 
+  // 4. The bid amount must be higher than current highest bid
   if (!newBid || isNaN(newBid) || newBid <= currentHighest) {
-    showToast('Bid must be higher than the current highest bid.', 'error');
+    showToast('Your bid must be higher than the current highest bid.', 'error');
     return;
   }
 
@@ -704,6 +767,271 @@ function handlePlaceBid(event, artId) {
   setData('artworks', artworks);
 
   showToast(`Bid of ${formatCurrency(newBid)} placed successfully! You are the highest bidder.`, 'success');
+  initArtworkDetailsPage();
+}
+
+// ============================================================================
+// Administrator Auction Modals & Actions from Artwork Details Page
+// ============================================================================
+function getArtworkDetailsModalOverlay() {
+  let overlay = document.getElementById('artworkDetailsModalOverlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'artworkDetailsModalOverlay';
+    overlay.className = 'modal-overlay';
+    document.body.appendChild(overlay);
+  }
+  return overlay;
+}
+
+function closeArtworkDetailsModal() {
+  const overlay = document.getElementById('artworkDetailsModalOverlay');
+  if (overlay) overlay.classList.remove('active');
+}
+
+// Admin: Open Complete Bid History Modal on Artwork Details page
+function openArtworkBidHistoryModal(artId) {
+  const user = getCurrentUser();
+  if (getNormalizedRole(user) !== 'admin') {
+    showToast('Unauthorized action. Admin access required.', 'error');
+    return;
+  }
+
+  const artworks = getData('artworks', []);
+  const art = artworks.find(a => a.id === artId);
+  if (!art) return;
+
+  const allBids = getData('bids', []).filter(b => Number(b.artworkId) === Number(art.id));
+  const maxBidVal = allBids.length > 0 ? Math.max(...allBids.map(b => Number(b.bidAmount))) : 0;
+  const status = art.auctionStatus || 'LIVE';
+
+  const overlay = getArtworkDetailsModalOverlay();
+  overlay.innerHTML = `
+    <div class="modal-card" style="max-width: 650px;">
+      <div class="modal-header">
+        <div>
+          <h3 style="font-size: 1.25rem; font-weight: 800;">Complete Bid History</h3>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 2px;">Artwork: <strong>${art.name}</strong> • by ${art.artist}</p>
+        </div>
+        <button class="modal-close-btn" onclick="closeArtworkDetailsModal()">&times;</button>
+      </div>
+
+      <div style="background-color: var(--surface-alt); padding: 14px; border-radius: 8px; margin-bottom: 20px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; font-size: 0.88rem;">
+        <div>
+          <div style="color: var(--text-muted); font-size: 0.78rem;">Starting Price</div>
+          <strong>${formatCurrency(art.startingPrice || art.price)}</strong>
+        </div>
+        <div>
+          <div style="color: var(--text-muted); font-size: 0.78rem;">Current Highest Bid</div>
+          <strong style="color: var(--accent);">${formatCurrency(art.currentBid || art.price)}</strong>
+        </div>
+        <div>
+          <div style="color: var(--text-muted); font-size: 0.78rem;">Auction Status</div>
+          <span class="badge ${status === 'WINNER ANNOUNCED' ? 'badge-sale' : (status === 'CLOSED' ? 'badge-category' : 'badge-auction')}">${status}</span>
+        </div>
+      </div>
+
+      <div class="table-container" style="max-height: 300px; overflow-y: auto;">
+        <table class="custom-table">
+          <thead>
+            <tr>
+              <th>Bidder Name</th>
+              <th>Email / ID</th>
+              <th>Bid Amount</th>
+              <th>Date &amp; Time</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${allBids.length === 0 ? `
+              <tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 20px;">No bids have been placed yet for this artwork.</td></tr>
+            ` : allBids.map(b => {
+              const isHighest = Number(b.bidAmount) === maxBidVal;
+              return `
+                <tr ${isHighest ? 'style="background-color: #fef3c7; font-weight: 700;"' : ''}>
+                  <td><strong>${b.userName}</strong></td>
+                  <td><span style="font-size: 0.82rem; color: var(--text-muted);">${b.userEmail || ('User #' + b.userId)}</span></td>
+                  <td><strong style="color: var(--accent);">${formatCurrency(b.bidAmount)}</strong></td>
+                  <td style="font-size: 0.82rem;">${b.date}</td>
+                  <td>${isHighest ? '<span class="badge badge-sale">★ Highest Bid</span>' : '<span class="badge badge-category">Outbid</span>'}</td>
+                </tr>
+              `;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--border);">
+        <button onclick="closeArtworkDetailsModal()" class="btn btn-sm btn-outline">Close</button>
+      </div>
+    </div>
+  `;
+  overlay.classList.add('active');
+}
+
+// Admin: Close Auction from Details Page
+function confirmCloseAuctionFromDetails(artId) {
+  const user = getCurrentUser();
+  if (getNormalizedRole(user) !== 'admin') {
+    showToast('Unauthorized action. Admin access required.', 'error');
+    return;
+  }
+
+  if (!confirm('Are you sure you want to close this auction? Bidding will be locked.')) {
+    return;
+  }
+
+  const artworks = getData('artworks', []);
+  const art = artworks.find(a => a.id === artId);
+  if (!art) return;
+
+  const allBids = getData('bids', []).filter(b => Number(b.artworkId) === Number(art.id));
+  if (allBids.length > 0) {
+    const sorted = allBids.slice().sort((a, b) => Number(b.bidAmount) - Number(a.bidAmount));
+    const topBid = sorted[0];
+    art.currentBid = Number(topBid.bidAmount);
+    art.currentBidder = topBid.userName;
+    art.currentBidderEmail = topBid.userEmail || '';
+    art.currentBidderId = topBid.userId || null;
+  }
+
+  art.auctionStatus = 'CLOSED';
+  setData('artworks', artworks);
+
+  showToast('Auction closed successfully! Status changed to CLOSED.', 'success');
+  initArtworkDetailsPage();
+}
+
+// Admin: Announce Winner Modal from Details Page
+function openArtworkAnnounceWinnerModal(artId) {
+  const user = getCurrentUser();
+  if (getNormalizedRole(user) !== 'admin') {
+    showToast('Unauthorized action. Admin access required.', 'error');
+    return;
+  }
+
+  const artworks = getData('artworks', []);
+  const art = artworks.find(a => a.id === artId);
+  if (!art) return;
+
+  const allBids = getData('bids', []).filter(b => Number(b.artworkId) === Number(art.id));
+  if (allBids.length === 0) {
+    showToast('Cannot announce winner because no bids were received.', 'error');
+    return;
+  }
+
+  const sorted = allBids.slice().sort((a, b) => Number(b.bidAmount) - Number(a.bidAmount));
+  const topBid = sorted[0];
+  const winnerName = topBid.userName || art.currentBidder;
+  const winnerEmail = topBid.userEmail || art.currentBidderEmail || '';
+  const winningBid = Number(topBid.bidAmount || art.currentBid);
+
+  const overlay = getArtworkDetailsModalOverlay();
+  overlay.innerHTML = `
+    <div class="modal-card" style="max-width: 500px;">
+      <div class="modal-header">
+        <h3 style="font-size: 1.3rem; font-weight: 800; color: #047857;">🏆 Announce Official Winner</h3>
+        <button class="modal-close-btn" onclick="closeArtworkDetailsModal()">&times;</button>
+      </div>
+
+      <div style="background-color: rgba(16, 185, 129, 0.1); border: 1px solid #10b981; border-radius: 8px; padding: 14px; margin-bottom: 20px;">
+        <p style="color: #065f46; font-size: 0.9rem; margin: 0; line-height: 1.5;">
+          Confirming this action will officially publish the winning bidder to all gallery visitors.
+        </p>
+      </div>
+
+      <div style="background-color: var(--surface-alt); padding: 18px; border-radius: 8px; margin-bottom: 24px;">
+        <div style="margin-bottom: 12px;">
+          <span style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;">Artwork</span>
+          <div style="font-size: 1.15rem; font-weight: 700;">${art.name}</div>
+          <div style="font-size: 0.85rem; color: var(--text-muted);">by ${art.artist}</div>
+        </div>
+
+        <div style="border-top: 1px solid var(--border); padding-top: 12px; margin-bottom: 12px;">
+          <span style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;">Winner</span>
+          <div style="font-size: 1.35rem; font-weight: 800; color: var(--text-main);">${winnerName}</div>
+          ${winnerEmail ? `<div style="font-size: 0.82rem; color: var(--text-muted);">${winnerEmail}</div>` : ''}
+        </div>
+
+        <div style="border-top: 1px solid var(--border); padding-top: 12px; display: flex; justify-content: space-between; align-items: baseline;">
+          <div>
+            <span style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;">Winning Bid</span>
+            <div style="font-size: 1.6rem; font-weight: 800; color: var(--accent);">${formatCurrency(winningBid)}</div>
+          </div>
+          <div style="text-align: right; font-size: 0.85rem; color: var(--text-muted);">
+            <div>Starting: ${formatCurrency(art.startingPrice || art.price)}</div>
+            <div>Total Bids: ${allBids.length}</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 10px;">
+        <button onclick="closeArtworkDetailsModal()" class="btn btn-outline btn-block">Cancel</button>
+        <button onclick="confirmAnnounceWinnerFromDetails(${art.id})" class="btn btn-accent btn-block">
+          Announce Winner
+        </button>
+      </div>
+    </div>
+  `;
+  overlay.classList.add('active');
+}
+
+// Admin: Confirm Announce Winner from Details Page
+function confirmAnnounceWinnerFromDetails(artId) {
+  const user = getCurrentUser();
+  if (getNormalizedRole(user) !== 'admin') {
+    showToast('Unauthorized action. Admin access required.', 'error');
+    return;
+  }
+
+  const artworks = getData('artworks', []);
+  const art = artworks.find(a => a.id === artId);
+  if (!art) return;
+
+  const allBids = getData('bids', []).filter(b => Number(b.artworkId) === Number(art.id));
+  if (allBids.length === 0) {
+    showToast('Cannot announce winner because no bids were received.', 'error');
+    return;
+  }
+
+  const sorted = allBids.slice().sort((a, b) => Number(b.bidAmount) - Number(a.bidAmount));
+  const topBid = sorted[0];
+  const winnerName = topBid.userName || art.currentBidder;
+  const winnerEmail = topBid.userEmail || art.currentBidderEmail || '';
+  const winnerUserId = topBid.userId || null;
+  const winningBid = Number(topBid.bidAmount || art.currentBid);
+  const announcementTime = new Date().toLocaleString();
+
+  // Save to auctionResults
+  const auctionResults = getData('auctionResults', []);
+  const filteredResults = auctionResults.filter(r => Number(r.artworkId) !== Number(art.id));
+  filteredResults.push({
+    id: getNextId(auctionResults),
+    artworkId: art.id,
+    artworkName: art.name,
+    artist: art.artist,
+    winnerName: winnerName,
+    winnerEmail: winnerEmail,
+    winnerUserId: winnerUserId,
+    winningBid: winningBid,
+    startingPrice: Number(art.startingPrice || art.price),
+    totalBids: allBids.length,
+    announcedAt: announcementTime,
+    status: 'Winner Announced'
+  });
+  setData('auctionResults', filteredResults);
+
+  // Update Artwork
+  art.auctionStatus = 'WINNER ANNOUNCED';
+  art.winnerName = winnerName;
+  art.winnerEmail = winnerEmail;
+  art.winnerUserId = winnerUserId;
+  art.winningBid = winningBid;
+  art.announcedAt = announcementTime;
+  setData('artworks', artworks);
+
+  closeArtworkDetailsModal();
+  showToast(`Winner officially announced: ${winnerName} (${formatCurrency(winningBid)})!`, 'success');
   initArtworkDetailsPage();
 }
 

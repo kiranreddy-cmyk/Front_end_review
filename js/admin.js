@@ -642,6 +642,12 @@ function openAdminBidHistoryModal(artId) {
 
 // 2. Admin Close Auction Action
 function confirmCloseAuctionAdmin(artId) {
+  const user = getCurrentUser();
+  if (getNormalizedRole(user) !== 'admin') {
+    showToast('Unauthorized action. Admin access required.', 'error');
+    return;
+  }
+
   if (!confirm('Are you sure you want to close this auction?')) {
     return;
   }
@@ -747,6 +753,12 @@ function showAuctionClosedSummaryModal(artId) {
 
 // 4. Admin Announce Winner Modal
 function openAnnounceWinnerModal(artId) {
+  const user = getCurrentUser();
+  if (getNormalizedRole(user) !== 'admin') {
+    showToast('Unauthorized action. Admin access required.', 'error');
+    return;
+  }
+
   const artworks = getData('artworks', []);
   const art = artworks.find(a => a.id === artId);
   if (!art) return;
@@ -817,6 +829,12 @@ function openAnnounceWinnerModal(artId) {
 
 // 5. Confirm Announce Winner
 function confirmAnnounceWinner(artId) {
+  const user = getCurrentUser();
+  if (getNormalizedRole(user) !== 'admin') {
+    showToast('Unauthorized action. Admin access required.', 'error');
+    return;
+  }
+
   const artworks = getData('artworks', []);
   const art = artworks.find(a => a.id === artId);
   if (!art) return;
