@@ -121,7 +121,7 @@ When first opened, sample data is automatically seeded into `localStorage`. On `
 
 | Role | Email Address | Password | Admin Security Code | Landing Page |
 |---|---|---|---|---|
-| **Admin** | `admin@artgallery.com` | `admin123` | `ARTLOOM-ADMIN-2026` | `admin-dashboard.html` |
+| **Admin** | `gajulashanmendrasai@gmail.com` | `Kiran@2507518` | *Confidential (Required)* | `admin-dashboard.html` |
 | **Buyer / User** | `user@artgallery.com` | `user123` | *Not Required* | `user-dashboard.html` |
 | **Artist** | `artist@artgallery.com` | `artist123` | *Not Required* | `artist-dashboard.html` |
 
@@ -177,7 +177,7 @@ Follow this recommended sequence for the examiner/evaluator:
 
 ### Phase 5: Administrator Panel Demonstration
 1. Click **Logout** $\rightarrow$ Go to `login.html`.
-2. Click `👑 Admin` Quick-Fill $\rightarrow$ Login as `admin@artgallery.com`.
+2. Click `👑 Admin` Quick-Fill $\rightarrow$ Login as `gajulashanmendrasai@gmail.com`.
 3. Arrive at `admin-dashboard.html`. Inspect the 7 dynamic metric cards.
 4. Switch to **Manage Artworks** tab: click **Edit** or **Delete** on an artwork.
 5. Switch to **Manage Users** tab: observe registered accounts and removal control.

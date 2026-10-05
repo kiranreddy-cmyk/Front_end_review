@@ -98,8 +98,8 @@ function initializeSampleData() {
       {
         id: 1,
         name: "Admin Administrator",
-        email: "admin@artgallery.com",
-        password: "admin123",
+        email: "gajulashanmendrasai@gmail.com",
+        password: "Kiran@2507518",
         role: "admin",
         avatar: "images/avatar-admin.svg",
         createdAt: "2026-01-10"
@@ -134,6 +134,15 @@ function initializeSampleData() {
         specialization: "Digital Art & Sculpture",
         bio: "Marcus Sterling merges tactile sculpting with generative 3D digital mediums, creating visionary pieces that question space, geometry, and human emotion.",
         createdAt: "2026-02-01"
+      },
+      {
+        id: 5,
+        name: "Rahul Sharma",
+        email: "rahul@artgallery.com",
+        password: "user123",
+        role: "user",
+        avatar: "images/avatar-user.svg",
+        createdAt: "2026-02-20"
       }
     ];
     setData('users', initialUsers);
@@ -339,6 +348,25 @@ function initializeSampleData() {
         featured: true,
         status: "active",
         createdAt: "2026-03-06"
+      },
+      {
+        id: 13,
+        name: "Sunset Dreams",
+        artist: "Elena Vance",
+        artistId: 3,
+        category: "Painting",
+        description: "A breathtaking impressionist sunset panorama over coastal dunes and glowing tidal waters, blending vivid amber, crimson, and lavender hues.",
+        price: 5000,
+        startingPrice: 5000,
+        currentBid: 5000,
+        currentBidder: "None yet",
+        bidsCount: 0,
+        type: "Auction",
+        auctionStatus: "LIVE",
+        image: "images/artworks/artwork-1.svg",
+        featured: true,
+        status: "active",
+        createdAt: "2026-03-08"
       }
     ];
     setData('artworks', initialArtworks);
@@ -382,6 +410,7 @@ function initializeSampleData() {
         artworkName: "Neon Cyber Odyssey",
         userId: 2,
         userName: "Kiran Reddy",
+        userEmail: "user@artgallery.com",
         bidAmount: 14000,
         date: "2026-03-15 14:30",
         status: "Leading"
@@ -392,6 +421,7 @@ function initializeSampleData() {
         artworkName: "Lady in Saffron",
         userId: 2,
         userName: "Kiran Reddy",
+        userEmail: "user@artgallery.com",
         bidAmount: 25000,
         date: "2026-03-18 10:15",
         status: "Leading"
@@ -402,6 +432,7 @@ function initializeSampleData() {
         artworkName: "Geometric Reverie",
         userId: 1,
         userName: "Art Collector",
+        userEmail: "collector@artgallery.com",
         bidAmount: 13500,
         date: "2026-03-19 16:45",
         status: "Leading"
@@ -412,6 +443,7 @@ function initializeSampleData() {
         artworkName: "Metropolis Awakening",
         userId: 1,
         userName: "Urban Collector",
+        userEmail: "urban@artgallery.com",
         bidAmount: 18000,
         date: "2026-03-19 18:20",
         status: "Leading"
@@ -422,12 +454,14 @@ function initializeSampleData() {
         artworkName: "Marble Flora",
         userId: 1,
         userName: "Gallery Sovereign",
+        userEmail: "sovereign@artgallery.com",
         bidAmount: 45000,
         date: "2026-03-20 11:00",
         status: "Leading"
       }
     ];
     setData('bids', initialBids);
+    setData('auctionBids', initialBids);
   }
 
   // 7. Reviews
@@ -476,6 +510,161 @@ function initializeSampleData() {
     ];
     setData('reviews', initialReviews);
   }
+
+  // 8. Auction Results Store
+  if (!localStorage.getItem('auctionResults')) {
+    setData('auctionResults', []);
+  }
+
+  // 9. Retro-compatibility & Sync for Live Storage
+  try {
+    // Sync auctionBids key
+    if (!localStorage.getItem('auctionBids')) {
+      setData('auctionBids', getData('bids', []));
+    }
+
+    // Ensure default admin user and secondary user (Rahul Sharma) exist in users
+    const currentUsers = getData('users', []);
+    if (currentUsers && currentUsers.length > 0) {
+      let usersModified = false;
+      const adminUser = currentUsers.find(u => (u.role || '').toLowerCase() === 'admin');
+      if (adminUser) {
+        if (adminUser.email !== 'gajulashanmendrasai@gmail.com' || adminUser.password !== 'Kiran@2507518') {
+          adminUser.email = 'gajulashanmendrasai@gmail.com';
+          adminUser.password = 'Kiran@2507518';
+          usersModified = true;
+        }
+      } else {
+        currentUsers.unshift({
+          id: 1,
+          name: "Admin Administrator",
+          email: "gajulashanmendrasai@gmail.com",
+          password: "Kiran@2507518",
+          role: "admin",
+          avatar: "images/avatar-admin.svg",
+          createdAt: "2026-01-10"
+        });
+        usersModified = true;
+      }
+
+      if (!currentUsers.some(u => u.email === 'rahul@artgallery.com')) {
+        currentUsers.push({
+          id: 5,
+          name: "Rahul Sharma",
+          email: "rahul@artgallery.com",
+          password: "user123",
+          role: "user",
+          avatar: "images/avatar-user.svg",
+          createdAt: "2026-02-20"
+        });
+        usersModified = true;
+      }
+
+      if (usersModified) {
+        setData('users', currentUsers);
+      }
+    }
+
+    // Ensure Sunset Dreams and auctionStatus exist in artworks
+    const currentArtworks = getData('artworks', []);
+    let artworksModified = false;
+    if (currentArtworks && currentArtworks.length > 0) {
+      if (!currentArtworks.some(a => a.name === 'Sunset Dreams')) {
+        currentArtworks.push({
+          id: 13,
+          name: "Sunset Dreams",
+          artist: "Elena Vance",
+          artistId: 3,
+          category: "Painting",
+          description: "A breathtaking impressionist sunset panorama over coastal dunes and glowing tidal waters, blending vivid amber, crimson, and lavender hues.",
+          price: 5000,
+          startingPrice: 5000,
+          currentBid: 5000,
+          currentBidder: "None yet",
+          bidsCount: 0,
+          type: "Auction",
+          auctionStatus: "LIVE",
+          image: "images/artworks/artwork-1.svg",
+          featured: true,
+          status: "active",
+          createdAt: "2026-03-08"
+        });
+        artworksModified = true;
+      }
+
+      currentArtworks.forEach(art => {
+        if (art.type === 'Auction') {
+          if (!art.auctionStatus) {
+            art.auctionStatus = 'LIVE';
+            artworksModified = true;
+          }
+          if (art.startingPrice === undefined) {
+            art.startingPrice = art.price;
+            artworksModified = true;
+          }
+        }
+      });
+
+      if (artworksModified) {
+        setData('artworks', currentArtworks);
+      }
+    }
+
+    // Ensure all bids have userEmail
+    const currentBids = getData('bids', []);
+    let bidsModified = false;
+    if (currentBids && currentBids.length > 0) {
+      currentBids.forEach(b => {
+        if (!b.userEmail) {
+          const userObj = (currentUsers || []).find(u => u.id === b.userId);
+          b.userEmail = userObj ? userObj.email : 'user@artgallery.com';
+          bidsModified = true;
+        }
+      });
+      if (bidsModified) {
+        setData('bids', currentBids);
+        setData('auctionBids', currentBids);
+      }
+    }
+  } catch (syncErr) {
+    console.warn("Storage sync check warning:", syncErr);
+  }
+}
+
+// Auction Storage Helper Functions
+function getAuctionBids(artworkId = null) {
+  const bids = getData('bids', getData('auctionBids', []));
+  if (!artworkId) return bids;
+  return bids.filter(b => Number(b.artworkId) === Number(artworkId));
+}
+
+function saveAuctionBid(bidRecord) {
+  const bids = getData('bids', []);
+  bids.push(bidRecord);
+  setData('bids', bids);
+  setData('auctionBids', bids);
+  return bids;
+}
+
+function getAuctionResults() {
+  return getData('auctionResults', []);
+}
+
+function getAuctionResult(artworkId) {
+  const results = getData('auctionResults', []);
+  return results.find(r => Number(r.artworkId) === Number(artworkId)) || null;
+}
+
+function saveAuctionResult(resultRecord) {
+  const results = getData('auctionResults', []);
+  const index = results.findIndex(r => Number(r.artworkId) === Number(resultRecord.artworkId));
+  if (index > -1) {
+    results[index] = { ...results[index], ...resultRecord };
+  } else {
+    results.push(resultRecord);
+  }
+  setData('auctionResults', results);
+  return results;
 }
 
 // Automatically seed sample data on first load

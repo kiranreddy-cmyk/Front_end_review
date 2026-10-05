@@ -38,11 +38,11 @@
       <!-- Header -->
       <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 28px; flex-wrap: wrap; gap: 12px;">
         <div>
-          <span class="section-subtitle">Art Acquisitions &amp; Orders</span>
-          <h1 style="font-size: 2.2rem; font-weight: 800;">My Artwork Purchases</h1>
-          <p style="color: var(--text-muted); font-size: 0.95rem;">Track your acquired collection pieces, official receipts, and delivery confirmations.</p>
+          <span class="section-subtitle">MY PURCHASES &amp; ORDERS</span>
+          <h1 style="font-size: 2.2rem; font-weight: 800;">My Purchases</h1>
+          <p style="color: var(--text-muted); font-size: 0.95rem;">Track your purchased artworks, orders, and purchase details.</p>
         </div>
-        <a href="artworks.html" class="btn btn-accent">+ Acquire New Art</a>
+        <a href="artworks.html" class="btn btn-accent">+ Purchase Art</a>
       </div>
 
       <!-- Purchase Summary Cards (CSS Grid) -->
@@ -51,7 +51,7 @@
           <div class="stat-icon stat-icon-green">🛍️</div>
           <div class="stat-info">
             <h3 id="userPurchaseCount">0 Items</h3>
-            <p>Total Acquisitions</p>
+            <p>Total Purchases</p>
           </div>
         </div>
 
@@ -59,7 +59,7 @@
           <div class="stat-icon stat-icon-gold">💳</div>
           <div class="stat-info">
             <h3 id="userTotalSpent">₹0</h3>
-            <p>Total Collection Value</p>
+            <p>Total Purchase Amount</p>
           </div>
         </div>
 
@@ -76,7 +76,7 @@
       <div id="purchasesEmptyState" class="empty-state" style="display: none;">
         <div class="empty-state-icon">🛍️</div>
         <h3>No Purchases Yet</h3>
-        <p>You have not acquired any artworks yet. Explore our curated gallery to buy your first original masterpiece!</p>
+        <p>You have not purchased any artworks yet. Explore our curated gallery to buy your first original masterpiece!</p>
         <a href="artworks.html" class="btn btn-primary">Browse Gallery</a>
       </div>
 
@@ -87,8 +87,8 @@
             <tr>
               <th>Invoice #</th>
               <th>Artwork Piece</th>
-              <th>Acquisition Price</th>
-              <th>Order Date</th>
+              <th>Purchase Price</th>
+              <th>Purchase Date</th>
               <th>Status</th>
               <th>Actions</th>
             </tr>

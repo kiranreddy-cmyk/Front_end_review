@@ -4,8 +4,16 @@
  * Strictly Vanilla JavaScript & LocalStorage
  */
 
-// Single-location Admin Security Code configuration (Easy to modify)
-const ADMIN_SECURITY_CODE = 'ARTLOOM-ADMIN-2026';
+// ============================================================================
+// Single-location Default Admin Credentials Configuration
+// Modify this object to change default Admin credentials or Admin Security Code
+// ============================================================================
+const DEFAULT_ADMIN_CONFIG = {
+  email: 'gajulashanmendrasai@gmail.com',
+  password: 'Kiran@2507518',
+  securityCode: '1234'
+};
+const ADMIN_SECURITY_CODE = DEFAULT_ADMIN_CONFIG.securityCode;
 
 // Normalize any role string to 'user', 'artist', or 'admin'
 function normalizeRoleString(roleValue) {
@@ -197,12 +205,12 @@ function fillCredentials(role) {
   }
 
   if (normalized === 'admin') {
-    emailInput.value = 'admin@artgallery.com';
-    passwordInput.value = 'admin123';
+    emailInput.value = DEFAULT_ADMIN_CONFIG.email;
+    passwordInput.value = DEFAULT_ADMIN_CONFIG.password;
     if (adminCodeInput) {
-      adminCodeInput.value = ADMIN_SECURITY_CODE;
+      adminCodeInput.value = '';
     }
-    showToast('Filled Admin credentials & Security Code', 'info');
+    showToast('Filled Admin email & password. Enter Admin Security Code to sign in.', 'info');
   } else if (normalized === 'artist') {
     emailInput.value = 'artist@artgallery.com';
     passwordInput.value = 'artist123';
@@ -210,13 +218,24 @@ function fillCredentials(role) {
       adminCodeInput.value = '';
     }
     showToast('Filled Artist credentials', 'info');
+  } else if (normalized === 'user2') {
+    if (roleSelect) {
+      roleSelect.value = 'user';
+      handleLoginRoleChange();
+    }
+    emailInput.value = 'rahul@artgallery.com';
+    passwordInput.value = 'user123';
+    if (adminCodeInput) {
+      adminCodeInput.value = '';
+    }
+    showToast('Filled User 2 (Rahul Sharma) credentials', 'info');
   } else if (normalized === 'user') {
     emailInput.value = 'user@artgallery.com';
     passwordInput.value = 'user123';
     if (adminCodeInput) {
       adminCodeInput.value = '';
     }
-    showToast('Filled Buyer / User credentials', 'info');
+    showToast('Filled User 1 (Kiran Reddy) credentials', 'info');
   }
 }
 
@@ -231,6 +250,62 @@ function authenticateLogin({ selectedRole, email, password, adminCode }) {
     return { success: false, error: 'Please select a valid Account Type (Buyer / User, Artist, or Admin).' };
   }
 
+  // Admin Login Flow (Requires: Email, Password, Admin Security Code)
+  if (normSelectedRole === 'admin') {
+    if (!trimmedEmail) {
+      return { success: false, error: 'Please enter your Admin email address.' };
+    }
+    if (!rawPassword) {
+      return { success: false, error: 'Please enter your Admin password.' };
+    }
+    if (!trimmedAdminCode) {
+      return { success: false, error: 'Admin Security Code is required for Admin login.' };
+    }
+    if (trimmedAdminCode !== ADMIN_SECURITY_CODE) {
+      return { success: false, error: 'Invalid Admin Security Code. Admin login denied.' };
+    }
+
+    const users = getData('users', []);
+    // Find admin user in localStorage or check default admin config
+    let adminUser = users.find(u => 
+      (u.role || '').toLowerCase() === 'admin' && 
+      u.email && u.email.toLowerCase() === trimmedEmail.toLowerCase()
+    );
+
+    const isDefaultAdminEmail = trimmedEmail.toLowerCase() === DEFAULT_ADMIN_CONFIG.email.toLowerCase();
+
+    if (!adminUser && !isDefaultAdminEmail) {
+      return { success: false, error: 'Invalid Admin email address. Please check your credentials.' };
+    }
+
+    const expectedPassword = adminUser ? adminUser.password : DEFAULT_ADMIN_CONFIG.password;
+    if (rawPassword !== expectedPassword) {
+      return { success: false, error: 'Invalid Admin password. Please check your credentials.' };
+    }
+
+    // Ensure admin user exists in users array
+    if (!adminUser) {
+      adminUser = {
+        id: 1,
+        name: "Admin Administrator",
+        email: DEFAULT_ADMIN_CONFIG.email,
+        password: DEFAULT_ADMIN_CONFIG.password,
+        role: "admin",
+        avatar: "images/avatar-admin.svg",
+        createdAt: "2026-01-10"
+      };
+      users.unshift(adminUser);
+      setData('users', users);
+    }
+
+    return {
+      success: true,
+      user: adminUser,
+      redirectUrl: 'admin-dashboard.html'
+    };
+  }
+
+  // Buyer/User and Artist Login Flow (Security Code NOT required)
   if (!trimmedEmail || !rawPassword) {
     return { success: false, error: 'Please enter both Email/Username and Password.' };
   }
@@ -243,9 +318,6 @@ function authenticateLogin({ selectedRole, email, password, adminCode }) {
   });
 
   if (!matchedUser) {
-    if (normSelectedRole === 'admin' && trimmedAdminCode !== ADMIN_SECURITY_CODE) {
-      return { success: false, error: 'Invalid Admin credentials or Admin Security Code.' };
-    }
     return { success: false, error: 'Invalid email/username or password. Please try again.' };
   }
 
@@ -253,12 +325,6 @@ function authenticateLogin({ selectedRole, email, password, adminCode }) {
 
   // Strictly validate selected role against stored user role
   if (actualUserRole !== normSelectedRole) {
-    if (normSelectedRole === 'admin') {
-      return {
-        success: false,
-        error: `Access denied: ${matchedUser.role} accounts are not authorized to log in as Admin.`
-      };
-    }
     if (actualUserRole === 'admin') {
       return {
         success: false,
@@ -271,27 +337,9 @@ function authenticateLogin({ selectedRole, email, password, adminCode }) {
     };
   }
 
-  // Validate Admin Security Code when logging in as Admin
-  if (normSelectedRole === 'admin') {
-    if (!trimmedAdminCode) {
-      return {
-        success: false,
-        error: 'Admin Security Code is required for Admin login.'
-      };
-    }
-    if (trimmedAdminCode !== ADMIN_SECURITY_CODE) {
-      return {
-        success: false,
-        error: 'Invalid Admin Security Code. Admin login denied.'
-      };
-    }
-  }
-
   // Determine role-based dashboard redirect
   let redirectUrl = 'user-dashboard.html';
-  if (actualUserRole === 'admin') {
-    redirectUrl = 'admin-dashboard.html';
-  } else if (actualUserRole === 'artist') {
+  if (actualUserRole === 'artist') {
     redirectUrl = 'artist-dashboard.html';
   }
 

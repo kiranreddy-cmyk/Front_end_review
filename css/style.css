@@ -330,6 +330,13 @@ button, input, select, textarea {
   border: 1px solid var(--border);
 }
 
+.badge-danger,
+.badge-closed {
+  background-color: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fca5a5;
+}
+
 /* ==========================================================================
    5. Hero Section (Flexbox & Grid)
    ========================================================================== */

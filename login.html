@@ -64,7 +64,7 @@
           <div class="form-group" id="adminCodeGroup" style="display: none;">
             <label for="adminCode">Admin Security Code</label>
             <input type="password" id="adminCode" class="form-control" placeholder="Enter Admin Security Code" autocomplete="off">
-            <small style="font-size: 0.78rem; color: var(--text-muted);">Required for Admin access (Demo Code: <strong>ARTLOOM-ADMIN-2026</strong>)</small>
+            <small style="font-size: 0.78rem; color: var(--text-muted);">Required for Administrator authentication.</small>
           </div>
 
           <div id="loginError" class="form-error" style="margin-bottom: 16px;"></div>
@@ -82,14 +82,17 @@
           <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 10px;">
             Click any role button below to automatically populate test credentials:
           </p>
-          <div class="demo-buttons-row">
-            <button type="button" onclick="fillCredentials('user')" class="btn btn-sm btn-outline" style="flex: 1;">
-              👤 Buyer / User
+          <div class="demo-buttons-row" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px;">
+            <button type="button" onclick="fillCredentials('user')" class="btn btn-sm btn-outline" title="Login as Kiran Reddy">
+              👤 User 1 (Kiran)
             </button>
-            <button type="button" onclick="fillCredentials('artist')" class="btn btn-sm btn-outline" style="flex: 1;">
+            <button type="button" onclick="fillCredentials('user2')" class="btn btn-sm btn-outline" title="Login as Rahul Sharma">
+              👤 User 2 (Rahul)
+            </button>
+            <button type="button" onclick="fillCredentials('artist')" class="btn btn-sm btn-outline" title="Login as Elena Vance">
               🎨 Artist
             </button>
-            <button type="button" onclick="fillCredentials('admin')" class="btn btn-sm btn-outline" style="flex: 1;">
+            <button type="button" onclick="fillCredentials('admin')" class="btn btn-sm btn-outline" title="Login as Admin Administrator">
               👑 Admin
             </button>
           </div>

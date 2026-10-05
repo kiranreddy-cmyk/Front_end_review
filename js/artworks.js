@@ -59,15 +59,36 @@ function toggleFavorite(artworkId, btnElement) {
 // Render a single Artwork Card HTML
 function createArtworkCardHTML(art) {
   const isFav = isArtworkFavorited(art.id);
-  const typeBadgeClass = art.type === 'Auction' ? 'badge-auction' : 'badge-sale';
-  const priceDisplay = art.type === 'Auction' ? (art.currentBid || art.price) : art.price;
-  const priceLabel = art.type === 'Auction' ? 'Current Bid' : 'Price';
+  let typeBadgeClass = 'badge-sale';
+  let badgeLabel = art.type;
+  let priceDisplay = art.price;
+  let priceLabel = 'Price';
+
+  if (art.type === 'Auction') {
+    const auctionStatus = art.auctionStatus || 'LIVE';
+    if (auctionStatus === 'WINNER ANNOUNCED') {
+      typeBadgeClass = 'badge-sale';
+      badgeLabel = '🏆 Winner Announced';
+      priceLabel = 'Winning Bid';
+      priceDisplay = art.winningBid || art.currentBid || art.price;
+    } else if (auctionStatus === 'CLOSED') {
+      typeBadgeClass = 'badge-category';
+      badgeLabel = 'Auction Closed';
+      priceLabel = 'Final Bid';
+      priceDisplay = art.currentBid || art.price;
+    } else {
+      typeBadgeClass = 'badge-auction';
+      badgeLabel = 'Auction';
+      priceLabel = 'Current Bid';
+      priceDisplay = art.currentBid || art.startingPrice || art.price;
+    }
+  }
 
   return `
     <div class="artwork-card" data-id="${art.id}" data-category="${art.category}">
       <div class="artwork-image-wrap">
         <img src="${art.image}" alt="${art.name}" loading="lazy" onerror="this.src='images/artworks/artwork-1.svg'">
-        <span class="badge ${typeBadgeClass} artwork-badge-floating">${art.type}</span>
+        <span class="badge ${typeBadgeClass} artwork-badge-floating">${badgeLabel}</span>
         <button class="btn-fav-floating ${isFav ? 'active' : ''}" onclick="toggleFavorite(${art.id}, this)" title="${isFav ? 'Remove Favorite' : 'Add to Favorites'}">
           ${isFav ? '♥' : '♡'}
         </button>
@@ -75,7 +96,7 @@ function createArtworkCardHTML(art) {
       <div class="artwork-body">
         <div class="artwork-meta-row">
           <span class="artwork-category">${art.category}</span>
-          <span class="badge badge-category">${art.status || 'Active'}</span>
+          <span class="badge badge-category">${art.auctionStatus ? (art.auctionStatus === 'WINNER ANNOUNCED' ? 'Ended' : art.auctionStatus) : (art.status || 'Active')}</span>
         </div>
         <h3 class="artwork-title" title="${art.name}">
           <a href="artwork-details.html?id=${art.id}">${art.name}</a>
@@ -264,7 +285,148 @@ function initArtworkDetailsPage() {
   }
 
   const isFav = isArtworkFavorited(art.id);
-  const typeBadgeClass = art.type === 'Auction' ? 'badge-auction' : 'badge-sale';
+  const isAuction = art.type === 'Auction';
+  const auctionStatus = art.auctionStatus || 'LIVE';
+  const artworkBids = isAuction ? getData('bids', []).filter(b => Number(b.artworkId) === Number(art.id)) : [];
+  const currentHighest = Number(art.currentBid || art.startingPrice || art.price);
+
+  let typeBadgeClass = 'badge-sale';
+  let typeBadgeText = art.type;
+  if (isAuction) {
+    if (auctionStatus === 'WINNER ANNOUNCED') {
+      typeBadgeClass = 'badge-sale';
+      typeBadgeText = '🏆 Winner Announced';
+    } else if (auctionStatus === 'CLOSED') {
+      typeBadgeClass = 'badge-category';
+      typeBadgeText = 'Auction Closed';
+    } else {
+      typeBadgeClass = 'badge-auction';
+      typeBadgeText = 'Live Auction';
+    }
+  }
+
+  // Build Pricing / Auction Box HTML
+  let actionBoxHTML = '';
+  if (isAuction) {
+    if (auctionStatus === 'WINNER ANNOUNCED') {
+      actionBoxHTML = `
+        <div class="auction-result-box" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(245, 158, 11, 0.1)); border: 2px solid var(--success); border-radius: 12px; padding: 22px; margin-bottom: 16px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px solid rgba(16, 185, 129, 0.25); padding-bottom: 10px;">
+            <span style="font-size: 1.25rem; font-weight: 850; color: #047857; display: flex; align-items: center; gap: 8px;">
+              🏆 AUCTION RESULT
+            </span>
+            <span class="badge badge-sale" style="font-size: 0.82rem; padding: 6px 12px;">Winner Announced</span>
+          </div>
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+            <div>
+              <div class="artwork-price-label" style="text-transform: uppercase; font-size: 0.8rem; color: var(--text-muted);">Winning Bid</div>
+              <div style="color: var(--accent); font-size: 2.2rem; font-weight: 850;">
+                ${formatCurrency(art.winningBid || art.currentBid)}
+              </div>
+            </div>
+            <div>
+              <div class="artwork-price-label" style="text-transform: uppercase; font-size: 0.8rem; color: var(--text-muted);">Winner</div>
+              <div style="font-size: 1.6rem; font-weight: 850; color: var(--text-main); margin-top: 4px;">
+                ${art.winnerName || 'Winner Announced'}
+              </div>
+            </div>
+          </div>
+
+          <div style="background: var(--surface); padding: 12px 14px; border-radius: 8px; border: 1px solid var(--border); font-size: 0.85rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+            <span>Artwork: <strong>${art.name}</strong></span>
+            <span>Starting Price: <strong>${formatCurrency(art.startingPrice || art.price)}</strong></span>
+            <span>Status: <strong style="color: var(--success);">Winner Announced</strong></span>
+            ${art.announcedAt ? `<span>Announced: <strong>${art.announcedAt}</strong></span>` : ''}
+          </div>
+        </div>
+
+        <div style="padding: 14px; background: var(--surface-alt); border-radius: 8px; color: var(--text-muted); font-size: 0.95rem; text-align: center; border: 1px dashed var(--border);">
+          🔒 This auction has ended. The winner has been announced.
+        </div>
+      `;
+    } else if (auctionStatus === 'CLOSED') {
+      actionBoxHTML = `
+        <div style="background: #fef3c7; border: 1.5px solid #f59e0b; border-radius: 12px; padding: 20px; margin-bottom: 16px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <strong style="color: #92400e; font-size: 1.2rem; display: flex; align-items: center; gap: 8px;">
+              ⏱ Auction Closed
+            </strong>
+            <span class="badge" style="background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; font-weight: 800;">CLOSED</span>
+          </div>
+          <p style="color: #78350f; font-size: 0.95rem; margin-bottom: 14px; line-height: 1.6;">
+            This auction has been officially closed by the Administrator. Bidding is now locked while final results are being processed.
+          </p>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; background: rgba(255,255,255,0.7); padding: 12px 16px; border-radius: 8px;">
+            <div>
+              <div style="font-size: 0.8rem; color: #92400e;">Highest Bid Recorded</div>
+              <div style="color: var(--accent); font-size: 1.6rem; font-weight: 800;">
+                ${formatCurrency(currentHighest)}
+              </div>
+            </div>
+            <div>
+              <div style="font-size: 0.8rem; color: #92400e;">Top Bidder</div>
+              <div style="font-size: 1.2rem; font-weight: 700; color: var(--text-main); margin-top: 4px;">
+                ${art.currentBidder || 'None yet'}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="padding: 14px; background: var(--surface-alt); border-radius: 8px; color: var(--text-muted); font-size: 0.95rem; text-align: center; border: 1px dashed var(--border);">
+          🔒 This auction is closed. Waiting for winner announcement.
+        </div>
+      `;
+    } else {
+      // LIVE
+      actionBoxHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 16px;">
+          <div>
+            <div class="artwork-price-label">Current Highest Bid</div>
+            <div class="artwork-price-val" style="color: var(--accent); font-size: 2rem;">
+              ${formatCurrency(currentHighest)}
+            </div>
+            <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">
+              Highest Bidder: <strong>${art.currentBidder || 'None yet'}</strong> • Total Bids: <strong>${artworkBids.length}</strong>
+            </div>
+          </div>
+          <div style="text-align: right;">
+            <div class="artwork-price-label">Starting Price</div>
+            <div style="font-weight: 700; color: var(--text-main);">${formatCurrency(art.startingPrice || art.price)}</div>
+          </div>
+        </div>
+
+        <!-- Bid Input Form -->
+        <form id="bidForm" onsubmit="handlePlaceBid(event, ${art.id})" style="display: flex; gap: 10px;">
+          <input type="number" id="bidAmountInput" class="form-control" 
+            placeholder="Min ${formatCurrency(currentHighest + 1)}" 
+            min="${currentHighest + 1}" required>
+          <button type="submit" class="btn btn-accent">Place Bid</button>
+        </form>
+      `;
+    }
+  } else {
+    // For Sale
+    actionBoxHTML = `
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <div class="artwork-price-label">Purchase Price</div>
+          <div class="artwork-price-val" style="color: var(--success); font-size: 2rem;">
+            ${formatCurrency(art.price)}
+          </div>
+        </div>
+        <button onclick="openBuyModal(${art.id})" class="btn btn-lg btn-accent">
+          Buy Now
+        </button>
+      </div>
+    `;
+  }
+
+  // Update Breadcrumb if title element exists
+  const breadcrumbTitle = document.getElementById('breadcrumbTitle');
+  if (breadcrumbTitle) {
+    breadcrumbTitle.textContent = art.name;
+  }
 
   // Render Detailed View
   detailsContainer.innerHTML = `
@@ -275,7 +437,7 @@ function initArtworkDetailsPage() {
 
       <div class="details-info">
         <div class="artwork-meta-row" style="margin-bottom: 12px;">
-          <span class="badge ${typeBadgeClass}">${art.type}</span>
+          <span class="badge ${typeBadgeClass}">${typeBadgeText}</span>
           <span class="badge badge-category">${art.category}</span>
         </div>
 
@@ -295,43 +457,7 @@ function initArtworkDetailsPage() {
 
         <!-- Pricing & Action Box -->
         <div class="details-price-box">
-          ${art.type === 'Auction' ? `
-            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 16px;">
-              <div>
-                <div class="artwork-price-label">Current Highest Bid</div>
-                <div class="artwork-price-val" style="color: var(--accent); font-size: 2rem;">
-                  ${formatCurrency(art.currentBid || art.price)}
-                </div>
-                <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">
-                  Highest Bidder: <strong>${art.currentBidder || 'None yet'}</strong>
-                </div>
-              </div>
-              <div style="text-align: right;">
-                <div class="artwork-price-label">Starting Price</div>
-                <div style="font-weight: 700; color: var(--text-main);">${formatCurrency(art.startingPrice || art.price)}</div>
-              </div>
-            </div>
-
-            <!-- Bid Input Form -->
-            <form id="bidForm" onsubmit="handlePlaceBid(event, ${art.id})" style="display: flex; gap: 10px;">
-              <input type="number" id="bidAmountInput" class="form-control" 
-                placeholder="Min ${formatCurrency((art.currentBid || art.price) + 500)}" 
-                min="${(art.currentBid || art.price) + 1}" required>
-              <button type="submit" class="btn btn-accent">Place Bid</button>
-            </form>
-          ` : `
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-              <div>
-                <div class="artwork-price-label">Purchase Price</div>
-                <div class="artwork-price-val" style="color: var(--success); font-size: 2rem;">
-                  ${formatCurrency(art.price)}
-                </div>
-              </div>
-              <button onclick="openBuyModal(${art.id})" class="btn btn-lg btn-accent">
-                Buy Now
-              </button>
-            </div>
-          `}
+          ${actionBoxHTML}
         </div>
 
         <div class="details-actions-row">
@@ -344,6 +470,56 @@ function initArtworkDetailsPage() {
         </div>
       </div>
     </div>
+
+    ${isAuction ? `
+      <!-- Complete Artwork Bidding History -->
+      <div style="background-color: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 32px; box-shadow: var(--shadow-sm); margin-top: 36px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+          <div>
+            <h2 style="font-size: 1.4rem; font-weight: 800;">Artwork Bidding History</h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Audit trail of all bids placed on this artwork (${artworkBids.length} total bids).</p>
+          </div>
+          <div>
+            <span class="badge ${auctionStatus === 'WINNER ANNOUNCED' ? 'badge-sale' : (auctionStatus === 'CLOSED' ? 'badge-category' : 'badge-auction')}">
+              ${auctionStatus === 'WINNER ANNOUNCED' ? '🏆 Winner Announced' : (auctionStatus === 'CLOSED' ? 'Closed' : 'Live Bidding')}
+            </span>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>Bid Reference</th>
+                <th>Bidder Name</th>
+                <th>Bid Amount</th>
+                <th>Date &amp; Time</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${artworkBids.length === 0 ? `
+                <tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 24px;">No bids have been placed yet for this artwork. Be the first to place a bid!</td></tr>
+              ` : artworkBids.slice().reverse().map(b => {
+                const isTop = Number(b.bidAmount) === Number(art.currentBid);
+                const isWinner = auctionStatus === 'WINNER ANNOUNCED' && (b.userName === art.winnerName || b.userId === art.winnerUserId);
+                const rowHighlight = (isWinner || (isTop && auctionStatus === 'LIVE')) ? 'style="background-color: rgba(217, 119, 6, 0.08); font-weight: 700;"' : '';
+                const statusBadge = isWinner ? '<span class="badge badge-sale">🏆 Winner</span>' : (isTop ? '<span class="badge badge-sale">★ Leading Bid</span>' : '<span class="badge badge-category">Outbid</span>');
+                return `
+                  <tr ${rowHighlight}>
+                    <td>#BID-${b.id}</td>
+                    <td><strong>${b.userName}</strong></td>
+                    <td><strong style="color: var(--accent);">${formatCurrency(b.bidAmount)}</strong></td>
+                    <td>${b.date}</td>
+                    <td>${statusBadge}</td>
+                  </tr>
+                `;
+              }).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    ` : ''}
   `;
 
   // Render Reviews for this artwork
@@ -470,35 +646,46 @@ function handlePlaceBid(event, artId) {
     return;
   }
 
+  const artworks = getData('artworks', []);
+  const art = artworks.find(a => a.id === artId);
+  if (!art) return;
+
+  const auctionStatus = art.auctionStatus || 'LIVE';
+  if (auctionStatus === 'CLOSED') {
+    showToast('This auction is closed. Waiting for winner announcement.', 'error');
+    return;
+  }
+  if (auctionStatus === 'WINNER ANNOUNCED') {
+    showToast('This auction has ended. The winner has been announced.', 'error');
+    return;
+  }
+
   const bidInput = document.getElementById('bidAmountInput');
   if (!bidInput) return;
 
   const newBid = Number(bidInput.value);
-  const artworks = getData('artworks', []);
-  const art = artworks.find(a => a.id === artId);
-
-  if (!art) return;
-
-  const currentHighest = Number(art.currentBid || art.price);
+  const currentHighest = Number(art.currentBid || art.startingPrice || art.price);
 
   if (!newBid || isNaN(newBid) || newBid <= currentHighest) {
-    showToast(`Your bid must be higher than current bid ${formatCurrency(currentHighest)}.`, 'error');
+    showToast('Bid must be higher than the current highest bid.', 'error');
     return;
   }
 
-  // Update Artwork
-  art.currentBid = newBid;
-  art.currentBidder = user.name;
-  art.bidsCount = (art.bidsCount || 0) + 1;
-  setData('artworks', artworks);
-
-  // Record Bid in bids array
+  // Update previous bids for this artwork to Outbid
   const bids = getData('bids', []);
+  bids.forEach(b => {
+    if (Number(b.artworkId) === Number(art.id) && b.status === 'Leading') {
+      b.status = 'Outbid';
+    }
+  });
+
+  // Record Bid in bids and auctionBids array
   const newBidRecord = {
     id: getNextId(bids),
     artworkId: art.id,
     artworkName: art.name,
     userId: user.id,
+    userEmail: user.email || '',
     userName: user.name,
     bidAmount: newBid,
     date: new Date().toLocaleString(),
@@ -506,8 +693,17 @@ function handlePlaceBid(event, artId) {
   };
   bids.push(newBidRecord);
   setData('bids', bids);
+  setData('auctionBids', bids);
 
-  showToast('Bid placed successfully! You are the highest bidder.', 'success');
+  // Update Artwork
+  art.currentBid = newBid;
+  art.currentBidder = user.name;
+  art.currentBidderEmail = user.email || '';
+  art.currentBidderId = user.id;
+  art.bidsCount = (art.bidsCount || 0) + 1;
+  setData('artworks', artworks);
+
+  showToast(`Bid of ${formatCurrency(newBid)} placed successfully! You are the highest bidder.`, 'success');
   initArtworkDetailsPage();
 }
 

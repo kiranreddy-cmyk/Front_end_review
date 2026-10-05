@@ -122,7 +122,7 @@
         <button class="dash-tab-btn" data-target="tabUsers">Manage Users</button>
         <button class="dash-tab-btn" data-target="tabCategories">Manage Categories</button>
         <button class="dash-tab-btn" data-target="tabPurchases">Purchases Log</button>
-        <button class="dash-tab-btn" data-target="tabAuctions">Auctions Log</button>
+        <button class="dash-tab-btn" data-target="tabAuctions">Auction Management</button>
         <button class="dash-tab-btn" data-target="tabReviews">Reviews Moderation</button>
       </div>
 
@@ -223,23 +223,30 @@
         </div>
       </div>
 
-      <!-- 5. Auctions Log -->
+      <!-- 5. Auction & Bidding Management -->
       <div class="tab-pane" id="tabAuctions">
-        <div style="margin-bottom: 18px;">
-          <h2 style="font-size: 1.4rem; font-weight: 800;">Active Auction Items</h2>
-          <p style="color: var(--text-muted); font-size: 0.9rem;">Current highest bids and bidders on all active auction lots.</p>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 12px;">
+          <div>
+            <h2 style="font-size: 1.4rem; font-weight: 800;">Auction &amp; Bidding Management</h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Monitor live bids, review complete bid history, close auctions, and officially declare winning collectors.</p>
+          </div>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <span class="badge badge-auction" id="adminAuctionLiveCount">0 Live</span>
+            <span class="badge badge-category" id="adminAuctionClosedCount">0 Closed</span>
+            <span class="badge badge-sale" id="adminAuctionAnnouncedCount">0 Winner Announced</span>
+          </div>
         </div>
 
         <div class="table-container">
           <table class="custom-table">
             <thead>
               <tr>
-                <th>Lot ID</th>
                 <th>Artwork</th>
-                <th>Artist</th>
                 <th>Starting Price</th>
-                <th>Current High Bid</th>
-                <th>Top Bidder</th>
+                <th>Current Bid</th>
+                <th>Highest Bidder</th>
+                <th>Bids</th>
+                <th>Status</th>
                 <th>Action</th>
               </tr>
             </thead>
