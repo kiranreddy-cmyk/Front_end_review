@@ -330,58 +330,146 @@ function deleteArtistArtwork(artId) {
 // 2. Render Public Artist Profile (artist-profile.html)
 function initArtistProfilePage() {
   const profileContainer = document.getElementById('artistProfileContainer');
-  if (!profileContainer) return;
-
-  const urlParams = new URLSearchParams(window.location.search);
-  const artistNameQuery = urlParams.get('artist') || 'Elena Vance';
+  const directoryContainer = document.getElementById('artistDirectoryGrid');
+  if (!profileContainer && !directoryContainer) return;
 
   const users = getData('users', []);
-  const artistUser = users.find(u => u.name.toLowerCase() === artistNameQuery.toLowerCase()) || {
-    name: artistNameQuery,
-    specialization: 'Fine Art & Contemporary Painting',
-    bio: 'An accomplished visual artist focusing on the intersection of natural light, emotive textures, and modern perspectives.',
-    avatar: 'images/avatar-artist.svg'
-  };
+  const allArtists = users.filter(u => getNormalizedRole(u) === 'artist');
 
-  const artworks = getData('artworks', []).filter(a => a.artist.toLowerCase() === artistNameQuery.toLowerCase());
+  function getSelectedArtistFromURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const artistIdQuery = urlParams.get('id');
+    const artistNameQuery = urlParams.get('artist');
 
-  profileContainer.innerHTML = `
-    <div style="background-color: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 36px; margin-bottom: 40px; box-shadow: var(--shadow-sm);">
-      <div style="display: flex; gap: 30px; align-items: center; flex-wrap: wrap;">
-        <img src="${artistUser.avatar || 'images/avatar-artist.svg'}" alt="${artistUser.name}" style="width: 110px; height: 110px; border-radius: 50%; object-fit: cover; border: 4px solid var(--accent-light);">
-        <div style="flex: 1; min-width: 260px;">
-          <div style="display: flex; gap: 10px; align-items: center;">
-            <h1 style="font-size: 2rem; font-weight: 800;">${artistUser.name}</h1>
-            <span class="role-tag role-artist">Verified Artist</span>
+    if (artistIdQuery) {
+      const match = allArtists.find(u => Number(u.id) === Number(artistIdQuery));
+      if (match) return match;
+    }
+    if (artistNameQuery) {
+      const match = allArtists.find(u => u.name.toLowerCase() === artistNameQuery.toLowerCase());
+      if (match) return match;
+    }
+    // Default to the first artist (Elena Vance) or fallback
+    return allArtists[0] || {
+      id: 3,
+      name: 'Elena Vance',
+      specialization: 'Landscape & Impressionism',
+      bio: 'Elena Vance is a contemporary fine artist celebrated for vivid light play, serene natural vistas, and expressive oil paintings.',
+      avatar: 'images/avatar-artist.svg'
+    };
+  }
+
+  function renderDirectory(selectedArtist) {
+    if (!directoryContainer) return;
+
+    const allArtworks = getData('artworks', []);
+
+    directoryContainer.innerHTML = allArtists.map(artist => {
+      const isSelected = artist.id === selectedArtist.id;
+      const count = allArtworks.filter(a => a.artistId === artist.id || a.artist.toLowerCase() === artist.name.toLowerCase()).length;
+      return `
+        <div class="artist-dir-card ${isSelected ? 'active' : ''}" 
+             data-artist-id="${artist.id}" 
+             onclick="selectArtistProfile(${artist.id})"
+             role="button"
+             tabindex="0"
+             title="View ${artist.name}'s portfolio">
+          <img src="${artist.avatar || 'images/avatar-artist.svg'}" alt="${artist.name}" class="artist-dir-avatar" onerror="this.src='images/avatar-artist.svg'">
+          <h4 class="artist-dir-name">${artist.name}</h4>
+          <div class="artist-dir-spec">${artist.specialization || 'Fine Artist'}</div>
+          <div class="artist-dir-meta">
+            <span class="artist-dir-badge">${count} Artworks</span>
+            <span style="color: var(--accent); font-weight: 700;">5.0 ★</span>
           </div>
-          <p style="color: var(--accent); font-weight: 600; margin: 4px 0 10px;">${artistUser.specialization || 'Contemporary Fine Artist'}</p>
-          <p style="color: var(--text-muted); max-width: 680px; line-height: 1.6;">${artistUser.bio || 'Creating original artworks with deep expression and technique.'}</p>
-          <div style="display: flex; gap: 24px; margin-top: 16px;">
-            <div>
-              <strong style="font-size: 1.3rem; color: var(--primary);">${artworks.length}</strong>
-              <div style="font-size: 0.82rem; color: var(--text-muted); text-transform: uppercase;">Artworks</div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function renderProfileHeroAndArtworks(artistUser) {
+    if (!profileContainer) return;
+
+    const artworks = getData('artworks', []).filter(a =>
+      a.artistId === artistUser.id || (a.artist && a.artist.toLowerCase() === artistUser.name.toLowerCase())
+    );
+
+    profileContainer.innerHTML = `
+      <div style="background-color: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 36px; margin-bottom: 40px; box-shadow: var(--shadow-sm);">
+        <div style="display: flex; gap: 30px; align-items: center; flex-wrap: wrap;">
+          <img src="${artistUser.avatar || 'images/avatar-artist.svg'}" alt="${artistUser.name}" style="width: 110px; height: 110px; border-radius: 50%; object-fit: cover; border: 4px solid var(--accent-light);">
+          <div style="flex: 1; min-width: 260px;">
+            <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+              <h1 style="font-size: 2rem; font-weight: 800; margin: 0;">${artistUser.name}</h1>
+              <span class="role-tag role-artist">Verified Master Artist</span>
             </div>
-            <div>
-              <strong style="font-size: 1.3rem; color: var(--accent);">5.0 ★</strong>
-              <div style="font-size: 0.82rem; color: var(--text-muted); text-transform: uppercase;">Artist Rating</div>
+            <p style="color: var(--accent); font-weight: 600; margin: 6px 0 10px; font-size: 1.05rem;">${artistUser.specialization || 'Contemporary Fine Artist'}</p>
+            <p style="color: var(--text-muted); max-width: 720px; line-height: 1.6; font-size: 0.96rem;">${artistUser.bio || 'Creating original artworks with deep expression and technique.'}</p>
+            <div style="display: flex; gap: 28px; margin-top: 20px; flex-wrap: wrap;">
+              <div>
+                <strong style="font-size: 1.3rem; color: var(--primary);">${artworks.length}</strong>
+                <div style="font-size: 0.82rem; color: var(--text-muted); text-transform: uppercase;">Original Artworks</div>
+              </div>
+              <div>
+                <strong style="font-size: 1.3rem; color: var(--accent);">5.0 ★</strong>
+                <div style="font-size: 0.82rem; color: var(--text-muted); text-transform: uppercase;">Collector Rating</div>
+              </div>
+              <div>
+                <strong style="font-size: 1.3rem; color: var(--text-main);">100%</strong>
+                <div style="font-size: 0.82rem; color: var(--text-muted); text-transform: uppercase;">Authenticity Verified</div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Artist's Gallery Showcase -->
-    <h2 style="font-size: 1.6rem; font-weight: 800; margin-bottom: 24px;">Artworks by ${artistUser.name}</h2>
-    <div class="artwork-grid" id="artistArtworksGrid">
-      ${artworks.length > 0 ? artworks.map(createArtworkCardHTML).join('') : `
-        <div class="empty-state" style="grid-column: 1 / -1;">
-          <div class="empty-state-icon">🎨</div>
-          <h3>No Artworks Listed</h3>
-          <p>This artist currently has no active artworks in the gallery.</p>
-        </div>
-      `}
-    </div>
-  `;
+      <!-- Artist's Gallery Showcase -->
+      <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 24px; flex-wrap: wrap; gap: 10px;">
+        <h2 style="font-size: 1.6rem; font-weight: 800; margin: 0;">Artworks by ${artistUser.name}</h2>
+        <span style="font-size: 0.9rem; color: var(--text-muted); font-weight: 600;">Showing all ${artworks.length} creations</span>
+      </div>
+
+      <div class="artwork-grid" id="artistArtworksGrid">
+        ${artworks.length > 0 ? artworks.map(createArtworkCardHTML).join('') : `
+          <div class="empty-state" style="grid-column: 1 / -1;">
+            <div class="empty-state-icon">🎨</div>
+            <h3>No Artworks Listed</h3>
+            <p>This artist currently has no active artworks in the gallery.</p>
+          </div>
+        `}
+      </div>
+    `;
+  }
+
+  // Global selector exposed for interactive card clicks
+  window.selectArtistProfile = function(artistId, updateHistory = true) {
+    const selected = allArtists.find(u => Number(u.id) === Number(artistId));
+    if (!selected) return;
+
+    if (updateHistory && window.history && window.history.pushState) {
+      const newUrl = `${window.location.pathname}?artist=${encodeURIComponent(selected.name)}`;
+      window.history.pushState({ artistId: selected.id, artistName: selected.name }, '', newUrl);
+    }
+
+    renderDirectory(selected);
+    renderProfileHeroAndArtworks(selected);
+
+    // Smooth scroll to showcase
+    if (profileContainer) {
+      profileContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  };
+
+  // Initial load
+  const initialArtist = getSelectedArtistFromURL();
+  renderDirectory(initialArtist);
+  renderProfileHeroAndArtworks(initialArtist);
+
+  // Handle browser back/forward buttons
+  window.addEventListener('popstate', () => {
+    const artist = getSelectedArtistFromURL();
+    renderDirectory(artist);
+    renderProfileHeroAndArtworks(artist);
+  });
 }
 
 // Initialize on DOM Ready
@@ -389,7 +477,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById('artistGreeting')) {
     initArtistDashboard();
   }
-  if (document.getElementById('artistProfileContainer')) {
+  if (document.getElementById('artistProfileContainer') || document.getElementById('artistDirectoryGrid')) {
     initArtistProfilePage();
   }
 });

@@ -219,7 +219,7 @@ function initGalleryPage() {
     });
   }
 
-  // Check URL query parameters for pre-selected category
+  // Check URL query parameters for pre-selected category or artist
   const urlParams = new URLSearchParams(window.location.search);
   const categoryParam = urlParams.get('category');
   if (categoryParam) {
@@ -231,6 +231,11 @@ function initGalleryPage() {
         pill.classList.remove('active');
       }
     });
+  }
+
+  const artistParam = urlParams.get('artist');
+  if (artistParam && searchInput) {
+    searchInput.value = artistParam;
   }
 
   filterAndRender();

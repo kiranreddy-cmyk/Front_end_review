@@ -39,11 +39,18 @@
         <a href="index.html">Home</a> &gt; <a href="artworks.html">Gallery</a> &gt; <span style="color: var(--text-main); font-weight: 600;">Artist Portfolio</span>
       </div>
 
-      <!-- Artist Switcher Quick Links -->
-      <div style="display: flex; gap: 10px; margin-bottom: 24px; align-items: center; flex-wrap: wrap;">
-        <span style="font-size: 0.88rem; font-weight: 600; color: var(--text-muted);">View Featured Artists:</span>
-        <a href="artist-profile.html?artist=Elena%20Vance" class="btn btn-sm btn-outline">Elena Vance (Landscape/Oil)</a>
-        <a href="artist-profile.html?artist=Marcus%20Sterling" class="btn btn-sm btn-outline">Marcus Sterling (Sculpture/Digital)</a>
+      <!-- Featured Artists Directory Header -->
+      <div style="margin-bottom: 32px;">
+        <span class="section-subtitle">Resident Artists</span>
+        <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 8px;">Explore Featured Artists</h2>
+        <p style="color: var(--text-muted); font-size: 0.98rem; margin-bottom: 20px;">
+          Discover our 10 verified master artists across contemporary oil, generative 3D, fine art photography, classical heritage, and sculpture disciplines. Click any artist to view their portfolio and creations.
+        </p>
+
+        <!-- Dynamic Artist Directory Grid -->
+        <div id="artistDirectoryGrid" class="artist-directory-grid">
+          <!-- Dynamically populated via artist.js with all 10 artists -->
+        </div>
       </div>
 
       <!-- Main Artist Profile Container (Rendered dynamically via artist.js) -->
