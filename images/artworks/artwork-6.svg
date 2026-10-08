@@ -1,35 +1,68 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
   <defs>
-    <linearGradient id="oceanSky" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#0284c7" />
-      <stop offset="40%" stop-color="#38bdf8" />
-      <stop offset="100%" stop-color="#bae6fd" />
+    <!-- Stormy Marine Sky -->
+    <linearGradient id="marineSky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2D3A3B" />
+      <stop offset="40%" stop-color="#4A5857" />
+      <stop offset="75%" stop-color="#7A8B88" />
+      <stop offset="100%" stop-color="#C2CBC6" />
     </linearGradient>
-    <linearGradient id="deepWater" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#0369a1" />
-      <stop offset="50%" stop-color="#075985" />
-      <stop offset="100%" stop-color="#082f49" />
+    <!-- Deep Ocean Swell -->
+    <linearGradient id="oceanSwell" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#3F5A56" />
+      <stop offset="35%" stop-color="#263E3C" />
+      <stop offset="70%" stop-color="#182C2C" />
+      <stop offset="100%" stop-color="#0F1F20" />
+    </linearGradient>
+    <!-- Coastal Cliff Chiaroscuro -->
+    <linearGradient id="cliffRock" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2A221C" />
+      <stop offset="50%" stop-color="#3D322A" />
+      <stop offset="100%" stop-color="#54453A" />
     </linearGradient>
   </defs>
-  <!-- Sky -->
-  <rect width="600" height="230" fill="url(#oceanSky)" />
-  <!-- Clouds -->
-  <ellipse cx="140" cy="80" rx="90" ry="25" fill="#ffffff" opacity="0.6" />
-  <ellipse cx="450" cy="110" rx="120" ry="30" fill="#ffffff" opacity="0.5" />
-  <!-- Ocean Horizon & Deep Water -->
-  <rect y="230" width="600" height="220" fill="url(#deepWater)" />
-  <!-- Crashing Waves (Impressionist style) -->
-  <path d="M 0 250 Q 80 230 160 255 Q 240 280 320 250 Q 400 220 480 255 Q 540 280 600 250 L 600 450 L 0 450 Z" fill="#0284c7" opacity="0.7" />
-  <path d="M 0 310 Q 100 280 200 320 Q 300 360 400 300 Q 500 270 600 315 L 600 450 L 0 450 Z" fill="#0ea5e9" opacity="0.65" />
-  <!-- Whitecaps & Spray -->
-  <path d="M 120 255 Q 160 235 200 255 M 340 245 Q 380 225 420 248 M 40 310 Q 100 275 160 305" stroke="#ffffff" stroke-width="5" fill="none" stroke-linecap="round" opacity="0.8" />
-  <!-- Big foreground wave curl -->
-  <path d="M 0 380 C 120 330 220 310 320 360 C 420 410 520 340 600 390 L 600 450 L 0 450 Z" fill="#38bdf8" opacity="0.4" />
-  <path d="M 180 340 C 240 310 300 320 340 360" stroke="#f0f9ff" stroke-width="7" fill="none" stroke-linecap="round" opacity="0.9" />
-  <!-- Foam dots -->
-  <circle cx="210" cy="330" r="3" fill="#ffffff" />
-  <circle cx="230" cy="325" r="4" fill="#ffffff" />
-  <circle cx="260" cy="328" r="3.5" fill="#ffffff" />
-  <circle cx="280" cy="340" r="2.5" fill="#ffffff" />
-  <text x="570" y="420" font-family="'Segoe UI', sans-serif" font-size="14" font-weight="700" fill="#bae6fd" text-anchor="end">Whispers of the Ocean • Seascape</text>
+
+  <!-- Atmospheric Sky -->
+  <rect width="800" height="340" fill="url(#marineSky)" />
+
+  <!-- Distant Horizon Sea Mist -->
+  <rect x="0" y="300" width="800" height="60" fill="#8FA09C" opacity="0.4" />
+
+  <!-- Rugged Coastal Headland Cliff (Left) -->
+  <polygon points="0,180 80,240 140,220 220,330 240,420 180,480 0,520" fill="url(#cliffRock)" />
+  <polygon points="0,220 60,260 120,310 180,410 120,470 0,500" fill="#1C1612" opacity="0.8" />
+
+  <!-- Deep Ocean Ground -->
+  <rect x="0" y="320" width="800" height="280" fill="url(#oceanSwell)" />
+
+  <!-- Layered Impressionist Wave Swells & Foaming Crests -->
+  <!-- Distant Roller -->
+  <path d="M 180 340 Q 300 325 420 340 T 660 335 T 800 340 L 800 370 L 180 370 Z" fill="#3A524F" />
+  <path d="M 220 342 Q 320 332 440 342 T 680 338" stroke="#E3EBE7" stroke-width="1.8" fill="none" opacity="0.65" />
+
+  <!-- Midground Crashing Wave -->
+  <path d="M 140 400 Q 280 370 420 405 T 700 390 T 800 410 L 800 470 L 140 470 Z" fill="#2D4644" />
+  <!-- Luminous Foaming Lip -->
+  <path d="M 160 402 Q 300 372 440 406 T 720 392" stroke="#F5F8F6" stroke-width="4.5" fill="none" opacity="0.85" />
+  <path d="M 280 380 Q 380 388 480 408" stroke="#FFFFFF" stroke-width="2.5" fill="none" opacity="0.95" />
+
+  <!-- Majestic Foreground Surge & Swell -->
+  <path d="M 0 460 Q 220 430 460 470 Q 640 450 800 480 L 800 600 L 0 600 Z" fill="#1A2D2C" />
+
+  <!-- Heavy White Foaming Impasto Crest -->
+  <path d="M 20 475 Q 240 440 480 485 Q 660 465 800 495" stroke="#F9FCFA" stroke-width="6.5" fill="none" stroke-linecap="round" />
+  <path d="M 80 485 Q 280 455 520 498" stroke="#E0EBE6" stroke-width="3" fill="none" stroke-dasharray="8,6" />
+  
+  <!-- Coastal Shore Spray Particles / Glaze Droplets -->
+  <g fill="#FFFFFF" opacity="0.75">
+    <circle cx="210" cy="435" r="2.5" />
+    <circle cx="230" cy="420" r="3" />
+    <circle cx="245" cy="440" r="2" />
+    <circle cx="360" cy="450" r="3.5" />
+    <circle cx="480" cy="460" r="3" />
+    <circle cx="505" cy="445" r="2" />
+  </g>
+
+  <!-- Antique Gold Museum Exhibition Trim -->
+  <rect x="20" y="20" width="760" height="560" fill="none" stroke="#B08D57" stroke-width="1.2" opacity="0.4" />
 </svg>

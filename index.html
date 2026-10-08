@@ -3,7 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ArtLoom — Online Art Gallery | Discover &amp; Collect Fine Art</title>
+  <title>ArtLoom — Curated Online Art Gallery | Discover &amp; Collect Fine Art</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -12,7 +15,7 @@
   <header class="site-header">
     <div class="container navbar">
       <a href="index.html" class="brand-logo">
-        <img src="images/logo.svg" alt="ArtLoom Logo">
+        <img src="images/logo.svg" alt="ArtLoom Curated Fine Art Gallery">
       </a>
 
       <button class="menu-toggle" id="menuToggle" aria-label="Toggle Navigation">☰</button>
@@ -35,183 +38,183 @@
   </header>
 
   <main class="main-content">
-    <!-- Hero Section (CSS Grid & Flexbox) -->
+    <!-- Hero Section (Grand Gallery Entrance) -->
     <section class="hero-section">
       <div class="container hero-grid">
         <div class="hero-content">
-          <div class="section-subtitle" style="color: #f59e0b;">Welcome to ArtLoom Gallery</div>
-          <h1>Discover Art. <span>Inspire Creativity.</span></h1>
+          <span class="section-subtitle">Exhibition Season 2026</span>
+          <h1>Discover Fine Art. <span>Collect Meaning.</span></h1>
           <p>
-            Explore unique artworks from talented independent artists worldwide. Discover original paintings, digital renders, fine sculptures, and participate in curated live auctions.
+            Welcome to ArtLoom. Discover verified original masterpieces from celebrated independent artists worldwide — from classical chiaroscuro oil paintings and hand-chiseled sculptures to curated live auctions.
           </p>
           <div class="hero-actions">
             <a href="artworks.html" class="btn btn-lg btn-accent">Explore Gallery</a>
-            <a href="signup.html" class="btn btn-lg btn-outline" style="color: #ffffff; border-color: rgba(255,255,255,0.3);">Become an Artist</a>
+            <a href="signup.html" class="btn btn-lg btn-outline">Become an Exhibitor</a>
           </div>
 
           <div class="hero-stats">
             <div class="hero-stat-item">
-              <h4>12+</h4>
-              <p>Curated Artworks</p>
+              <h4>50+</h4>
+              <p>Curated Works</p>
             </div>
             <div class="hero-stat-item">
               <h4>8</h4>
-              <p>Diverse Categories</p>
+              <p>Disciplines</p>
             </div>
             <div class="hero-stat-item">
-              <h4>100%</h4>
-              <p>Verified Artists</p>
+              <h4>10</h4>
+              <p>Master Artists</p>
             </div>
           </div>
         </div>
 
         <div class="hero-image-card">
-          <img src="images/artworks/artwork-1.svg" alt="Featured Masterpiece: Golden Horizon">
+          <img src="images/artworks/artwork-1.svg" alt="Featured Masterpiece: Golden Horizon by Elena Vance">
           <div class="hero-card-meta">
             <div>
-              <strong style="color: #ffffff; font-size: 1.1rem;">Golden Horizon</strong>
-              <p style="color: #94a3b8; font-size: 0.85rem; margin-bottom: 0;">Elena Vance • Landscape Painting</p>
+              <strong>Golden Horizon</strong>
+              <p>Elena Vance • Oil on Belgian Linen</p>
             </div>
-            <a href="artwork-details.html?id=1" class="btn btn-sm btn-outline" style="color: #ffffff; border-color: rgba(255,255,255,0.4);">View Details</a>
+            <a href="artwork-details.html?id=1" class="btn btn-sm btn-outline-accent">View Details</a>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Categories Section (CSS Grid) -->
-    <section class="section-padding" style="background-color: var(--surface);">
+    <!-- Categories Section (Museum-Inspired Curation) -->
+    <section class="section-padding" style="background-color: var(--surface-cream); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
       <div class="container">
         <div class="section-header">
-          <span class="section-subtitle">Artistic Expressions</span>
-          <h2 class="section-title">Explore Categories</h2>
-          <p class="section-desc">From classical Renaissance-style oil paintings to cutting-edge 3D generative digital art.</p>
+          <span class="section-subtitle">Artistic Disciplines</span>
+          <h2 class="section-title">Curated Collections</h2>
+          <p class="section-desc">Explore verified artworks cataloged across eight timeless artistic mediums and expressions.</p>
         </div>
 
         <div class="category-grid">
           <a href="artworks.html?category=Painting" class="category-card">
             <div class="category-icon-box">🎨</div>
             <h3>Painting</h3>
-            <p>Oil, watercolor &amp; acrylic originals</p>
+            <p>Oil, watercolor &amp; acrylic originals on canvas</p>
           </a>
 
           <a href="artworks.html?category=Digital Art" class="category-card">
             <div class="category-icon-box">💻</div>
             <h3>Digital Art</h3>
-            <p>3D renders &amp; concept illustration</p>
+            <p>Generative 3D concepts &amp; digital matte renderings</p>
           </a>
 
           <a href="artworks.html?category=Photography" class="category-card">
             <div class="category-icon-box">📷</div>
             <h3>Photography</h3>
-            <p>Fine art &amp; documentary captures</p>
+            <p>Fine art exhibition prints &amp; documentary captures</p>
           </a>
 
           <a href="artworks.html?category=Drawing" class="category-card">
             <div class="category-icon-box">✏️</div>
             <h3>Drawing</h3>
-            <p>Charcoal, graphite &amp; ink sketches</p>
+            <p>Classical charcoal, silverpoint &amp; ink wash studies</p>
           </a>
 
           <a href="artworks.html?category=Portrait" class="category-card">
             <div class="category-icon-box">👤</div>
             <h3>Portrait</h3>
-            <p>Emotive human character studies</p>
+            <p>Emotive chiaroscuro studies of human character</p>
           </a>
 
           <a href="artworks.html?category=Landscape" class="category-card">
             <div class="category-icon-box">🌄</div>
             <h3>Landscape</h3>
-            <p>Vibrant natural vistas &amp; seascapes</p>
+            <p>Impressionist alpine vistas &amp; maritime seascapes</p>
           </a>
 
           <a href="artworks.html?category=Abstract" class="category-card">
             <div class="category-icon-box">🌀</div>
             <h3>Abstract</h3>
-            <p>Geometric harmonies &amp; color fields</p>
+            <p>Geometric harmonies, gold leaf &amp; color field pieces</p>
           </a>
 
           <a href="artworks.html?category=Sculpture" class="category-card">
             <div class="category-icon-box">🗿</div>
             <h3>Sculpture</h3>
-            <p>Cast bronze &amp; carved marble forms</p>
+            <p>Patinated cast bronze &amp; carved Carrara marble</p>
           </a>
         </div>
       </div>
     </section>
 
-    <!-- Featured Artworks Section (CSS Grid) -->
+    <!-- Featured Artworks Section (Gallery Catalog) -->
     <section class="section-padding">
       <div class="container">
         <div class="section-header">
-          <span class="section-subtitle">Handpicked Selections</span>
-          <h2 class="section-title">Featured Artworks</h2>
-          <p class="section-desc">Discover the season's most praised and highly sought-after original creations.</p>
+          <span class="section-subtitle">Curator's Selection</span>
+          <h2 class="section-title">Featured Masterpieces</h2>
+          <p class="section-desc">Exceptional original creations highlighted by our resident gallery curators this season.</p>
         </div>
 
         <div class="artwork-grid" id="featuredArtworksGrid">
           <!-- Populated dynamically via artworks.js -->
         </div>
 
-        <div style="text-align: center; margin-top: 48px;">
-          <a href="artworks.html" class="btn btn-lg btn-primary">Browse All Artworks</a>
+        <div style="text-align: center; margin-top: 50px;">
+          <a href="artworks.html" class="btn btn-lg btn-outline">Explore Complete Catalog</a>
         </div>
       </div>
     </section>
 
-    <!-- Live Auction Preview Section (Flexbox Banner) -->
-    <section class="section-padding" style="background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%); color: var(--text-inverse);">
+    <!-- Live Auction Preview Section (Classic Evening Auction Salon) -->
+    <section class="section-padding" style="background-color: #201E1C; color: #F7F3EC; border-top: 1px solid #332E28; border-bottom: 1px solid #332E28;">
       <div class="container">
-        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 30px;">
-          <div style="max-width: 600px;">
-            <span class="badge badge-auction" style="margin-bottom: 12px;">Live Bidding Room</span>
-            <h2 style="font-size: 2.2rem; font-weight: 800; margin-bottom: 12px;">Participate in Exclusive Art Auctions</h2>
-            <p style="color: #cbd5e1; font-size: 1.05rem;">
-              Place competitive bids on rare, one-of-a-kind artworks directly from celebrated contemporary artists. Track current highest bids in real time.
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 32px;">
+          <div style="max-width: 620px;">
+            <span class="badge badge-auction" style="margin-bottom: 14px;">Live Bidding Room</span>
+            <h2 style="font-size: 2.8rem; font-weight: 700; margin-bottom: 12px; color: #F7F3EC;">Curated Fine Art Auctions</h2>
+            <p style="color: #A89F93; font-size: 1.05rem; line-height: 1.7;">
+              Place verified competitive bids on rare, one-of-a-kind artworks directly from celebrated artists. Real-time bid increments and transparent auction declarations.
             </p>
           </div>
           <div>
-            <a href="auction.html" class="btn btn-lg btn-accent">Enter Auction Hub</a>
+            <a href="auction.html" class="btn btn-lg btn-accent">Enter Live Auction Hub</a>
           </div>
         </div>
       </div>
     </section>
   </main>
 
-  <!-- Site Footer (CSS Grid & Flexbox) -->
+  <!-- Site Footer (Classic Deep Charcoal & Gold) -->
   <footer class="site-footer">
     <div class="container footer-top">
       <div class="footer-grid">
         <div class="footer-col">
-          <img src="images/logo.svg" alt="ArtLoom" style="height: 42px; margin-bottom: 16px; filter: brightness(0) invert(1);">
-          <p style="color: #94a3b8; font-size: 0.92rem; max-width: 320px; line-height: 1.6; margin-bottom: 0;">
-            ArtLoom is an online art gallery connecting discerning collectors with visionary independent artists. Built strictly with vanilla web technologies for SDC Project Review-1.
+          <img src="images/logo.svg" alt="ArtLoom" style="height: 44px; margin-bottom: 18px;">
+          <p style="color: #A89F93; font-size: 0.90rem; max-width: 320px; line-height: 1.65; margin-bottom: 0;">
+            ArtLoom is a curated online art gallery connecting discerning collectors with visionary independent artists. Built strictly with vanilla web technologies for SDC Project Review-1.
           </p>
         </div>
 
         <div class="footer-col">
           <h4>Explore</h4>
           <ul class="footer-links">
-            <li><a href="artworks.html">Full Gallery</a></li>
+            <li><a href="artworks.html">Curated Catalog</a></li>
             <li><a href="auction.html">Live Auctions</a></li>
             <li><a href="artist-profile.html">Featured Artists</a></li>
-            <li><a href="reviews.html">Community Reviews</a></li>
+            <li><a href="reviews.html">Collector Reviews</a></li>
           </ul>
         </div>
 
         <div class="footer-col">
-          <h4>Quick Links</h4>
+          <h4>Collection</h4>
           <ul class="footer-links">
-            <li><a href="about.html">About ArtLoom</a></li>
-            <li><a href="login.html">Member Login</a></li>
-            <li><a href="signup.html">Register Account</a></li>
-            <li><a href="favorites.html">My Favorites</a></li>
+            <li><a href="about.html">About the Gallery</a></li>
+            <li><a href="login.html">Member Sign In</a></li>
+            <li><a href="signup.html">Create Collector Account</a></li>
+            <li><a href="favorites.html">Saved Favorites</a></li>
           </ul>
         </div>
 
         <div class="footer-col">
-          <h4>Review Demonstration</h4>
-          <p style="color: #94a3b8; font-size: 0.88rem; line-height: 1.6; margin-bottom: 0;">
-            Tested &amp; verified for Chrome, Firefox, and Edge. Zero backend server or external package dependencies.
+          <h4>Academic Review</h4>
+          <p style="color: #A89F93; font-size: 0.88rem; line-height: 1.65; margin-bottom: 0;">
+            SDC Project Review-1 • 100% Zero external frameworks. Pure semantic HTML5, CSS Grid &amp; Flexbox, Vanilla JavaScript, and Local Storage persistence.
           </p>
         </div>
       </div>
@@ -219,6 +222,7 @@
 
     <div class="container footer-bottom">
       <div>&copy; 2026 ArtLoom Online Art Gallery. All rights reserved.</div>
+      <div style="color: var(--accent);">Curated Fine Art &amp; Live Auctions</div>
     </div>
   </footer>
 

@@ -1,38 +1,71 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
   <defs>
-    <radialGradient id="studioLighting" cx="50%" cy="35%" r="65%">
-      <stop offset="0%" stop-color="#334155" />
-      <stop offset="60%" stop-color="#0f172a" />
-      <stop offset="100%" stop-color="#020617" />
+    <!-- Gallery Spotlight Atmosphere -->
+    <radialGradient id="sculptureSpot" cx="50%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#36312B" />
+      <stop offset="40%" stop-color="#24201C" />
+      <stop offset="80%" stop-color="#161412" />
+      <stop offset="100%" stop-color="#0E0C0B" />
     </radialGradient>
-    <linearGradient id="bronzeMetallic" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#d97706" />
-      <stop offset="35%" stop-color="#b45309" />
-      <stop offset="70%" stop-color="#78350f" />
-      <stop offset="100%" stop-color="#451a03" />
+    <!-- Patinated Cast Bronze (Warm Gold, Sepia & Verdigris highlights) -->
+    <linearGradient id="bronzePatina" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E2B772" />
+      <stop offset="25%" stop-color="#B08D57" />
+      <stop offset="60%" stop-color="#6E502B" />
+      <stop offset="100%" stop-color="#3A2814" />
     </linearGradient>
-    <linearGradient id="pedestalGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#1e293b" />
-      <stop offset="50%" stop-color="#475569" />
-      <stop offset="100%" stop-color="#1e293b" />
+    <linearGradient id="bronzeReflect" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FFF0D0" />
+      <stop offset="45%" stop-color="#D4A760" />
+      <stop offset="100%" stop-color="#7A562B" />
+    </linearGradient>
+    <!-- Honed Slate Plinth -->
+    <linearGradient id="slatePlinth" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#3E3831" />
+      <stop offset="100%" stop-color="#1C1815" />
     </linearGradient>
   </defs>
-  <rect width="600" height="450" fill="url(#studioLighting)" />
-  <!-- Pedestal Base -->
-  <polygon points="200,360 400,360 440,410 160,410" fill="url(#pedestalGrad)" />
-  <rect x="160" y="410" width="280" height="25" fill="#0f172a" />
-  <!-- Abstract Bronze Sculpture (Fluid ribbon / Mobius infinity loop) -->
-  <g transform="translate(300, 200)">
-    <!-- Back loop -->
-    <path d="M -70 50 C -120 -80 0 -150 70 -70 C 120 0 100 120 0 140 C -80 150 -100 80 -70 50" fill="none" stroke="#78350f" stroke-width="45" stroke-linecap="round" />
-    <!-- Front loop with highlight -->
-    <path d="M -70 50 C -120 -80 0 -150 70 -70 C 120 0 100 120 0 140 C -80 150 -100 80 -70 50" fill="none" stroke="url(#bronzeMetallic)" stroke-width="36" stroke-linecap="round" />
-    <!-- Golden specular gleams -->
-    <path d="M -50 -60 C -10 -110 50 -80 60 -50" fill="none" stroke="#fde047" stroke-width="8" stroke-linecap="round" opacity="0.65" />
-    <path d="M 65 30 C 55 80 20 110 -15 115" fill="none" stroke="#fde047" stroke-width="6" stroke-linecap="round" opacity="0.6" />
-    <!-- Central suspended polished bronze sphere -->
-    <circle cx="0" cy="-10" r="32" fill="url(#bronzeMetallic)" />
-    <circle cx="-8" cy="-18" r="10" fill="#fef08a" opacity="0.75" />
+
+  <!-- Gallery Wall Background -->
+  <rect width="800" height="600" fill="url(#sculptureSpot)" />
+
+  <!-- Directional Gallery Spot Beam (Subtle Warm Dust Cones) -->
+  <polygon points="320,0 480,0 620,440 180,440" fill="#FFF5E0" opacity="0.04" />
+
+  <!-- Honed Basalt Gallery Plinth / Pedestal -->
+  <g transform="translate(250, 410)">
+    <!-- Top Face of Plinth (Perspective) -->
+    <polygon points="50,0 250,0 300,30 0,30" fill="#4A433B" />
+    <polygon points="50,0 250,0 300,30 0,30" fill="none" stroke="#B08D57" stroke-width="0.8" opacity="0.4" />
+    <!-- Front Face of Plinth -->
+    <rect x="0" y="30" width="300" height="150" fill="url(#slatePlinth)" />
+    <!-- Right Shadow Face -->
+    <polygon points="300,30 330,10 330,150 300,180" fill="#14110E" />
+    <!-- Plinth Shadow on Floor -->
+    <ellipse cx="150" cy="180" rx="180" ry="15" fill="#0A0807" opacity="0.8" />
   </g>
-  <text x="570" y="420" font-family="'Segoe UI', sans-serif" font-size="14" font-weight="700" fill="#f59e0b" text-anchor="end">Bronze Harmony • Cast Bronze on Slate</text>
+
+  <!-- The Flowing Bronze Infinity Ribbon Sculpture -->
+  <g transform="translate(260, 90)">
+    <!-- Cast Shadow on Top of Plinth -->
+    <ellipse cx="140" cy="320" rx="90" ry="12" fill="#14110E" opacity="0.9" />
+
+    <!-- Back Loop of Bronze Ribbon (Deep Shadows) -->
+    <path d="M 140 280 C 40 240 10 130 90 70 C 170 10 240 60 210 160 Z" fill="#422E19" />
+
+    <!-- Main Front Torqued Ribbon (Cast Bronze with Luminous Gilt Edge) -->
+    <path d="M 60 290 C 20 200 40 90 130 50 C 220 10 270 90 230 190 C 190 290 90 320 60 290 Z" fill="url(#bronzePatina)" stroke="#24190D" stroke-width="1.5" />
+
+    <!-- Dynamic Infinity Twist Flange -->
+    <path d="M 130 50 C 180 30 240 70 210 160 C 180 250 80 290 120 220 C 150 160 210 120 130 50 Z" fill="url(#bronzeReflect)" />
+
+    <!-- Polished Gilt Highlight Edge Along Curvature -->
+    <path d="M 68 280 C 38 190 55 95 130 55 C 205 20 255 90 220 180" stroke="#FFF2D6" stroke-width="3" fill="none" opacity="0.85" stroke-linecap="round" />
+    
+    <!-- Secondary Reflected Rim Light -->
+    <path d="M 110 240 C 70 270 90 300 120 295" stroke="#B08D57" stroke-width="2.5" fill="none" opacity="0.7" />
+  </g>
+
+  <!-- Museum Exhibition Border -->
+  <rect x="20" y="20" width="760" height="560" fill="none" stroke="#B08D57" stroke-width="1.2" opacity="0.4" />
 </svg>

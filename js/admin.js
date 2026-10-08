@@ -463,7 +463,7 @@ function renderAdminAuctionsTable() {
     if (status === 'WINNER ANNOUNCED') {
       statusBadgeHTML = '<span class="badge badge-sale">WINNER ANNOUNCED</span>';
     } else if (status === 'CLOSED') {
-      statusBadgeHTML = '<span class="badge" style="background:#fee2e2; color:#b91c1c; border:1px solid #fca5a5;">CLOSED</span>';
+      statusBadgeHTML = '<span class="badge badge-closed">CLOSED</span>';
     }
 
     // Highest Bidder display
@@ -604,7 +604,7 @@ function openAdminBidHistoryModal(artId) {
               <tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 24px;">No bids have been placed yet for this artwork.</td></tr>
             ` : artBids.map(b => {
               const isHighest = Number(b.bidAmount) === maxBidVal;
-              const rowStyle = isHighest ? 'style="background-color: #fef3c7; font-weight: 700;"' : '';
+              const rowStyle = isHighest ? 'style="background-color: var(--accent-light); font-weight: 700;"' : '';
               const badgeHTML = isHighest 
                 ? '<span class="badge badge-sale">★ Highest Bid</span>' 
                 : '<span class="badge badge-category">Outbid</span>';
@@ -704,12 +704,12 @@ function showAuctionClosedSummaryModal(artId) {
   overlay.innerHTML = `
     <div class="modal-card" style="max-width: 500px;">
       <div class="modal-header">
-        <h3 style="font-size: 1.3rem; font-weight: 800; color: #b91c1c;">Auction Closed</h3>
+        <h3 style="font-size: 1.3rem; font-weight: 700; color: var(--danger);">Auction Closed</h3>
         <button class="modal-close-btn" onclick="closeAdminAuctionModal()">&times;</button>
       </div>
 
-      <div style="background-color: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; padding: 16px; margin-bottom: 20px;">
-        <p style="color: #991b1b; font-size: 0.95rem; margin: 0; line-height: 1.5;">
+      <div style="background-color: var(--danger-bg); border: 1px solid var(--danger-border); border-radius: var(--radius-sm); padding: 16px; margin-bottom: 20px;">
+        <p style="color: var(--danger); font-size: 0.95rem; margin: 0; line-height: 1.5;">
           This auction lot is now officially <strong>CLOSED</strong>. Collectors can no longer place bids.
         </p>
       </div>
@@ -781,12 +781,12 @@ function openAnnounceWinnerModal(artId) {
   overlay.innerHTML = `
     <div class="modal-card" style="max-width: 500px;">
       <div class="modal-header">
-        <h3 style="font-size: 1.3rem; font-weight: 800; color: #047857;">🏆 Announce Official Winner</h3>
+        <h3 style="font-size: 1.3rem; font-weight: 700; color: var(--accent-dark);">🏆 Announce Official Winner</h3>
         <button class="modal-close-btn" onclick="closeAdminAuctionModal()">&times;</button>
       </div>
 
-      <div style="background-color: rgba(16, 185, 129, 0.1); border: 1px solid #10b981; border-radius: 8px; padding: 14px; margin-bottom: 20px;">
-        <p style="color: #065f46; font-size: 0.9rem; margin: 0; line-height: 1.5;">
+      <div style="background-color: var(--accent-light); border: 1px solid var(--accent-border); border-radius: var(--radius-sm); padding: 14px; margin-bottom: 20px;">
+        <p style="color: var(--accent-dark); font-size: 0.9rem; margin: 0; line-height: 1.5;">
           Confirming this action will officially publish the winning bidder to all gallery collectors.
         </p>
       </div>
@@ -911,15 +911,15 @@ function openAuctionResultModal(artId) {
   overlay.innerHTML = `
     <div class="modal-card" style="max-width: 520px;">
       <div class="modal-header">
-        <h3 style="font-size: 1.3rem; font-weight: 800; color: #047857; display: flex; align-items: center; gap: 8px;">
+        <h3 style="font-size: 1.3rem; font-weight: 700; color: var(--accent-dark); display: flex; align-items: center; gap: 8px;">
           🏆 Official Auction Result
         </h3>
         <button class="modal-close-btn" onclick="closeAdminAuctionModal()">&times;</button>
       </div>
 
-      <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(245, 158, 11, 0.12)); border: 2px solid #10b981; border-radius: 12px; padding: 22px; margin-bottom: 20px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid rgba(16, 185, 129, 0.2); padding-bottom: 8px;">
-          <span style="font-weight: 800; color: #047857; font-size: 1.1rem;">${art.name}</span>
+      <div style="background-color: var(--surface-cream); border: 1px solid var(--accent-border); border-radius: var(--radius-sm); padding: 22px; margin-bottom: 20px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 8px;">
+          <span style="font-weight: 700; color: var(--accent-dark); font-size: 1.1rem;">${art.name}</span>
           <span class="badge badge-sale">Winner Announced</span>
         </div>
         <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 16px;">by ${art.artist} • Category: ${art.category}</p>
@@ -973,7 +973,7 @@ function renderAdminReviewsTable() {
       <td>#${r.id}</td>
       <td><strong>${r.artworkName || 'Artwork #' + r.artworkId}</strong></td>
       <td>${r.userName}</td>
-      <td><span style="color: #f59e0b; font-weight: 700;">★ ${r.rating} / 5</span></td>
+      <td><span style="color: var(--accent); font-weight: 700;">★ ${r.rating} / 5</span></td>
       <td>"${r.comment}"</td>
       <td>
         <button onclick="deleteReviewAdmin(${r.id})" class="btn btn-sm btn-outline" style="color: var(--danger); border-color: var(--danger);">Delete</button>

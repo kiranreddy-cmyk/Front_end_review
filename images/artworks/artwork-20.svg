@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <!-- Lapis Lazuli Jewel Sky Ground -->
+    <linearGradient id="lapisSky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1B2B47" />
+      <stop offset="60%" stop-color="#22395E" />
+      <stop offset="100%" stop-color="#3A5685" />
+    </linearGradient>
+    <linearGradient id="goldLattice" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFF0CE" />
+      <stop offset="35%" stop-color="#D9A855" />
+      <stop offset="70%" stop-color="#B08D57" />
+      <stop offset="100%" stop-color="#735222" />
+    </linearGradient>
+    <linearGradient id="marbleArch" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FAF7F2" />
+      <stop offset="100%" stop-color="#EAE3D5" />
+    </linearGradient>
+  </defs>
+
+  <!-- Deep Lapis Lazuli Starry Night Ground -->
+  <rect width="800" height="600" fill="url(#lapisSky)" />
+
+  <!-- Royal Palace Marble Jharokha (Cusped Arch Balcony) -->
+  <rect x="80" y="50" width="640" height="500" fill="none" stroke="url(#goldLattice)" stroke-width="4" />
+  <rect x="90" y="60" width="620" height="480" fill="none" stroke="#FAF7F2" stroke-width="1.5" />
+
+  <!-- Intricate Cusped Mughal / Rajasthani Arch (Chiaroscuro Marble & Gold) -->
+  <g transform="translate(400, 100)">
+    <!-- Main Arch Silhouette -->
+    <path d="M -220 380 L -220 180 C -220 80 -120 40 0 0 C 120 40 220 80 220 180 L 220 380" fill="none" stroke="url(#goldLattice)" stroke-width="10" stroke-linecap="round" />
+    <!-- Cusped Inner Arches (Foliated Scallops) -->
+    <path d="M -200 380 L -200 200 C -200 120 -100 60 0 20 C 100 60 200 120 200 200 L 200 380" fill="none" stroke="#FAF7F2" stroke-width="3" />
+
+    <!-- Ornate Golden Finial on Top of Arch -->
+    <polygon points="0,-25 8,-10 0,0 -8,-10" fill="url(#goldLattice)" />
+    <circle cx="0" cy="-30" r="4" fill="#FFF0CE" />
+
+    <!-- Classical Hanging Lantern / Chandelier (Gold & Ruby Glass) -->
+    <line x1="0" y1="20" x2="0" y2="120" stroke="url(#goldLattice)" stroke-width="2" />
+    <circle cx="0" cy="120" r="18" fill="#8C1D24" stroke="url(#goldLattice)" stroke-width="2" />
+    <polygon points="-8,125 0,145 8,125" fill="url(#goldLattice)" />
+    <!-- Radiant Lantern Glow -->
+    <circle cx="0" cy="120" r="40" fill="#FCE1A9" opacity="0.25" />
+  </g>
+
+  <!-- Palace Balustrade (Intricate Jali Geometric Lattice Screen) -->
+  <g transform="translate(180, 440)">
+    <rect x="0" y="0" width="440" height="60" fill="url(#marbleArch)" stroke="url(#goldLattice)" stroke-width="2" />
+    <!-- Repeated Lattice Diamonds -->
+    <g fill="#22395E" stroke="url(#goldLattice)" stroke-width="1">
+      <polygon points="40,30 50,15 60,30 50,45" />
+      <polygon points="80,30 90,15 100,30 90,45" />
+      <polygon points="120,30 130,15 140,30 130,45" />
+      <polygon points="160,30 170,15 180,30 170,45" />
+      <polygon points="200,30 210,15 220,30 210,45" />
+      <polygon points="240,30 250,15 260,30 250,45" />
+      <polygon points="280,30 290,15 300,30 290,45" />
+      <polygon points="320,30 330,15 340,30 330,45" />
+      <polygon points="360,30 370,15 380,30 370,45" />
+      <polygon points="400,30 410,15 420,30 410,45" />
+    </g>
+  </g>
+
+  <!-- Distant Palace Garden & Moonlit Lotus Lake (Inside Arch) -->
+  <g transform="translate(260, 280)">
+    <!-- Full Moon Glow -->
+    <circle cx="280" cy="40" r="30" fill="#FFFDF8" opacity="0.9" />
+    <circle cx="280" cy="40" r="60" fill="#FFFDF8" opacity="0.15" />
+    <!-- Cypress Silhouettes in Palace Garden -->
+    <path d="M 40 160 Q 38 100 40 70 Q 42 100 40 160 Z" fill="#14211A" />
+    <path d="M 60 160 Q 58 110 60 85 Q 62 110 60 160 Z" fill="#14211A" />
+    <path d="M 220 160 Q 218 95 220 65 Q 222 95 220 160 Z" fill="#14211A" />
+  </g>
+
+  <!-- Decorative Floral Border Corner Motifs (Pashmina Vine Pattern) -->
+  <g stroke="url(#goldLattice)" stroke-width="1.8" fill="none">
+    <path d="M 100 120 C 130 90 140 140 160 110" />
+    <path d="M 700 120 C 670 90 660 140 640 110" />
+  </g>
+
+  <!-- Antique Gold Museum Frame -->
+  <rect x="25" y="25" width="750" height="550" fill="none" stroke="#B08D57" stroke-width="1.5" opacity="0.5" />
+</svg>

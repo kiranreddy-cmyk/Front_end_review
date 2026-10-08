@@ -3,7 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Artist Studio Dashboard — ArtLoom Online Art Gallery</title>
+  <title>Artist Studio Workspace — ArtLoom Online Art Gallery</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -40,10 +43,10 @@
         <div class="dashboard-greeting">
           <div style="display: flex; align-items: center; gap: 10px;">
             <span class="role-tag role-artist">Exhibiting Artist</span>
-            <span style="color: var(--text-muted); font-size: 0.85rem;">• Studio Workspace</span>
+            <span style="color: var(--text-muted); font-size: 0.82rem;">• Private Atelier</span>
           </div>
           <h1 id="artistGreeting">Welcome, Artist</h1>
-          <p>Showcase your artwork, configure auction lots, monitor collector acquisitions, and update your public portfolio.</p>
+          <p>Showcase new creations, configure live auction lots, monitor acquisitions, and curate your public gallery portfolio.</p>
         </div>
         <div style="display: flex; gap: 10px; flex-wrap: wrap;">
           <button onclick="openArtistAddModal()" class="btn btn-accent">
@@ -96,10 +99,10 @@
       </div>
 
       <!-- My Artworks Table Section -->
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
+      <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
         <div>
-          <h2 style="font-size: 1.4rem; font-weight: 800;">My Artwork Catalog</h2>
-          <p style="color: var(--text-muted); font-size: 0.9rem;">You can modify details, update asking prices, or delete your own artworks.</p>
+          <h2 style="font-size: 1.8rem; font-weight: 700; color: var(--text-heading);">My Artwork Catalog</h2>
+          <p style="color: var(--text-muted); font-size: 0.90rem;">Update metadata, pricing, or exhibition status for your portfolio.</p>
         </div>
         <button onclick="openArtistAddModal()" class="btn btn-sm btn-accent">+ Upload Artwork</button>
       </div>
@@ -129,7 +132,7 @@
   <footer class="site-footer">
     <div class="container footer-bottom">
       <div>&copy; 2026 ArtLoom Online Art Gallery. All rights reserved.</div>
-      <div>Artist Studio Module • SDC Project Review-1</div>
+      <div style="color: var(--accent);">Artist Atelier Module • SDC Project Review-1</div>
     </div>
   </footer>
 

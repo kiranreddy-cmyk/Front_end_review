@@ -265,7 +265,7 @@ function initializeSampleData() {
       description: "An evocative oil-on-canvas masterpiece depicting the tranquil golden hour over jagged mountain peaks and reflecting alpine waters.",
       price: 18000,
       type: "For Sale",
-      image: "images/artworks/artwork-1.svg",
+      image: "images/artworks/artwork-19.svg",
       featured: true,
       status: "active",
       createdAt: "2026-02-10"
@@ -334,7 +334,7 @@ function initializeSampleData() {
       bidsCount: 4,
       type: "Auction",
       auctionStatus: "WINNER ANNOUNCED",
-      image: "images/artworks/artwork-1.svg",
+      image: "images/artworks/artwork-13.svg",
       featured: true,
       status: "active",
       createdAt: "2026-02-26"
@@ -487,7 +487,7 @@ function initializeSampleData() {
       description: "Panoramic landscape study of towering evergreen ridges silhouetted against twilight violet skies and distant mountain ridges.",
       price: 14000,
       type: "For Sale",
-      image: "images/artworks/artwork-4.svg",
+      image: "images/artworks/artwork-18.svg",
       featured: false,
       status: "active",
       createdAt: "2026-02-27"
@@ -509,7 +509,7 @@ function initializeSampleData() {
       bidsCount: 4,
       type: "Auction",
       auctionStatus: "WINNER ANNOUNCED",
-      image: "images/artworks/artwork-9.svg",
+      image: "images/artworks/artwork-10.svg",
       featured: false,
       status: "active",
       createdAt: "2026-03-02"
@@ -525,7 +525,7 @@ function initializeSampleData() {
       description: "Intimate and deeply detailed portrait celebrating generational wisdom, etched character lines, and focused craftsmanship in a woodshop.",
       price: 8900,
       type: "For Sale",
-      image: "images/artworks/artwork-10.svg",
+      image: "images/artworks/artwork-1.svg",
       featured: false,
       status: "active",
       createdAt: "2026-02-17"
@@ -539,7 +539,7 @@ function initializeSampleData() {
       description: "Powerful contemporary oil portrait depicting unwavering human strength and dignity illuminated by dramatic side lighting.",
       price: 21000,
       type: "For Sale",
-      image: "images/artworks/artwork-5.svg",
+      image: "images/artworks/artwork-15.svg",
       featured: true,
       status: "active",
       createdAt: "2026-02-21"
@@ -558,7 +558,7 @@ function initializeSampleData() {
       bidsCount: 3,
       type: "Auction",
       auctionStatus: "LIVE",
-      image: "images/artworks/artwork-10.svg",
+      image: "images/artworks/artwork-20.svg",
       featured: false,
       status: "active",
       createdAt: "2026-02-25"
@@ -572,7 +572,7 @@ function initializeSampleData() {
       description: "A sensitive portrait exploring internal reflection and quiet grace, framed by deep Prussian blue textiles and golden ambient warmth.",
       price: 23500,
       type: "For Sale",
-      image: "images/artworks/artwork-5.svg",
+      image: "images/artworks/artwork-15.svg",
       featured: false,
       status: "active",
       createdAt: "2026-03-01"
@@ -586,7 +586,7 @@ function initializeSampleData() {
       description: "Delicate charcoal and sepia wash study of hands diligently threading an artisanal wooden handloom with raw silk yarn.",
       price: 9500,
       type: "For Sale",
-      image: "images/artworks/artwork-4.svg",
+      image: "images/artworks/artwork-19.svg",
       featured: false,
       status: "active",
       createdAt: "2026-03-05"
@@ -602,7 +602,7 @@ function initializeSampleData() {
       description: "Vibrant large-format acrylic composition orchestrating intense cadmium orange, cobalt blue, and radiant gold leaf accents.",
       price: 26000,
       type: "For Sale",
-      image: "images/artworks/artwork-7.svg",
+      image: "images/artworks/artwork-2.svg",
       featured: true,
       status: "active",
       createdAt: "2026-02-18"
@@ -635,7 +635,7 @@ function initializeSampleData() {
       description: "Subtle minimalist color field exploration in hand-ground organic indigo pigment, layered for infinite atmospheric depth.",
       price: 18500,
       type: "For Sale",
-      image: "images/artworks/artwork-7.svg",
+      image: "images/artworks/artwork-17.svg",
       featured: false,
       status: "active",
       createdAt: "2026-02-26"
@@ -649,7 +649,7 @@ function initializeSampleData() {
       description: "Bold optical abstractions playing with sharp diagonals, intersecting concentric circles, and optical dimensional vibration.",
       price: 13000,
       type: "For Sale",
-      image: "images/artworks/artwork-2.svg",
+      image: "images/artworks/artwork-5.svg",
       featured: false,
       status: "active",
       createdAt: "2026-03-02"
@@ -687,7 +687,7 @@ function initializeSampleData() {
       description: "Intricately detailed gouache and 24-karat gold leaf painting reviving classical Rajasthani miniature painting techniques.",
       price: 32000,
       type: "For Sale",
-      image: "images/artworks/artwork-5.svg",
+      image: "images/artworks/artwork-20.svg",
       featured: true,
       status: "active",
       createdAt: "2026-02-19"
@@ -706,7 +706,7 @@ function initializeSampleData() {
       bidsCount: 2,
       type: "Auction",
       auctionStatus: "LIVE",
-      image: "images/artworks/artwork-1.svg",
+      image: "images/artworks/artwork-13.svg",
       featured: false,
       status: "active",
       createdAt: "2026-02-23"
@@ -720,7 +720,7 @@ function initializeSampleData() {
       description: "Serene portrayal of a traditional sandstone haveli courtyard with shaded arched verandas, brass urns, and sacred tulsi planter.",
       price: 19000,
       type: "For Sale",
-      image: "images/artworks/artwork-10.svg",
+      image: "images/artworks/artwork-18.svg",
       featured: false,
       status: "active",
       createdAt: "2026-02-27"
@@ -734,7 +734,7 @@ function initializeSampleData() {
       description: "An atmospheric impressionist riverfront view capturing flickering earthen lamps floating on sacred waters at evening aarti.",
       price: 22500,
       type: "For Sale",
-      image: "images/artworks/artwork-6.svg",
+      image: "images/artworks/artwork-9.svg",
       featured: false,
       status: "active",
       createdAt: "2026-03-03"
@@ -748,7 +748,7 @@ function initializeSampleData() {
       description: "Refined handmade wasli paper drawing of blooming desert poppies with fine squirrel-hair brushwork and natural mineral pigments.",
       price: 11000,
       type: "For Sale",
-      image: "images/artworks/artwork-4.svg",
+      image: "images/artworks/artwork-14.svg",
       featured: false,
       status: "active",
       createdAt: "2026-03-07"
@@ -764,7 +764,7 @@ function initializeSampleData() {
       description: "A misty, cinematic wildlife photograph capturing the quiet majesty of a forest stag amid early morning emerald light and gentle bokeh.",
       price: 9800,
       type: "For Sale",
-      image: "images/artworks/artwork-3.svg",
+      image: "images/artworks/artwork-8.svg",
       featured: true,
       status: "active",
       createdAt: "2026-02-20"
@@ -811,7 +811,7 @@ function initializeSampleData() {
       description: "Fine art photographic capture of isolated sandstone towers glowing ember-red beneath the first emerging twilight constellations.",
       price: 15500,
       type: "For Sale",
-      image: "images/artworks/artwork-11.svg",
+      image: "images/artworks/artwork-16.svg",
       featured: false,
       status: "active",
       createdAt: "2026-03-04"
@@ -825,7 +825,7 @@ function initializeSampleData() {
       description: "Hypnotic patterns of wind-sculpted golden sand ridges in the Thar desert captured under low-raking sunset illumination.",
       price: 13200,
       type: "For Sale",
-      image: "images/artworks/artwork-1.svg",
+      image: "images/artworks/artwork-16.svg",
       featured: false,
       status: "active",
       createdAt: "2026-03-08"
@@ -841,7 +841,7 @@ function initializeSampleData() {
       description: "Seamless mobius loop cast in mirror-polished bronze, balanced effortlessly on a hand-carved black basalt pedestal.",
       price: 38000,
       type: "For Sale",
-      image: "images/artworks/artwork-8.svg",
+      image: "images/artworks/artwork-4.svg",
       featured: true,
       status: "active",
       createdAt: "2026-02-22"
@@ -874,7 +874,7 @@ function initializeSampleData() {
       description: "Kinetic abstract bronze capturing the sweeping wingspan and aerodynamic tension of a falcon in high-speed dive.",
       price: 29000,
       type: "For Sale",
-      image: "images/artworks/artwork-8.svg",
+      image: "images/artworks/artwork-12.svg",
       featured: false,
       status: "active",
       createdAt: "2026-03-02"
@@ -896,7 +896,7 @@ function initializeSampleData() {
       bidsCount: 4,
       type: "Auction",
       auctionStatus: "WINNER ANNOUNCED",
-      image: "images/artworks/artwork-12.svg",
+      image: "images/artworks/artwork-7.svg",
       featured: false,
       status: "active",
       createdAt: "2026-03-06"
@@ -910,7 +910,7 @@ function initializeSampleData() {
       description: "Towering mixed-medium sculpture combining forged weathering steel, reclaimed teakwood, and hand-chiseled granite.",
       price: 48000,
       type: "For Sale",
-      image: "images/artworks/artwork-8.svg",
+      image: "images/artworks/artwork-7.svg",
       featured: false,
       status: "active",
       createdAt: "2026-03-10"
@@ -926,7 +926,7 @@ function initializeSampleData() {
       description: "Masterful cross-hatch charcoal and graphite study of an Arabian stallion in motion, capturing muscular tension and dynamic energy.",
       price: 6500,
       type: "For Sale",
-      image: "images/artworks/artwork-4.svg",
+      image: "images/artworks/artwork-19.svg",
       featured: false,
       status: "active",
       createdAt: "2026-02-23"
@@ -940,7 +940,7 @@ function initializeSampleData() {
       description: "Minimalist continuous-line drawing exploring the graceful contours of feminine movement with exquisite Zen simplicity.",
       price: 8200,
       type: "For Sale",
-      image: "images/artworks/artwork-4.svg",
+      image: "images/artworks/artwork-14.svg",
       featured: true,
       status: "active",
       createdAt: "2026-02-27"
@@ -959,7 +959,7 @@ function initializeSampleData() {
       bidsCount: 2,
       type: "Auction",
       auctionStatus: "LIVE",
-      image: "images/artworks/artwork-10.svg",
+      image: "images/artworks/artwork-19.svg",
       featured: false,
       status: "active",
       createdAt: "2026-03-03"
@@ -973,7 +973,7 @@ function initializeSampleData() {
       description: "Experimental charcoal and raw pigment powder composition capturing tidal ripples and wind patterns over river sediment.",
       price: 10500,
       type: "For Sale",
-      image: "images/artworks/artwork-4.svg",
+      image: "images/artworks/artwork-17.svg",
       featured: false,
       status: "active",
       createdAt: "2026-03-07"
@@ -987,7 +987,7 @@ function initializeSampleData() {
       description: "Intimate silverpoint drawing on prepared gesso ground, depicting botanical ivy vines intertwining in early morning light.",
       price: 7800,
       type: "For Sale",
-      image: "images/artworks/artwork-3.svg",
+      image: "images/artworks/artwork-8.svg",
       featured: false,
       status: "active",
       createdAt: "2026-03-11"
@@ -1031,7 +1031,7 @@ function initializeSampleData() {
       description: "Retro-futuristic digital composition celebrating neon wireframe grids, chrome spheres, and endless glowing retro-tech horizons.",
       price: 13500,
       type: "For Sale",
-      image: "images/artworks/artwork-7.svg",
+      image: "images/artworks/artwork-5.svg",
       featured: false,
       status: "active",
       createdAt: "2026-03-04"
@@ -1045,7 +1045,7 @@ function initializeSampleData() {
       description: "Volumetric light simulation of an ethereal bioluminescent flower blossoming inside a cyberpunk megacity greenhouse.",
       price: 15000,
       type: "For Sale",
-      image: "images/artworks/artwork-2.svg",
+      image: "images/artworks/artwork-17.svg",
       featured: false,
       status: "active",
       createdAt: "2026-03-08"
@@ -1059,7 +1059,7 @@ function initializeSampleData() {
       description: "Masterwork blending classical anatomical marble proportions with exposed fiber-optic nervous systems and liquid gold coolant conduits.",
       price: 21000,
       type: "For Sale",
-      image: "images/artworks/artwork-11.svg",
+      image: "images/artworks/artwork-1.svg",
       featured: false,
       status: "active",
       createdAt: "2026-03-12"
@@ -1068,6 +1068,44 @@ function initializeSampleData() {
 
   if (!localStorage.getItem('artworks')) {
     setData('artworks', initialArtworks);
+  } else {
+    // Enhance existing stored artworks with diverse fine art imagery
+    try {
+      const stored = getData('artworks', []);
+      if (Array.isArray(stored) && stored.length > 0) {
+        let changed = false;
+        const diverseMap = {
+          5: "images/artworks/artwork-13.svg",
+          12: "images/artworks/artwork-18.svg",
+          13: "images/artworks/artwork-14.svg",
+          15: "images/artworks/artwork-15.svg",
+          18: "images/artworks/artwork-10.svg",
+          20: "images/artworks/artwork-4.svg",
+          23: "images/artworks/artwork-17.svg",
+          26: "images/artworks/artwork-20.svg",
+          29: "images/artworks/artwork-13.svg",
+          30: "images/artworks/artwork-14.svg",
+          32: "images/artworks/artwork-16.svg",
+          34: "images/artworks/artwork-16.svg",
+          42: "images/artworks/artwork-19.svg",
+          43: "images/artworks/artwork-14.svg",
+          44: "images/artworks/artwork-19.svg",
+          48: "images/artworks/artwork-7.svg",
+          50: "images/artworks/artwork-17.svg"
+        };
+        stored.forEach(a => {
+          if (diverseMap[a.id] && a.image && a.image.startsWith('images/artworks/artwork-') && a.image !== diverseMap[a.id]) {
+            a.image = diverseMap[a.id];
+            changed = true;
+          }
+        });
+        if (changed) {
+          setData('artworks', stored);
+        }
+      }
+    } catch (e) {
+      console.warn("Artwork image mapping update skipped:", e);
+    }
   }
 
   // 4. Sample Purchases (Buyer Orders)
@@ -1081,7 +1119,7 @@ function initializeSampleData() {
       artist: "Elena Vance",
       price: 18000,
       date: "2026-03-10",
-      image: "images/artworks/artwork-1.svg",
+      image: "images/artworks/artwork-18.svg",
       status: "Confirmed",
       paymentMethod: "Online Card (Simulated)"
     },
@@ -1094,7 +1132,7 @@ function initializeSampleData() {
       artist: "Elena Vance",
       price: 8500,
       date: "2026-03-22",
-      image: "images/artworks/artwork-1.svg",
+      image: "images/artworks/artwork-13.svg",
       status: "Confirmed",
       paymentMethod: "Won at Auction"
     },
@@ -1408,8 +1446,64 @@ function initializeSampleData() {
       setData('artworks', initialArtworks);
     } else {
       // Validate auction properties on existing artworks
-      let artworksModified = false;
-      currentArtworks.forEach(art => {
+    const curatedGalleryMap = {
+      1: "images/artworks/artwork-18.svg",
+      2: "images/artworks/artwork-6.svg",
+      3: "images/artworks/artwork-17.svg",
+      4: "images/artworks/artwork-1.svg",
+      5: "images/artworks/artwork-13.svg",
+      6: "images/artworks/artwork-2.svg",
+      7: "images/artworks/artwork-4.svg",
+      8: "images/artworks/artwork-5.svg",
+      9: "images/artworks/artwork-7.svg",
+      10: "images/artworks/artwork-11.svg",
+      11: "images/artworks/artwork-3.svg",
+      12: "images/artworks/artwork-14.svg",
+      13: "images/artworks/artwork-19.svg",
+      14: "images/artworks/artwork-18.svg",
+      15: "images/artworks/artwork-10.svg",
+      16: "images/artworks/artwork-1.svg",
+      17: "images/artworks/artwork-15.svg",
+      18: "images/artworks/artwork-20.svg",
+      19: "images/artworks/artwork-15.svg",
+      20: "images/artworks/artwork-19.svg",
+      21: "images/artworks/artwork-2.svg",
+      22: "images/artworks/artwork-9.svg",
+      23: "images/artworks/artwork-17.svg",
+      24: "images/artworks/artwork-5.svg",
+      25: "images/artworks/artwork-11.svg",
+      26: "images/artworks/artwork-20.svg",
+      27: "images/artworks/artwork-13.svg",
+      28: "images/artworks/artwork-18.svg",
+      29: "images/artworks/artwork-9.svg",
+      30: "images/artworks/artwork-14.svg",
+      31: "images/artworks/artwork-8.svg",
+      32: "images/artworks/artwork-3.svg",
+      33: "images/artworks/artwork-6.svg",
+      34: "images/artworks/artwork-16.svg",
+      35: "images/artworks/artwork-16.svg",
+      36: "images/artworks/artwork-4.svg",
+      37: "images/artworks/artwork-12.svg",
+      38: "images/artworks/artwork-12.svg",
+      39: "images/artworks/artwork-7.svg",
+      40: "images/artworks/artwork-7.svg",
+      41: "images/artworks/artwork-19.svg",
+      42: "images/artworks/artwork-14.svg",
+      43: "images/artworks/artwork-19.svg",
+      44: "images/artworks/artwork-17.svg",
+      45: "images/artworks/artwork-8.svg",
+      46: "images/artworks/artwork-2.svg",
+      47: "images/artworks/artwork-11.svg",
+      48: "images/artworks/artwork-5.svg",
+      49: "images/artworks/artwork-17.svg",
+      50: "images/artworks/artwork-1.svg"
+    };
+    let artworksModified = false;
+    currentArtworks.forEach(art => {
+      if (curatedGalleryMap[art.id] && art.image !== curatedGalleryMap[art.id]) {
+        art.image = curatedGalleryMap[art.id];
+        artworksModified = true;
+      }
         if (art.type === 'Auction') {
           if (!art.auctionStatus) {
             art.auctionStatus = 'LIVE';

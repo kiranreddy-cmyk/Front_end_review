@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <radialGradient id="waterPaper" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#FCFAF5" />
+      <stop offset="60%" stop-color="#F5EFE3" />
+      <stop offset="100%" stop-color="#E5DEC9" />
+    </radialGradient>
+    <linearGradient id="sageWash" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6E8E7D" stop-opacity="0.8" />
+      <stop offset="50%" stop-color="#4F7060" stop-opacity="0.65" />
+      <stop offset="100%" stop-color="#345042" stop-opacity="0.4" />
+    </linearGradient>
+    <linearGradient id="ochreWash" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#DFAD5E" stop-opacity="0.7" />
+      <stop offset="100%" stop-color="#B87D2E" stop-opacity="0.3" />
+    </linearGradient>
+  </defs>
+
+  <!-- Heavy Cold-Press Watercolor Paper Ground -->
+  <rect width="800" height="600" fill="url(#waterPaper)" />
+
+  <!-- Soft Water Wash Bloom Background -->
+  <path d="M 220 280 C 180 180 320 120 440 160 C 560 200 620 340 540 440 C 460 540 260 480 220 380 Z" fill="#E8DEC8" opacity="0.4" />
+
+  <!-- Botanical Stem & Leaf Silhouettes in Muted Sage Wash -->
+  <g transform="translate(400, 320)">
+    <!-- Central Slender Arching Branch -->
+    <path d="M -10 240 Q 20 80 -40 -120 Q -60 -190 -80 -240" stroke="#384A3F" stroke-width="3" fill="none" stroke-linecap="round" />
+
+    <!-- Delicate Watercolor Leaves (Translucent Glazes) -->
+    <!-- Leaf 1 (Left Top) -->
+    <path d="M -80 -240 C -140 -260 -170 -220 -150 -180 C -120 -140 -70 -190 -80 -240 Z" fill="url(#sageWash)" stroke="#26382E" stroke-width="0.8" />
+    <!-- Leaf 2 (Right Top) -->
+    <path d="M -60 -190 C 20 -220 40 -170 10 -140 C -20 -110 -50 -160 -60 -190 Z" fill="url(#ochreWash)" stroke="#8C6022" stroke-width="0.8" />
+    <!-- Leaf 3 (Left Mid) -->
+    <path d="M -50 -140 C -130 -160 -160 -100 -120 -70 C -80 -40 -40 -110 -50 -140 Z" fill="url(#sageWash)" stroke="#26382E" stroke-width="0.8" />
+    <!-- Leaf 4 (Right Mid) -->
+    <path d="M -20 -80 C 60 -100 90 -40 50 -10 C 10 20 -10 -50 -20 -80 Z" fill="url(#sageWash)" stroke="#26382E" stroke-width="0.8" />
+    <!-- Leaf 5 (Left Lower) -->
+    <path d="M -5 0 C -90 -20 -120 40 -80 70 C -40 100 0 30 -5 0 Z" fill="url(#ochreWash)" stroke="#8C6022" stroke-width="0.8" />
+    <!-- Leaf 6 (Right Lower) -->
+    <path d="M 10 70 C 90 50 120 110 80 140 C 40 170 10 100 10 70 Z" fill="url(#sageWash)" stroke="#26382E" stroke-width="0.8" />
+
+    <!-- Delicate Vein Lines (Graphite Pencil Underdrawing) -->
+    <g stroke="#2D3B33" stroke-width="0.7" opacity="0.65" fill="none">
+      <path d="M -80 -240 Q -120 -200 -140 -190" />
+      <path d="M -50 -140 Q -100 -100 -130 -90" />
+      <path d="M -20 -80 Q 30 -40 60 -30" />
+      <path d="M -5 0 Q -50 40 -80 50" />
+    </g>
+
+    <!-- Pigment Splatter Droplets (Authentic Watercolor Marks) -->
+    <g fill="#4F7060" opacity="0.7">
+      <circle cx="-160" cy="-120" r="2.5" />
+      <circle cx="-130" cy="-210" r="1.8" />
+      <circle cx="70" cy="-140" r="3" />
+      <circle cx="110" cy="20" r="2" />
+      <circle cx="40" cy="180" r="2.8" />
+      <circle cx="-90" cy="120" r="1.5" />
+    </g>
+  </g>
+
+  <!-- Botanical Herbarium Specimen Title in Elegant Typography -->
+  <g fill="#5C5346" font-family="'Cormorant Garamond', Georgia, serif" font-size="14" font-style="italic" opacity="0.75">
+    <text x="80" y="540">Folia silvatica • Watercolor on Rag Paper</text>
+    <text x="720" y="540" text-anchor="end">Herbarium No. IV</text>
+  </g>
+
+  <!-- Deckled Edge Frame -->
+  <rect x="25" y="25" width="750" height="550" fill="none" stroke="#B08D57" stroke-width="1" opacity="0.4" />
+</svg>

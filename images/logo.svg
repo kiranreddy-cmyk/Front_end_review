@@ -1,26 +1,35 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 100" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 100" width="100%" height="100%">
   <defs>
-    <linearGradient id="artGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#f59e0b" />
-      <stop offset="100%" stop-color="#b45309" />
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#C5A059" />
+      <stop offset="50%" stop-color="#B08D57" />
+      <stop offset="100%" stop-color="#8E6C38" />
     </linearGradient>
-    <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#0f172a" />
-      <stop offset="100%" stop-color="#334155" />
+    <linearGradient id="charcoalGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1C1C1C" />
+      <stop offset="100%" stop-color="#2D2D2D" />
     </linearGradient>
   </defs>
-  <!-- Palette Icon -->
-  <g transform="translate(10, 10)">
-    <path d="M 40 5 C 18 5 0 23 0 45 C 0 67 18 85 40 85 C 47 85 52 80 52 73 C 52 70 51 67 49 64 C 47 61 45 57 45 53 C 45 44 52 37 61 37 L 68 37 C 77 37 84 30 84 21 C 84 12 64 5 40 5 Z" fill="url(#artGrad)" />
-    <!-- Color dabs -->
-    <circle cx="22" cy="30" r="6" fill="#ef4444" />
-    <circle cx="38" cy="20" r="6" fill="#3b82f6" />
-    <circle cx="58" cy="25" r="6" fill="#10b981" />
-    <circle cx="30" cy="55" r="6" fill="#8b5cf6" />
-    <!-- Thumb hole -->
-    <ellipse cx="65" cy="62" rx="7" ry="10" fill="#ffffff" />
+
+  <!-- Luxury Gallery Monogram / Atelier Emblem -->
+  <g transform="translate(18, 14)">
+    <!-- Outer delicate gold diamond/frame -->
+    <rect x="8" y="8" width="56" height="56" rx="3" fill="none" stroke="url(#goldGrad)" stroke-width="1.8" transform="rotate(45 36 36)" />
+    <!-- Inner concentric diamond -->
+    <rect x="14" y="14" width="44" height="44" rx="2" fill="#F7F3EC" stroke="url(#goldGrad)" stroke-width="1.2" transform="rotate(45 36 36)" />
+    <!-- Classical Atelier Monogram / Arch Silhouette -->
+    <path d="M 28 50 L 36 22 L 44 50 M 31 43 L 41 43" stroke="#242424" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+    <!-- Center antique gold accent dot -->
+    <circle cx="36" cy="18" r="2.5" fill="url(#goldGrad)" />
   </g>
-  <!-- Brand Text -->
-  <text x="110" y="58" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif" font-size="38" font-weight="800" fill="url(#textGrad)" letter-spacing="1">Art<tspan fill="#d97706">Loom</tspan></text>
-  <text x="112" y="80" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif" font-size="12" font-weight="600" fill="#64748b" letter-spacing="3">ONLINE ART GALLERY</text>
+
+  <!-- Brand Typography -->
+  <!-- "Art" in Deep Charcoal serif -->
+  <text x="105" y="56" font-family="'Cormorant Garamond', 'Playfair Display', Georgia, 'Times New Roman', serif" font-size="44" font-weight="700" fill="url(#charcoalGrad)" letter-spacing="1.5">Art<tspan fill="url(#goldGrad)" font-weight="600">Loom</tspan></text>
+  
+  <!-- Subtle divider line -->
+  <line x1="107" y1="67" x2="350" y2="67" stroke="#E2D9CC" stroke-width="1" />
+
+  <!-- Subtitle -->
+  <text x="107" y="81" font-family="'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="9.5" font-weight="600" fill="#6B6258" letter-spacing="4.2">CURATED FINE ART GALLERY</text>
 </svg>

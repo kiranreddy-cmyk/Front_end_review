@@ -1,41 +1,81 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
   <defs>
-    <radialGradient id="portraitBg" cx="60%" cy="40%" r="70%">
-      <stop offset="0%" stop-color="#451a03" />
-      <stop offset="60%" stop-color="#1c1917" />
-      <stop offset="100%" stop-color="#0c0a09" />
+    <!-- Master Chiaroscuro Atmosphere -->
+    <radialGradient id="chiaroBg" cx="55%" cy="40%" r="65%">
+      <stop offset="0%" stop-color="#3A2A1A" />
+      <stop offset="45%" stop-color="#23190E" />
+      <stop offset="85%" stop-color="#120D08" />
+      <stop offset="100%" stop-color="#080604" />
     </radialGradient>
-    <linearGradient id="saffronDrape" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#fbbf24" />
-      <stop offset="50%" stop-color="#d97706" />
-      <stop offset="100%" stop-color="#9a3412" />
+    <!-- Luminous Saffron Silk Drapery -->
+    <linearGradient id="saffronSilk" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FCD34D" />
+      <stop offset="30%" stop-color="#D97706" />
+      <stop offset="70%" stop-color="#B45309" />
+      <stop offset="100%" stop-color="#78350F" />
     </linearGradient>
-    <linearGradient id="skinTone" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#fed7aa" />
-      <stop offset="70%" stop-color="#fba478" />
-      <stop offset="100%" stop-color="#c27751" />
+    <linearGradient id="silkHighlight" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FEF3C7" />
+      <stop offset="50%" stop-color="#FBBF24" />
+      <stop offset="100%" stop-color="#D97706" />
+    </linearGradient>
+    <!-- Renaissance Skin Glaze (Chiaroscuro) -->
+    <linearGradient id="skinChiaroscuro" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFF1E0" />
+      <stop offset="40%" stop-color="#F5D0B5" />
+      <stop offset="75%" stop-color="#D99E7C" />
+      <stop offset="100%" stop-color="#8F593E" />
+    </linearGradient>
+    <!-- Gilt Embroidery -->
+    <linearGradient id="goldFiligree" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFBEB" />
+      <stop offset="50%" stop-color="#B08D57" />
+      <stop offset="100%" stop-color="#78531A" />
     </linearGradient>
   </defs>
-  <rect width="600" height="450" fill="url(#portraitBg)" />
-  <!-- Stylized Elegant Portrait -->
-  <g transform="translate(160, 40)">
-    <!-- Hair -->
-    <path d="M 90 120 C 70 50 140 10 200 25 C 260 40 280 110 250 210 C 230 250 200 300 240 380 L 120 380 C 100 310 90 230 90 120 Z" fill="#18181b" />
-    <!-- Face / Neck Profile -->
-    <path d="M 120 120 C 130 90 160 80 180 90 C 200 100 210 130 205 165 C 200 195 180 230 160 250 L 165 310 L 135 310 L 130 245 C 120 230 115 170 120 120 Z" fill="url(#skinTone)" />
-    <!-- Closed serene eye & eyelashes -->
-    <path d="M 155 135 Q 170 145 185 138" stroke="#451a03" stroke-width="2.5" fill="none" stroke-linecap="round" />
-    <path d="M 150 122 Q 170 118 185 125" stroke="#292524" stroke-width="2.5" fill="none" stroke-linecap="round" />
-    <!-- Lips -->
-    <path d="M 175 190 Q 188 198 178 206 Q 168 198 175 190 Z" fill="#b91c1c" />
-    <!-- Gold Earring -->
-    <circle cx="130" cy="180" r="14" fill="none" stroke="#f59e0b" stroke-width="3.5" />
-    <circle cx="130" cy="198" r="5" fill="#fef08a" />
-    <!-- Saffron Fabric Drape -->
-    <path d="M 80 300 C 120 270 180 260 220 300 C 260 340 280 390 280 410 L 40 410 C 50 360 60 320 80 300 Z" fill="url(#saffronDrape)" />
-    <!-- Golden embroidery fold accents -->
-    <path d="M 80 300 Q 140 330 210 320" stroke="#fef08a" stroke-width="2.5" fill="none" stroke-dasharray="4,6" />
-    <path d="M 100 340 Q 160 370 240 350" stroke="#fef08a" stroke-width="2.5" fill="none" stroke-dasharray="4,6" />
+
+  <!-- Deep Gallery Ground (Caravaggio / Rembrandt Shadow) -->
+  <rect width="800" height="600" fill="url(#chiaroBg)" />
+
+  <!-- The Lady's Silhouette & Saffron Gown -->
+  <g transform="translate(260, 60)">
+    <!-- Elaborate Renaissance Coiffure (Dark Hair with Braided Ribbons) -->
+    <path d="M 120 160 C 80 80 160 30 240 45 C 320 60 350 150 310 270 C 280 320 240 380 290 480 L 140 480 C 110 390 100 290 120 160 Z" fill="#130D08" />
+    <!-- Fine Hairline Curls & Gold Filigree Net -->
+    <path d="M 170 70 Q 240 50 300 80" stroke="url(#goldFiligree)" stroke-width="2.5" fill="none" opacity="0.8" />
+    <circle cx="210" cy="55" r="4" fill="#FEF3C7" />
+    <circle cx="260" cy="62" r="4" fill="#FEF3C7" />
+
+    <!-- Sculptural Neck & Profile Chiaroscuro -->
+    <path d="M 160 160 C 170 120 210 110 235 120 C 260 130 270 170 265 215 C 260 255 235 300 210 325 L 215 400 L 175 400 L 170 315 C 160 295 155 220 160 160 Z" fill="url(#skinChiaroscuro)" />
+
+    <!-- Serene Eye & Long Eyelashes in Profile -->
+    <path d="M 205 180 Q 225 192 245 184" stroke="#451A03" stroke-width="2.8" fill="none" stroke-linecap="round" />
+    <path d="M 200 165 Q 225 158 245 168" stroke="#292524" stroke-width="2.8" fill="none" stroke-linecap="round" />
+
+    <!-- Poignant Lips with Vermilion Glaze -->
+    <path d="M 230 250 Q 248 260 235 270 Q 222 260 230 250 Z" fill="#991B1B" />
+
+    <!-- Baroque Natural Teardrop Pearl Earring (Luminous Highlight) -->
+    <!-- Gold Stud -->
+    <circle cx="170" cy="240" r="4" fill="url(#goldFiligree)" />
+    <!-- Teardrop Pearl -->
+    <path d="M 170 244 C 163 252 163 266 170 272 C 177 266 177 252 170 244 Z" fill="#FFFDF8" stroke="#D1D5DB" stroke-width="0.8" />
+    <circle cx="168" cy="254" r="2.2" fill="#FFFFFF" />
+
+    <!-- Flowing Saffron Silk Mantle & Bodice -->
+    <path d="M 100 390 C 150 350 230 340 280 390 C 330 440 360 500 360 530 L 40 530 C 60 470 70 420 100 390 Z" fill="url(#saffronSilk)" />
+
+    <!-- Luminous Fold Highlights in Gilded Saffron -->
+    <path d="M 120 400 Q 200 440 280 410" stroke="url(#silkHighlight)" stroke-width="6" fill="none" opacity="0.9" />
+    <path d="M 150 450 Q 230 490 320 460" stroke="url(#silkHighlight)" stroke-width="5" fill="none" opacity="0.8" />
+
+    <!-- Intricate Gold Embroidered Border along Collar -->
+    <path d="M 100 390 Q 180 430 260 415" stroke="url(#goldFiligree)" stroke-width="3" fill="none" stroke-dasharray="5,6" />
+    <path d="M 130 440 Q 210 475 300 455" stroke="url(#goldFiligree)" stroke-width="2" fill="none" stroke-dasharray="4,6" />
   </g>
-  <text x="570" y="420" font-family="'Segoe UI', sans-serif" font-size="14" font-weight="700" fill="#fcd34d" text-anchor="end">Lady in Saffron • Acrylic Portrait</text>
+
+  <!-- Fine Antique Gilt Frame Border -->
+  <rect x="20" y="20" width="760" height="560" fill="none" stroke="#B08D57" stroke-width="1.5" opacity="0.5" />
+  <rect x="26" y="26" width="748" height="548" fill="none" stroke="#D8C3A5" stroke-width="0.6" opacity="0.3" />
 </svg>

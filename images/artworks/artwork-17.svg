@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <!-- Raw Unprimed Belgian Linen Ground -->
+    <radialGradient id="linenGround" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#F7F2E9" />
+      <stop offset="60%" stop-color="#EFE7DA" />
+      <stop offset="100%" stop-color="#E0D5C3" />
+    </radialGradient>
+    <!-- Genuine Gold Leaf Gilded Texture -->
+    <linearGradient id="pureGoldLeaf" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFF5D6" />
+      <stop offset="30%" stop-color="#E8BE6B" />
+      <stop offset="70%" stop-color="#B08D57" />
+      <stop offset="100%" stop-color="#82612B" />
+    </linearGradient>
+    <linearGradient id="sumiInk" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2B2623" />
+      <stop offset="100%" stop-color="#141110" />
+    </linearGradient>
+  </defs>
+
+  <!-- Gallery Canvas Ground -->
+  <rect width="800" height="600" fill="url(#linenGround)" />
+
+  <!-- Textured Wash Quadrant -->
+  <rect x="80" y="80" width="300" height="440" fill="#E6DDCF" opacity="0.4" />
+
+  <!-- Ensō / Celestial Minimalist Disc in Genuine Gilded Gold Leaf -->
+  <circle cx="480" cy="270" r="140" fill="url(#pureGoldLeaf)" />
+  <!-- Organic Gold Leaf Imperfections / Crackle Gilt Line -->
+  <path d="M 420 180 Q 490 220 540 340" stroke="#82612B" stroke-width="1.2" fill="none" opacity="0.5" />
+  <path d="M 480 135 Q 520 250 430 360" stroke="#FFF5D6" stroke-width="1.5" fill="none" opacity="0.6" />
+
+  <!-- Monolithic Sumi Charcoal Balance Column -->
+  <rect x="220" y="140" width="60" height="340" fill="url(#sumiInk)" />
+  <rect x="210" y="470" width="80" height="10" fill="#2B2623" />
+
+  <!-- Horizontal Tonal Line of Equilibrium -->
+  <line x1="120" y1="360" x2="680" y2="360" stroke="#2B2623" stroke-width="2" />
+  
+  <!-- Subtle Red Atelier Seal Stamp (Hanko Motif) -->
+  <rect x="620" y="440" width="36" height="36" fill="#8C2D2D" rx="2" />
+  <rect x="624" y="444" width="28" height="28" fill="none" stroke="#F7F2E9" stroke-width="1.2" />
+  <circle cx="638" cy="458" r="6" fill="#F7F2E9" />
+
+  <!-- Museum Exhibition Border -->
+  <rect x="25" y="25" width="750" height="550" fill="none" stroke="#B08D57" stroke-width="1.2" opacity="0.4" />
+</svg>

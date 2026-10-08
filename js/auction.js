@@ -38,16 +38,16 @@ function initAuctionHub() {
       const status = art.auctionStatus || 'LIVE';
 
       let floatingBadge = `<span class="badge badge-auction artwork-badge-floating">Live Auction</span>`;
-      let statusMeta = `<span style="font-size: 0.8rem; color: #d97706; font-weight: 700;">⏱ Live Bidding</span>`;
+      let statusMeta = `<span style="font-size: 0.8rem; color: var(--accent); font-weight: 700;">⏱ Live Bidding</span>`;
       let actionAreaHTML = '';
 
       if (status === 'WINNER ANNOUNCED') {
         floatingBadge = `<span class="badge badge-sale artwork-badge-floating">🏆 Winner Announced</span>`;
         statusMeta = `<span style="font-size: 0.8rem; color: var(--success); font-weight: 700;">✓ Winner Declared</span>`;
         actionAreaHTML = `
-          <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(245, 158, 11, 0.08)); border: 1.5px solid var(--success); border-radius: 8px; padding: 12px; margin: 12px 0;">
+          <div style="background-color: var(--accent-light); border: 1px solid var(--accent-border); border-radius: var(--radius-sm); padding: 12px; margin: 12px 0;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-              <span style="font-size: 0.88rem; font-weight: 850; color: #047857;">🏆 AUCTION RESULT</span>
+              <span style="font-size: 0.88rem; font-weight: 700; color: var(--accent-dark);">🏆 AUCTION RESULT</span>
               <span class="badge badge-sale" style="font-size: 0.72rem;">Winner Announced</span>
             </div>
             <div style="display: flex; justify-content: space-between; font-size: 0.88rem; margin-bottom: 4px;">
@@ -66,10 +66,10 @@ function initAuctionHub() {
           </div>
         `;
       } else if (status === 'CLOSED') {
-        floatingBadge = `<span class="badge artwork-badge-floating" style="background:#fee2e2; color:#b91c1c; border:1px solid #fca5a5;">Auction Closed</span>`;
-        statusMeta = `<span style="font-size: 0.8rem; color: #b91c1c; font-weight: 700;">⏱ Closed by Admin</span>`;
+        floatingBadge = `<span class="badge badge-closed artwork-badge-floating">Auction Closed</span>`;
+        statusMeta = `<span style="font-size: 0.8rem; color: var(--danger); font-weight: 700;">⏱ Closed by Admin</span>`;
         actionAreaHTML = `
-          <div style="background-color: var(--surface-alt); padding: 12px; border-radius: 8px; margin: 12px 0; border: 1px solid #fde68a;">
+          <div style="background-color: var(--surface-alt); padding: 12px; border-radius: var(--radius-sm); margin: 12px 0; border: 1px solid var(--border);">
             <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 4px;">
               <span style="color: var(--text-muted);">Starting Price:</span>
               <span>${formatCurrency(art.startingPrice || art.price)}</span>
@@ -78,7 +78,7 @@ function initAuctionHub() {
               <span style="font-size: 0.85rem; color: var(--text-muted);">Final Highest Bid:</span>
               <strong style="color: var(--accent); font-size: 1.2rem;">${formatCurrency(currentHighest)}</strong>
             </div>
-            <div style="font-size: 0.8rem; color: #b45309; font-weight: 700; margin-top: 6px; text-align: center;">
+            <div style="font-size: 0.8rem; color: var(--accent-dark); font-weight: 700; margin-top: 6px; text-align: center;">
               🔒 Auction Closed • Waiting for Winner Announcement
             </div>
           </div>

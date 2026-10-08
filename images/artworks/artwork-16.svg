@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <!-- Desert Sky Atmosphere -->
+    <linearGradient id="duneSky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#262220" />
+      <stop offset="40%" stop-color="#4F443B" />
+      <stop offset="70%" stop-color="#8C735B" />
+      <stop offset="90%" stop-color="#C7A37E" />
+      <stop offset="100%" stop-color="#EADBBE" />
+    </linearGradient>
+    <!-- Sunlit Sand Dune Slope -->
+    <linearGradient id="sunDune" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F2D5A7" />
+      <stop offset="40%" stop-color="#DFB478" />
+      <stop offset="80%" stop-color="#C29051" />
+      <stop offset="100%" stop-color="#9C6B31" />
+    </linearGradient>
+    <!-- Shadowed Sand Dune Slope (Dramatic Chiaroscuro) -->
+    <linearGradient id="shadowDune" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#3D3025" />
+      <stop offset="50%" stop-color="#291F17" />
+      <stop offset="100%" stop-color="#18110B" />
+    </linearGradient>
+  </defs>
+
+  <!-- Clear Desert Sky -->
+  <rect width="800" height="320" fill="url(#duneSky)" />
+
+  <!-- Distant Soft Mirage Ridge -->
+  <path d="M 0 300 Q 240 270 480 295 T 800 280 L 800 350 L 0 350 Z" fill="#997A5E" opacity="0.6" />
+
+  <!-- Monumental S-Curve Sand Dune (Chiaroscuro Ridgeline) -->
+  <!-- Shadow Face (Left of Ridgeline) -->
+  <path d="M 0 320 C 180 320 280 260 440 210 C 580 170 720 220 800 240 L 800 600 L 0 600 Z" fill="url(#shadowDune)" />
+
+  <!-- Sunlit Face of Fore-Dune (Right Sweeping Flange) -->
+  <path d="M 440 210 C 360 290 280 410 180 500 C 120 550 50 580 0 600 L 800 600 L 800 240 C 720 220 580 170 440 210 Z" fill="url(#sunDune)" />
+
+  <!-- Razor-Sharp Wind-Sculpted Ridge Highlight -->
+  <path d="M 440 210 C 360 290 280 410 180 500 C 120 550 50 580 0 600" stroke="#FFF5E0" stroke-width="2.5" fill="none" opacity="0.9" />
+
+  <!-- Secondary Foreground Wind-Ripple Shadow Dune -->
+  <path d="M 280 600 C 360 520 480 450 620 410 C 710 390 770 410 800 420 L 800 600 Z" fill="#241B13" />
+  <path d="M 620 410 C 710 390 770 410 800 420" stroke="#DFB478" stroke-width="2" fill="none" opacity="0.8" />
+
+  <!-- Delicate Wind Ripple Lines on Sand Crests (Fine Art Photographic Texture) -->
+  <g stroke="#C29051" stroke-width="0.8" opacity="0.5" fill="none">
+    <path d="M 480 260 Q 560 250 640 270" />
+    <path d="M 460 280 Q 540 270 630 290" />
+    <path d="M 440 310 Q 530 300 620 320" />
+    <path d="M 410 340 Q 510 330 610 350" />
+    <path d="M 370 380 Q 480 370 590 390" />
+    <path d="M 320 430 Q 440 420 560 440" />
+  </g>
+
+  <!-- Museum Exhibition Border -->
+  <rect x="25" y="25" width="750" height="550" fill="none" stroke="#B08D57" stroke-width="1.2" opacity="0.45" />
+</svg>

@@ -317,9 +317,9 @@ function initArtworkDetailsPage() {
   if (isAuction) {
     if (auctionStatus === 'WINNER ANNOUNCED') {
       actionBoxHTML = `
-        <div class="auction-result-box" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(245, 158, 11, 0.1)); border: 2px solid var(--success); border-radius: 12px; padding: 22px; margin-bottom: 16px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px solid rgba(16, 185, 129, 0.25); padding-bottom: 10px;">
-            <span style="font-size: 1.25rem; font-weight: 850; color: #047857; display: flex; align-items: center; gap: 8px;">
+        <div class="auction-result-box" style="background-color: var(--surface-cream); border: 1px solid var(--accent-border); border-radius: var(--radius-sm); padding: 22px; margin-bottom: 16px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 10px;">
+            <span style="font-size: 1.25rem; font-weight: 700; color: var(--accent-dark); display: flex; align-items: center; gap: 8px;">
               🏆 AUCTION RESULT
             </span>
             <span class="badge badge-sale" style="font-size: 0.82rem; padding: 6px 12px;">Winner Announced</span>
@@ -340,7 +340,7 @@ function initArtworkDetailsPage() {
             </div>
           </div>
 
-          <div style="background: var(--surface); padding: 12px 14px; border-radius: 8px; border: 1px solid var(--border); font-size: 0.85rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+          <div style="background: var(--surface); padding: 12px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border); font-size: 0.85rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
             <span>Artwork: <strong>${art.name}</strong></span>
             <span>Starting Price: <strong>${formatCurrency(art.startingPrice || art.price)}</strong></span>
             <span>Status: <strong style="color: var(--success);">Winner Announced</strong></span>
@@ -348,7 +348,7 @@ function initArtworkDetailsPage() {
           </div>
         </div>
 
-        <div style="padding: 14px; background: var(--surface-alt); border-radius: 8px; color: var(--text-muted); font-size: 0.95rem; text-align: center; border: 1px dashed var(--border);">
+        <div style="padding: 14px; background: var(--surface-alt); border-radius: var(--radius-sm); color: var(--text-muted); font-size: 0.95rem; text-align: center; border: 1px dashed var(--border);">
           🔒 This auction has ended. The winner has been announced.
         </div>
         ${currentRole === 'admin' ? `
@@ -360,25 +360,25 @@ function initArtworkDetailsPage() {
       `;
     } else if (auctionStatus === 'CLOSED') {
       actionBoxHTML = `
-        <div style="background: #fef3c7; border: 1.5px solid #f59e0b; border-radius: 12px; padding: 20px; margin-bottom: 16px;">
+        <div style="background-color: var(--surface-alt); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 20px; margin-bottom: 16px;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-            <strong style="color: #92400e; font-size: 1.2rem; display: flex; align-items: center; gap: 8px;">
+            <strong style="color: var(--accent-dark); font-size: 1.2rem; display: flex; align-items: center; gap: 8px;">
               ⏱ Auction Closed
             </strong>
-            <span class="badge" style="background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; font-weight: 800;">CLOSED</span>
+            <span class="badge badge-closed">CLOSED</span>
           </div>
-          <p style="color: #78350f; font-size: 0.95rem; margin-bottom: 14px; line-height: 1.6;">
+          <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 14px; line-height: 1.6;">
             This auction has been officially closed by the Administrator. Bidding is now locked while final results are being processed.
           </p>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; background: rgba(255,255,255,0.7); padding: 12px 16px; border-radius: 8px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; background: #FFFFFF; padding: 12px 16px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle);">
             <div>
-              <div style="font-size: 0.8rem; color: #92400e;">Highest Bid Recorded</div>
+              <div style="font-size: 0.8rem; color: var(--text-muted);">Highest Bid Recorded</div>
               <div style="color: var(--accent); font-size: 1.6rem; font-weight: 800;">
                 ${formatCurrency(currentHighest)}
               </div>
             </div>
             <div>
-              <div style="font-size: 0.8rem; color: #92400e;">Top Bidder</div>
+              <div style="font-size: 0.8rem; color: var(--text-muted);">Top Bidder</div>
               <div style="font-size: 1.2rem; font-weight: 700; color: var(--text-main); margin-top: 4px;">
                 ${art.currentBidder || 'None yet'}
               </div>
@@ -853,7 +853,7 @@ function openArtworkBidHistoryModal(artId) {
             ` : allBids.map(b => {
               const isHighest = Number(b.bidAmount) === maxBidVal;
               return `
-                <tr ${isHighest ? 'style="background-color: #fef3c7; font-weight: 700;"' : ''}>
+                <tr ${isHighest ? 'style="background-color: var(--accent-light); font-weight: 700;"' : ''}>
                   <td><strong>${b.userName}</strong></td>
                   <td><span style="font-size: 0.82rem; color: var(--text-muted);">${b.userEmail || ('User #' + b.userId)}</span></td>
                   <td><strong style="color: var(--accent);">${formatCurrency(b.bidAmount)}</strong></td>
@@ -935,12 +935,12 @@ function openArtworkAnnounceWinnerModal(artId) {
   overlay.innerHTML = `
     <div class="modal-card" style="max-width: 500px;">
       <div class="modal-header">
-        <h3 style="font-size: 1.3rem; font-weight: 800; color: #047857;">🏆 Announce Official Winner</h3>
+        <h3 style="font-size: 1.3rem; font-weight: 800; color: var(--success);">🏆 Announce Official Winner</h3>
         <button class="modal-close-btn" onclick="closeArtworkDetailsModal()">&times;</button>
       </div>
 
-      <div style="background-color: rgba(16, 185, 129, 0.1); border: 1px solid #10b981; border-radius: 8px; padding: 14px; margin-bottom: 20px;">
-        <p style="color: #065f46; font-size: 0.9rem; margin: 0; line-height: 1.5;">
+      <div style="background-color: var(--success-bg); border: 1px solid var(--success-border); border-radius: var(--radius-md); padding: 14px; margin-bottom: 20px;">
+        <p style="color: var(--success); font-size: 0.9rem; margin: 0; line-height: 1.5;">
           Confirming this action will officially publish the winning bidder to all gallery visitors.
         </p>
       </div>

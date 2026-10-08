@@ -1,45 +1,60 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
   <defs>
-    <linearGradient id="cyberBg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#09090b" />
-      <stop offset="100%" stop-color="#18181b" />
+    <linearGradient id="archBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E1E1E" />
+      <stop offset="50%" stop-color="#282624" />
+      <stop offset="100%" stop-color="#181716" />
     </linearGradient>
-    <linearGradient id="neonCyan" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#06b6d4" />
-      <stop offset="100%" stop-color="#3b82f6" />
+    <linearGradient id="goldArch" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E5C384" />
+      <stop offset="50%" stop-color="#B08D57" />
+      <stop offset="100%" stop-color="#7A5A2B" />
     </linearGradient>
-    <linearGradient id="neonPink" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#ec4899" />
-      <stop offset="100%" stop-color="#8b5cf6" />
+    <linearGradient id="warmStone" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#4A443D" />
+      <stop offset="100%" stop-color="#736B61" />
     </linearGradient>
   </defs>
-  <rect width="600" height="450" fill="url(#cyberBg)" />
-  <!-- Perspective Grid lines -->
-  <g stroke="#3b82f6" stroke-width="1.2" opacity="0.35">
-    <line x1="300" y1="200" x2="-100" y2="450" />
-    <line x1="300" y1="200" x2="50" y2="450" />
-    <line x1="300" y1="200" x2="180" y2="450" />
-    <line x1="300" y1="200" x2="300" y2="450" />
-    <line x1="300" y1="200" x2="420" y2="450" />
-    <line x1="300" y1="200" x2="550" y2="450" />
-    <line x1="300" y1="200" x2="700" y2="450" />
-    <!-- Horizontal perspective lines -->
-    <line x1="150" y1="260" x2="450" y2="260" />
-    <line x1="100" y1="300" x2="500" y2="300" />
-    <line x1="40" y1="350" x2="560" y2="350" />
-    <line x1="0" y1="410" x2="600" y2="410" />
+
+  <!-- Deep Gallery Ground -->
+  <rect width="800" height="600" fill="url(#archBg)" />
+
+  <!-- Classical Architectural Perspective Lines (Subtle Antique Gold) -->
+  <g stroke="#B08D57" stroke-width="0.8" opacity="0.3">
+    <line x1="400" y1="280" x2="0" y2="600" />
+    <line x1="400" y1="280" x2="150" y2="600" />
+    <line x1="400" y1="280" x2="300" y2="600" />
+    <line x1="400" y1="280" x2="500" y2="600" />
+    <line x1="400" y1="280" x2="650" y2="600" />
+    <line x1="400" y1="280" x2="800" y2="600" />
   </g>
-  <!-- Cyber Sun / Orb -->
-  <circle cx="300" cy="180" r="85" fill="none" stroke="url(#neonPink)" stroke-width="6" />
-  <circle cx="300" cy="180" r="65" fill="#ec4899" opacity="0.15" />
-  <!-- Futuristic Skyline Silhouettes -->
-  <rect x="60" y="110" width="35" height="110" fill="#0f172a" stroke="#06b6d4" stroke-width="1.5" />
-  <rect x="110" y="80" width="45" height="140" fill="#0f172a" stroke="#ec4899" stroke-width="1.5" />
-  <polygon points="170,220 185,90 200,220" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5" />
-  <rect x="400" y="90" width="40" height="130" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5" />
-  <rect x="460" y="120" width="35" height="100" fill="#0f172a" stroke="#06b6d4" stroke-width="1.5" />
-  <polygon points="510,220 530,70 550,220" fill="#0f172a" stroke="#ec4899" stroke-width="1.5" />
-  <!-- Floating Hologram Pyramids -->
-  <polygon points="300,100 260,165 340,165" fill="none" stroke="#22d3ee" stroke-width="3" opacity="0.9" />
-  <text x="570" y="420" font-family="'Segoe UI', sans-serif" font-size="14" font-weight="700" fill="#06b6d4" text-anchor="end">Neon Cyber Odyssey • 3D Render</text>
+
+  <!-- Concentric Grand Gallery Arches (Chiaroscuro) -->
+  <!-- Outer Arch -->
+  <path d="M 220 540 L 220 300 C 220 180 580 180 580 300 L 580 540" fill="none" stroke="url(#goldArch)" stroke-width="3" opacity="0.85" />
+  <!-- Middle Arch -->
+  <path d="M 270 540 L 270 320 C 270 215 530 215 530 320 L 530 540" fill="none" stroke="#E8DED0" stroke-width="1.8" opacity="0.6" />
+  <!-- Inner Arch -->
+  <path d="M 320 540 L 320 340 C 320 250 480 250 480 340 L 480 540" fill="none" stroke="url(#goldArch)" stroke-width="2" opacity="0.9" />
+
+  <!-- Monolithic Architectural Pylons -->
+  <rect x="140" y="240" width="55" height="300" fill="url(#warmStone)" opacity="0.9" />
+  <rect x="195" y="240" width="12" height="300" fill="#24201D" />
+  
+  <rect x="605" y="240" width="55" height="300" fill="url(#warmStone)" opacity="0.9" />
+  <rect x="593" y="240" width="12" height="300" fill="#1C1816" />
+
+  <!-- Floating Celestial Sphere / Orb of Equilibrium -->
+  <circle cx="400" cy="270" r="75" fill="none" stroke="url(#goldArch)" stroke-width="2.5" />
+  <circle cx="400" cy="270" r="50" fill="#191715" stroke="#E8DED0" stroke-width="1.2" opacity="0.9" />
+  <circle cx="400" cy="270" r="16" fill="url(#goldArch)" />
+
+  <!-- Golden Ray of Dawn Intersecting Horizon -->
+  <line x1="160" y1="270" x2="640" y2="270" stroke="url(#goldArch)" stroke-width="1.5" opacity="0.7" />
+  
+  <!-- Subtle Grid and Texture Accents -->
+  <circle cx="400" cy="270" r="120" fill="none" stroke="#527A65" stroke-width="0.8" stroke-dasharray="3,6" opacity="0.4" />
+
+  <!-- Museum Exhibition Plaque / Border -->
+  <rect x="18" y="18" width="764" height="564" fill="none" stroke="#B08D57" stroke-width="1.2" opacity="0.35" />
 </svg>

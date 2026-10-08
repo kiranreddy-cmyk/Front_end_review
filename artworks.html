@@ -3,7 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gallery — ArtLoom Online Art Gallery</title>
+  <title>Curated Gallery Collection — ArtLoom Online Art Gallery</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -33,15 +36,16 @@
   </header>
 
   <main class="main-content">
-    <div class="container" style="padding-top: 40px;">
+    <div class="container" style="padding-top: 45px;">
       <!-- Page Header -->
-      <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 24px; flex-wrap: wrap; gap: 12px;">
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 28px; flex-wrap: wrap; gap: 16px;">
         <div>
           <span class="section-subtitle">Exhibition Catalog</span>
-          <h1 style="font-size: 2.2rem; font-weight: 800;">Curated Artworks</h1>
+          <h1 style="font-size: 2.8rem; font-weight: 700; line-height: 1.15;">Curated Fine Artworks</h1>
+          <p style="color: var(--text-muted); font-size: 0.98rem; margin-top: 4px;">Discover certified original creations with real-time search, disciplined category filtering, and flexible sorting.</p>
         </div>
         <div>
-          <span class="badge badge-category" id="artworksCount" style="font-size: 0.9rem; padding: 6px 14px;">Loading...</span>
+          <span class="badge badge-category" id="artworksCount" style="font-size: 0.86rem; padding: 6px 16px;">Loading...</span>
         </div>
       </div>
 
@@ -51,17 +55,17 @@
           <!-- Real-time Search Input -->
           <div class="search-input-wrap">
             <span class="search-icon">🔍</span>
-            <input type="text" id="searchInput" placeholder="Search by artwork name, artist, or category (e.g. 'Landscape', 'Elena')...">
+            <input type="text" id="searchInput" placeholder="Search by artwork title, artist, or discipline (e.g. 'Landscape', 'Elena', 'Sculpture')...">
           </div>
 
           <!-- Sort Select Dropdown -->
-          <div style="min-width: 200px;">
+          <div style="min-width: 220px;">
             <select id="sortSelect" class="form-control" style="cursor: pointer;">
-              <option value="default">Featured / Default</option>
+              <option value="default">Featured / Default Order</option>
               <option value="price-low">Price: Low to High</option>
               <option value="price-high">Price: High to Low</option>
               <option value="name-asc">Artwork Name: A to Z</option>
-              <option value="newest">Newest Arrivals</option>
+              <option value="newest">Newest Acquisitions</option>
             </select>
           </div>
         </div>
@@ -91,7 +95,7 @@
   <footer class="site-footer">
     <div class="container footer-bottom">
       <div>&copy; 2026 ArtLoom Online Art Gallery. All rights reserved.</div>
-      <div>SDC Project Review-1 • HTML5, CSS3 &amp; Vanilla JavaScript</div>
+      <div style="color: var(--accent);">Curated Gallery Catalog • SDC Project Review-1</div>
     </div>
   </footer>
 
