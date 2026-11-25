@@ -18,7 +18,7 @@ function getStarRatingHTML(rating) {
 function renderArtworkReviews(artworkId) {
   const reviewFormCard = document.getElementById('artworkReviewFormCard');
   if (reviewFormCard) {
-    reviewFormCard.style.display = isCurrentUserAdmin() ? 'none' : '';
+    reviewFormCard.style.display = isCustomerActionRestrictedRole() ? 'none' : '';
   }
 
   const reviewsContainer = document.getElementById('artworkReviewsList');
@@ -64,8 +64,8 @@ function submitArtworkReview(e, artworkId) {
     return;
   }
 
-  if (getNormalizedRole(user) === 'admin') {
-    showToast('Administrators cannot submit customer reviews.', 'error');
+  if (getNormalizedRole(user) !== 'user') {
+    showToast('Only Buyers/Users can submit customer reviews.', 'error');
     return;
   }
 
@@ -114,7 +114,7 @@ function submitArtworkReview(e, artworkId) {
 function initReviewsPage() {
   const globalReviewFormCard = document.getElementById('globalReviewFormCard');
   const reviewsLayoutGrid = document.getElementById('reviewsLayoutGrid');
-  if (isCurrentUserAdmin()) {
+  if (isCustomerActionRestrictedRole()) {
     if (globalReviewFormCard) globalReviewFormCard.style.display = 'none';
     if (reviewsLayoutGrid) reviewsLayoutGrid.style.gridTemplateColumns = '1fr';
   }
@@ -172,8 +172,8 @@ function handleGlobalReviewSubmit(e) {
     return;
   }
 
-  if (getNormalizedRole(user) === 'admin') {
-    showToast('Administrators cannot submit customer reviews.', 'error');
+  if (getNormalizedRole(user) !== 'user') {
+    showToast('Only Buyers/Users can submit customer reviews.', 'error');
     return;
   }
 

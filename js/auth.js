@@ -52,6 +52,12 @@ function isCurrentUserAdmin() {
   return getNormalizedRole(getCurrentUser()) === 'admin';
 }
 
+// Helper to check whether the current logged-in account is restricted from customer actions (Admin or Artist)
+function isCustomerActionRestrictedRole() {
+  const role = getNormalizedRole(getCurrentUser());
+  return role === 'admin' || role === 'artist';
+}
+
 // Get Logged In User
 function getCurrentUser() {
   const user = getData('currentUser', null);

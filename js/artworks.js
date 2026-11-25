@@ -22,8 +22,8 @@ function toggleFavorite(artworkId, btnElement) {
     return;
   }
 
-  if (getNormalizedRole(user) === 'admin') {
-    showToast('Administrators cannot save customer favorites.', 'error');
+  if (getNormalizedRole(user) !== 'user') {
+    showToast('Only Buyers/Users can save favorite artworks.', 'error');
     return;
   }
 
@@ -63,8 +63,8 @@ function toggleFavorite(artworkId, btnElement) {
 
 // Render a single Artwork Card HTML
 function createArtworkCardHTML(art) {
-  const isAdmin = isCurrentUserAdmin();
-  const isFav = !isAdmin && isArtworkFavorited(art.id);
+  const hideCustomerActions = isCustomerActionRestrictedRole();
+  const isFav = !hideCustomerActions && isArtworkFavorited(art.id);
   let typeBadgeClass = 'badge-sale';
   let badgeLabel = art.type;
   let priceDisplay = art.price;
@@ -95,7 +95,7 @@ function createArtworkCardHTML(art) {
       <div class="artwork-image-wrap">
         <img src="${art.image}" alt="${art.name}" loading="lazy" onerror="this.src='assets/images/landscape-alpine-waters.jpg'">
         <span class="badge ${typeBadgeClass} artwork-badge-floating">${badgeLabel}</span>
-        ${!isAdmin ? `
+        ${!hideCustomerActions ? `
           <button class="btn-fav-floating ${isFav ? 'active' : ''}" onclick="toggleFavorite(${art.id}, this)" title="${isFav ? 'Remove Favorite' : 'Add to Favorites'}">
             ${isFav ? '♥' : '♡'}
           </button>
@@ -484,7 +484,7 @@ function initArtworkDetailsPage() {
             ${formatCurrency(art.price)}
           </div>
         </div>
-        ${currentRole !== 'admin' ? `
+        ${currentRole !== 'admin' && currentRole !== 'artist' ? `
           <button onclick="openBuyModal(${art.id})" class="btn btn-lg btn-accent">
             Buy Now
           </button>
@@ -532,7 +532,7 @@ function initArtworkDetailsPage() {
         </div>
 
         <div class="details-actions-row">
-          ${currentRole !== 'admin' ? `
+          ${currentRole !== 'admin' && currentRole !== 'artist' ? `
             <button class="btn btn-outline ${isFav ? 'active' : ''}" id="detailsFavBtn" onclick="toggleDetailsFavorite(${art.id})">
               ${isFav ? '♥ In Favorites' : '♡ Add to Favorites'}
             </button>
@@ -600,8 +600,8 @@ function initArtworkDetailsPage() {
 }
 
 function toggleDetailsFavorite(artId) {
-  if (isCurrentUserAdmin()) {
-    showToast('Administrators cannot save customer favorites.', 'error');
+  if (isCustomerActionRestrictedRole()) {
+    showToast('Only Buyers/Users can save favorite artworks.', 'error');
     return;
   }
   const btn = document.getElementById('detailsFavBtn');
@@ -623,8 +623,8 @@ function openBuyModal(artId) {
     return;
   }
 
-  if (getNormalizedRole(user) === 'admin') {
-    showToast('Administrators cannot purchase artworks.', 'error');
+  if (getNormalizedRole(user) !== 'user') {
+    showToast('Only Buyers/Users can purchase artworks.', 'error');
     return;
   }
 
@@ -687,8 +687,8 @@ function closeBuyModal() {
 function confirmPurchase(artId) {
   const user = getCurrentUser();
   if (!user) return;
-  if (getNormalizedRole(user) === 'admin') {
-    showToast('Administrators cannot complete customer purchases.', 'error');
+  if (getNormalizedRole(user) !== 'user') {
+    showToast('Only Buyers/Users can complete purchases.', 'error');
     return;
   }
 
