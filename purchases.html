@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Purchases &amp; Orders — ZENITH Fine Art Gallery</title>
+  <title>My Purchases — ArtLoom Curated Gallery</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -15,37 +15,40 @@
   <header class="site-header">
     <div class="container navbar">
       <a href="index.html" class="brand-logo">
-        <img src="images/logo.svg" alt="ZENITH Fine Art Gallery">
+        <img src="images/logo.svg" alt="ArtLoom Logo">
       </a>
 
-      <button type="button" class="menu-toggle" id="menuToggle" aria-label="Toggle Navigation">☰</button>
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle Navigation">☰</button>
 
       <ul class="nav-links" id="navLinks">
         <li><a href="index.html">Home</a></li>
         <li><a href="artworks.html">Gallery</a></li>
         <li><a href="artist-profile.html">Artists</a></li>
         <li><a href="auction.html">Auctions</a></li>
-        <li><a href="exhibitions.html">Exhibitions</a></li>
         <li><a href="reviews.html">Reviews</a></li>
         <li><a href="about.html">About</a></li>
+        <li><a href="purchases.html" class="active">Purchases</a></li>
       </ul>
 
-      <div class="nav-actions" id="navActions"></div>
+      <div class="nav-actions" id="navActions">
+        <!-- Injected dynamically via auth.js -->
+      </div>
     </div>
   </header>
 
   <main class="main-content">
-    <div class="container" style="padding-top: 44px;">
-      <div class="section-header-split" style="margin-bottom: 28px;">
+    <div class="container" style="padding-top: 40px;">
+      <!-- Header -->
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 28px; flex-wrap: wrap; gap: 12px;">
         <div>
-          <span class="section-subtitle">Collection Ledger</span>
-          <h1 style="font-size: clamp(1.9rem, 3.2vw, 2.5rem); color: #ffffff;">My Purchases &amp; Orders</h1>
-          <p style="color: var(--text-muted); font-size: 0.95rem;">Track your acquired paintings, acquisition invoices, and delivery status.</p>
+          <span class="section-subtitle">MY PURCHASES &amp; ORDERS</span>
+          <h1 style="font-size: 2.2rem; font-weight: 800;">My Purchases</h1>
+          <p style="color: var(--text-muted); font-size: 0.95rem;">Track your purchased artworks, orders, and purchase details.</p>
         </div>
-        <a href="artworks.html" class="btn btn-gold">+ Acquire Art</a>
+        <a href="artworks.html" class="btn btn-accent">+ Purchase Art</a>
       </div>
 
-      <!-- Purchase Summary Cards -->
+      <!-- Purchase Summary Cards (CSS Grid) -->
       <div class="stats-grid" style="margin-bottom: 30px;">
         <div class="stat-card">
           <div class="stat-icon stat-icon-green">🛍️</div>
@@ -59,14 +62,14 @@
           <div class="stat-icon stat-icon-gold">💳</div>
           <div class="stat-info">
             <h3 id="userTotalSpent">₹0</h3>
-            <p>Total Acquisition Value</p>
+            <p>Total Purchase Amount</p>
           </div>
         </div>
 
         <div class="stat-card">
           <div class="stat-icon stat-icon-blue">🛡️</div>
           <div class="stat-info">
-            <h3 style="font-size: 1.35rem;">Guaranteed</h3>
+            <h3 style="font-size: 1.4rem;">Guaranteed</h3>
             <p>Certificate of Authenticity</p>
           </div>
         </div>
@@ -76,11 +79,11 @@
       <div id="purchasesEmptyState" class="empty-state" style="display: none;">
         <div class="empty-state-icon">🛍️</div>
         <h3>No Purchases Yet</h3>
-        <p>You have not acquired any paintings yet. Explore our gallery to collect your first original piece.</p>
-        <a href="artworks.html" class="btn btn-gold">Browse Collection</a>
+        <p>You have not purchased any artworks yet. Explore our curated gallery to buy your first original masterpiece!</p>
+        <a href="artworks.html" class="btn btn-primary">Browse Gallery</a>
       </div>
 
-      <!-- Purchases Table -->
+      <!-- Purchases Table (Flexbox/Grid wrapper) -->
       <div class="table-container">
         <table class="custom-table">
           <thead>
@@ -93,7 +96,9 @@
               <th>Actions</th>
             </tr>
           </thead>
-          <tbody id="userPurchasesTableBody"></tbody>
+          <tbody id="userPurchasesTableBody">
+            <!-- Rendered dynamically via user.js -->
+          </tbody>
         </table>
       </div>
     </div>
@@ -102,16 +107,14 @@
   <!-- Footer -->
   <footer class="site-footer">
     <div class="container footer-bottom">
-      <div>&copy; 2026 ZENITH Fine Art Gallery. All rights reserved.</div>
-      <div style="color: var(--gold-primary);">Acquisition Ledger</div>
+      <div>&copy; 2026 ArtLoom Online Art Gallery. All rights reserved.</div>
+      <div>Collector Purchases Ledger</div>
     </div>
   </footer>
 
   <!-- Scripts -->
-  <script src="js/config.local.js"></script>
   <script src="js/storage.js"></script>
   <script src="js/auth.js"></script>
-  <script src="js/cart.js"></script>
   <script src="js/user.js"></script>
 </body>
 </html>

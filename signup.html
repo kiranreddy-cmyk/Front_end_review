@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Create Account — ZENITH Fine Art Gallery</title>
+  <title>Create Account — ArtLoom Curated Gallery</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -15,7 +15,7 @@
   <header class="site-header">
     <div class="container navbar">
       <a href="index.html" class="brand-logo">
-        <img src="images/logo.svg" alt="ZENITH Fine Art Gallery">
+        <img src="images/logo.svg" alt="ArtLoom Logo">
       </a>
 
       <button class="menu-toggle" id="menuToggle" aria-label="Toggle Navigation">☰</button>
@@ -25,31 +25,29 @@
         <li><a href="artworks.html">Gallery</a></li>
         <li><a href="artist-profile.html">Artists</a></li>
         <li><a href="auction.html">Auctions</a></li>
-        <li><a href="exhibitions.html">Exhibitions</a></li>
         <li><a href="reviews.html">Reviews</a></li>
         <li><a href="about.html">About</a></li>
       </ul>
 
       <div class="nav-actions" id="navActions">
-        <a href="login.html" class="btn btn-sm btn-outline">Sign In</a>
-        <a href="signup.html" class="btn btn-sm btn-accent active">Join Gallery</a>
+        <a href="login.html" class="btn btn-sm btn-outline">Login</a>
+        <a href="signup.html" class="btn btn-sm btn-accent active">Sign Up</a>
       </div>
     </div>
   </header>
 
   <main class="main-content">
     <div class="container">
-      <div class="auth-wrapper" style="max-width: 540px;">
+      <div class="auth-wrapper" style="max-width: 520px;">
         <div class="auth-header">
-          <span class="section-subtitle">Gallery Membership</span>
-          <h2>Join ZENITH Gallery</h2>
-          <p>Register to acquire original paintings, participate in live auctions, or exhibit your studio works.</p>
+          <h2>Create Your Account</h2>
+          <p>Join ArtLoom to collect masterpieces, place auction bids, or sell your art.</p>
         </div>
 
-        <form id="signupForm" autocomplete="off">
+        <form id="signupForm">
           <div class="form-group">
             <label for="fullName">Full Name *</label>
-            <input type="text" id="fullName" class="form-control" placeholder="Enter your full name" required>
+            <input type="text" id="fullName" class="form-control" placeholder="e.g. Kiran Reddy" required>
           </div>
 
           <div class="form-group">
@@ -60,36 +58,30 @@
           <div class="form-group">
             <label for="role">Register As *</label>
             <select id="role" class="form-control" required>
-              <option value="user" selected>Art Collector / Enthusiast</option>
-              <option value="artist">Exhibiting Artist</option>
+              <option value="user" selected>Art Collector / Enthusiast (User)</option>
+              <option value="artist">Exhibiting Artist (Artist)</option>
             </select>
           </div>
 
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
             <div class="form-group">
               <label for="password">Password *</label>
-              <div class="password-input-wrap">
-                <input type="password" id="password" class="form-control" placeholder="Min 6 characters" minlength="6" autocomplete="new-password" required>
-                <button type="button" class="password-toggle-btn" onclick="toggleFieldVisibility('password', this)">Show</button>
-              </div>
+              <input type="password" id="password" class="form-control" placeholder="Min 6 characters" minlength="6" required>
             </div>
 
             <div class="form-group">
               <label for="confirmPassword">Confirm Password *</label>
-              <div class="password-input-wrap">
-                <input type="password" id="confirmPassword" class="form-control" placeholder="Repeat password" minlength="6" autocomplete="new-password" required>
-                <button type="button" class="password-toggle-btn" onclick="toggleFieldVisibility('confirmPassword', this)">Show</button>
-              </div>
+              <input type="password" id="confirmPassword" class="form-control" placeholder="Repeat password" minlength="6" required>
             </div>
           </div>
 
-          <div id="signupError" class="form-error" style="margin-bottom: 16px;" role="alert"></div>
+          <div id="signupError" class="form-error" style="margin-bottom: 16px;"></div>
 
-          <button type="submit" class="btn btn-gold btn-block btn-lg">Create Account</button>
+          <button type="submit" class="btn btn-accent btn-block btn-lg">Create Account</button>
         </form>
 
-        <p style="text-align: center; margin-top: 22px; font-size: 0.92rem; color: var(--text-muted);">
-          Already a member? <a href="login.html" style="color: var(--gold-primary); font-weight: 600;">Sign In</a>
+        <p style="text-align: center; margin-top: 20px; font-size: 0.95rem; color: var(--text-muted);">
+          Already have an account? <a href="login.html" style="color: var(--accent); font-weight: 600;">Sign In</a>
         </p>
       </div>
     </div>
@@ -98,15 +90,13 @@
   <!-- Footer -->
   <footer class="site-footer">
     <div class="container footer-bottom">
-      <div>&copy; 2026 ZENITH Fine Art Gallery. All rights reserved.</div>
-      <div style="color: var(--gold-primary);">Curated Fine Art &amp; Live Auctions</div>
+      <div>&copy; 2026 ArtLoom Online Art Gallery. All rights reserved.</div>
+      <div>Curated Fine Art &amp; Live Auctions</div>
     </div>
   </footer>
 
   <!-- Scripts -->
-  <script src="js/config.local.js"></script>
   <script src="js/storage.js"></script>
   <script src="js/auth.js"></script>
-  <script src="js/cart.js"></script>
 </body>
 </html>

@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About — ZENITH Fine Art Gallery</title>
+  <title>About ArtLoom — Curated Fine Art Atelier &amp; Gallery</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -15,123 +15,168 @@
   <header class="site-header">
     <div class="container navbar">
       <a href="index.html" class="brand-logo">
-        <img src="images/logo.svg" alt="ZENITH Fine Art Gallery">
+        <img src="images/logo.svg" alt="ArtLoom Curated Gallery Logo">
       </a>
 
-      <button type="button" class="menu-toggle" id="menuToggle" aria-label="Toggle Navigation">☰</button>
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle Navigation">☰</button>
 
       <ul class="nav-links" id="navLinks">
         <li><a href="index.html">Home</a></li>
         <li><a href="artworks.html">Gallery</a></li>
         <li><a href="artist-profile.html">Artists</a></li>
         <li><a href="auction.html">Auctions</a></li>
-        <li><a href="exhibitions.html">Exhibitions</a></li>
         <li><a href="reviews.html">Reviews</a></li>
         <li><a href="about.html" class="active">About</a></li>
       </ul>
 
-      <div class="nav-actions" id="navActions"></div>
+      <div class="nav-actions" id="navActions">
+        <!-- Injected dynamically via auth.js -->
+      </div>
     </div>
   </header>
 
   <main class="main-content">
-    <div class="container" style="padding-top: 50px;">
-      <!-- Editorial Header -->
+    <div class="container" style="padding-top: 50px; padding-bottom: 70px;">
+      
+      <!-- Editorial Hero / Header -->
       <div style="max-width: 840px; margin: 0 auto 50px; text-align: center;">
-        <span class="section-subtitle">THE ZENITH HERITAGE &amp; MISSION</span>
-        <h1 style="font-size: clamp(2.2rem, 4vw, 3.2rem); line-height: 1.15; margin-bottom: 18px; color: #ffffff;">
-          Bridging Heritage Fine Art &amp; Modern Collecting
+        <span class="section-subtitle">THE ARTLOM HERITAGE &amp; MISSION</span>
+        <h1 style="font-size: 3.2rem; font-weight: 500; line-height: 1.15; margin-bottom: 20px; color: var(--primary);">
+          A Sanctuary for Masterpieces &amp; Discriminating Collectors
         </h1>
-        <p style="font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); max-width: 720px; margin: 0 auto;">
-          ZENITH Fine Art Gallery pairs museum-caliber curation with transparent digital acquisitions, uniting visionary painters and dedicated collectors worldwide.
+        <p style="font-size: 1.15rem; line-height: 1.8; color: var(--text-muted); max-width: 720px; margin: 0 auto;">
+          ArtLoom bridges the hallowed traditions of classic European saloons and contemporary fine arts curation, providing artists a dignified stage and collectors an uncompromised acquisition salon.
         </p>
       </div>
 
-      <!-- Feature Editorial Banner -->
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-bottom: 56px; align-items: center;">
-        <div style="border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--border-gold); box-shadow: var(--shadow-xl); height: 390px; background: #08090c;">
-          <img src="assets/images/oil-golden-wheatfield.jpg" alt="Sunlit oil landscape painting at ZENITH Fine Art Gallery" style="width: 100%; height: 100%; object-fit: cover;">
+      <!-- Feature Visual Editorial Banner -->
+      <div style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 30px; margin-bottom: 60px; align-items: center;">
+        <div style="border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border-color); box-shadow: var(--shadow-md); max-height: 420px; background: #000;">
+          <img src="assets/images/landscape-alpine-waters.jpg" alt="Curated Artwork Heritage" style="width: 100%; height: 100%; object-fit: cover;">
         </div>
-        <div style="background: var(--surface-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 38px; box-shadow: var(--shadow-md);">
-          <span class="section-subtitle">OUR PHILOSOPHY</span>
-          <h2 style="font-size: 1.9rem; margin-bottom: 16px; color: #ffffff;">Art as Timeless Dialogue</h2>
-          <p style="color: var(--text-muted); line-height: 1.8; margin-bottom: 24px;">
-            Every canvas curated at ZENITH passes through attentive aesthetic review. Whether acquiring an heirloom floral oil painting or competing in an evening live auction, collectors experience clarity, authenticity, and enduring craftsmanship.
+        <div style="background: var(--surface-cream); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 40px; box-shadow: var(--shadow-sm);">
+          <span class="section-subtitle" style="margin-bottom: 8px;">OUR PHILOSOPHY</span>
+          <h2 style="font-size: 1.85rem; margin-bottom: 16px; color: var(--primary);">Art as Timeless Dialogue</h2>
+          <p style="color: var(--text-main); line-height: 1.8; margin-bottom: 20px;">
+            True art transcends fleeting trends. It awakens contemplation, preserves cultural resonance, and ennobles the spaces it inhabits. Every painting, sculpture, and photograph represented in our collection passes through rigorous aesthetic appraisal.
           </p>
-          <div style="display: flex; gap: 26px; border-top: 1px solid var(--border); padding-top: 20px; flex-wrap: wrap;">
+          <div style="display: flex; gap: 24px; border-top: 1px solid var(--border-color); pt: 20px; padding-top: 20px;">
             <div>
-              <strong style="font-family: var(--font-serif); font-size: 1.9rem; color: var(--gold-primary); display: block;">100%</strong>
-              <span style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em;">Curatorial Review</span>
+              <strong style="font-family: var(--font-serif); font-size: 2rem; color: var(--accent); display: block;">100%</strong>
+              <span style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;">Curatorial Review</span>
             </div>
             <div>
-              <strong style="font-family: var(--font-serif); font-size: 1.9rem; color: var(--gold-primary); display: block;">50+</strong>
-              <span style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em;">Original Paintings</span>
+              <strong style="font-family: var(--font-serif); font-size: 2rem; color: var(--accent); display: block;">50+</strong>
+              <span style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;">Original Works</span>
             </div>
             <div>
-              <strong style="font-family: var(--font-serif); font-size: 1.9rem; color: var(--gold-primary); display: block;">24/7</strong>
-              <span style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em;">Live Auctions</span>
+              <strong style="font-family: var(--font-serif); font-size: 2rem; color: var(--accent); display: block;">24/7</strong>
+              <span style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;">Live Auctions</span>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Mission & Provenance -->
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); gap: 28px; margin-bottom: 56px;">
-        <div style="background: var(--surface-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 34px;">
-          <span class="section-subtitle">OUR MISSION</span>
-          <h2 style="font-size: 1.55rem; margin-bottom: 12px; color: #ffffff;">Empowering Independent Painters</h2>
+      <!-- Problem Statement & Solution -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; margin-bottom: 60px;">
+        <div style="background-color: var(--surface); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 36px; box-shadow: var(--shadow-sm);">
+          <div style="width: 44px; height: 44px; border-radius: 50%; background: var(--surface-cream); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; margin-bottom: 18px; color: var(--accent);">
+            🏛️
+          </div>
+          <span class="section-subtitle" style="margin-bottom: 6px;">THE CHALLENGE</span>
+          <h2 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 14px; color: var(--primary);">The Problem Statement</h2>
           <p style="color: var(--text-muted); line-height: 1.75; font-size: 0.95rem;">
-            ZENITH provides artists with dedicated studio portals to exhibit their paintings directly, set transparent valuations, launch timed auctions, and connect with international patrons.
+            Traditional art commerce often restricts emerging independent creators due to prohibitive intermediary gallery commissions, lack of transparent provenance, and opaque auction mechanisms. Collectors conversely struggle to discover genuine artworks across varied disciplines with verifiable pricing and trustworthy acquisition channels.
           </p>
         </div>
 
-        <div style="background: var(--surface-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 34px;">
-          <span class="section-subtitle">PROVENANCE &amp; CARE</span>
-          <h2 style="font-size: 1.55rem; margin-bottom: 12px; color: #ffffff;">Certified Authenticity</h2>
+        <div style="background-color: var(--surface); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 36px; box-shadow: var(--shadow-sm);">
+          <div style="width: 44px; height: 44px; border-radius: 50%; background: var(--surface-cream); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; margin-bottom: 18px; color: var(--accent);">
+            ✨
+          </div>
+          <span class="section-subtitle" style="margin-bottom: 6px;">THE INNOVATION</span>
+          <h2 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 14px; color: var(--primary);">The ArtLoom Solution</h2>
           <p style="color: var(--text-muted); line-height: 1.75; font-size: 0.95rem;">
-            Every direct acquisition and winning auction bid generates an official ZENITH Acquisition Receipt &amp; Certificate of Authenticity with white-glove courier protection.
+            ArtLoom provides a dignified, curated online atelier where artists manage their portfolios directly, collectors acquire pieces seamlessly or participate in competitive auctions with instant notifications, and administrators maintain catalog authenticity. Built with robust vanilla architecture for frictionless clientside experience.
           </p>
         </div>
       </div>
 
-      <!-- Curatorial Standards -->
-      <div style="background: var(--bg-black); border: 1px solid var(--border-gold); border-radius: var(--radius-lg); padding: 46px 36px; text-align: center;">
-        <span class="section-subtitle">CURATORIAL STANDARDS</span>
-        <h2 style="font-size: 2.15rem; color: #ffffff; margin-bottom: 28px;">Excellence Across Every Discipline</h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; text-align: left;">
-          <div style="padding: 20px; border-left: 2px solid var(--gold-primary); background: rgba(255,255,255,0.02); border-radius: 0 8px 8px 0;">
-            <h3 style="font-size: 1.18rem; color: #ffffff; margin-bottom: 8px;">Oil &amp; Traditional Mastery</h3>
-            <p style="color: var(--text-muted); font-size: 0.88rem; line-height: 1.6;">Chiaroscuro glazes, classical portraits, and heritage fresco studies.</p>
+      <!-- Gallery Pillars -->
+      <div style="background: var(--surface-dark); color: #fff; border-radius: var(--radius-md); padding: 50px 40px; text-align: center; border: 1px solid rgba(176,141,87,0.25);">
+        <span class="section-subtitle" style="color: var(--accent); margin-bottom: 12px;">CURATORIAL STANDARDS</span>
+        <h2 style="font-size: 2.2rem; font-weight: 500; color: #fff; margin-bottom: 24px;">Excellence Across Every Medium</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; text-align: left; margin-top: 30px;">
+          <div style="padding: 20px; border-left: 2px solid var(--accent); background: rgba(255,255,255,0.03);">
+            <h3 style="font-size: 1.2rem; color: #fff; margin-bottom: 8px;">Oil &amp; Renaissance Studies</h3>
+            <p style="color: #c5beae; font-size: 0.9rem; line-height: 1.6;">Chiaroscuro depth, classical pigments, and timeless figurative composition.</p>
           </div>
-          <div style="padding: 20px; border-left: 2px solid var(--gold-primary); background: rgba(255,255,255,0.02); border-radius: 0 8px 8px 0;">
-            <h3 style="font-size: 1.18rem; color: #ffffff; margin-bottom: 8px;">Watercolor &amp; Floral Art</h3>
-            <p style="color: var(--text-muted); font-size: 0.88rem; line-height: 1.6;">Luminous botanical bouquets and translucent cold-pressed washes.</p>
+          <div style="padding: 20px; border-left: 2px solid var(--accent); background: rgba(255,255,255,0.03);">
+            <h3 style="font-size: 1.2rem; color: #fff; margin-bottom: 8px;">Sculpture &amp; Bronze</h3>
+            <p style="color: #c5beae; font-size: 0.9rem; line-height: 1.6;">Tactile Carrara marbles, cast bronze patinas, and three-dimensional forms.</p>
           </div>
-          <div style="padding: 20px; border-left: 2px solid var(--gold-primary); background: rgba(255,255,255,0.02); border-radius: 0 8px 8px 0;">
-            <h3 style="font-size: 1.18rem; color: #ffffff; margin-bottom: 8px;">Abstract &amp; Modernism</h3>
-            <p style="color: var(--text-muted); font-size: 0.88rem; line-height: 1.6;">Expressive contemporary brushwork, constructivist geometry, and bold color.</p>
+          <div style="padding: 20px; border-left: 2px solid var(--accent); background: rgba(255,255,255,0.03);">
+            <h3 style="font-size: 1.2rem; color: #fff; margin-bottom: 8px;">Modernism &amp; Abstracts</h3>
+            <p style="color: #c5beae; font-size: 0.9rem; line-height: 1.6;">Bold constructivism, geometric harmony, and evocative chromodynamics.</p>
           </div>
-          <div style="padding: 20px; border-left: 2px solid var(--gold-primary); background: rgba(255,255,255,0.02); border-radius: 0 8px 8px 0;">
-            <h3 style="font-size: 1.18rem; color: #ffffff; margin-bottom: 8px;">Live Curated Auctions</h3>
-            <p style="color: var(--text-muted); font-size: 0.88rem; line-height: 1.6;">Timed competitive bidding with transparent logs and official winner declarations.</p>
+          <div style="padding: 20px; border-left: 2px solid var(--accent); background: rgba(255,255,255,0.03);">
+            <h3 style="font-size: 1.2rem; color: #fff; margin-bottom: 8px;">Live Curated Salons</h3>
+            <p style="color: #c5beae; font-size: 0.9rem; line-height: 1.6;">Competitive timed acquisitions with transparent bidder verification and logs.</p>
           </div>
         </div>
       </div>
+
     </div>
   </main>
 
   <!-- Footer -->
   <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="brand-logo" style="margin-bottom: 16px; display: inline-block;">
+          <img src="images/logo.svg" alt="ArtLoom Curated Fine Art Gallery">
+        </a>
+        <p>A distinguished online atelier curating authentic original paintings, sculptures, and live auctions for collectors worldwide.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>The Collection</h4>
+        <ul class="footer-links">
+          <li><a href="artworks.html">Curated Gallery</a></li>
+          <li><a href="artworks.html?type=sale">Direct Acquisitions</a></li>
+          <li><a href="auction.html">Live Evening Auctions</a></li>
+          <li><a href="artist-profile.html">Master Artists</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Salons &amp; Critique</h4>
+        <ul class="footer-links">
+          <li><a href="reviews.html">Collector Critiques</a></li>
+          <li><a href="about.html">About ArtLoom</a></li>
+          <li><a href="favorites.html">Saved Wishlist</a></li>
+          <li><a href="purchases.html">Acquisition Ledger</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Atelier Access</h4>
+        <ul class="footer-links">
+          <li><a href="login.html">Sign In to Salon</a></li>
+          <li><a href="signup.html">Register Account</a></li>
+          <li><a href="admin-dashboard.html">Curator Portal</a></li>
+        </ul>
+      </div>
+    </div>
+
     <div class="container footer-bottom">
-      <div>&copy; 2026 ZENITH Fine Art Gallery. All rights reserved.</div>
-      <div style="color: var(--gold-primary);">Curated Fine Art &amp; Live Auctions</div>
+      <div>&copy; 2026 ArtLoom Online Art Gallery. All rights reserved.</div>
+      <div style="color: var(--accent);">Curated Fine Art &amp; Live Auctions</div>
     </div>
   </footer>
 
   <!-- Scripts -->
-  <script src="js/config.local.js"></script>
   <script src="js/storage.js"></script>
   <script src="js/auth.js"></script>
-  <script src="js/cart.js"></script>
 </body>
 </html>

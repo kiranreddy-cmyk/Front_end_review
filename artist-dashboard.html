@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Artist Studio — ZENITH Fine Art Gallery</title>
+  <title>Artist Studio Workspace — ArtLoom Online Art Gallery</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -15,23 +15,24 @@
   <header class="site-header">
     <div class="container navbar">
       <a href="index.html" class="brand-logo">
-        <img src="images/logo.svg" alt="ZENITH Fine Art Gallery">
+        <img src="images/logo.svg" alt="ArtLoom Logo">
       </a>
 
-      <button type="button" class="menu-toggle" id="menuToggle" aria-label="Toggle Navigation">☰</button>
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle Navigation">☰</button>
 
       <ul class="nav-links" id="navLinks">
         <li><a href="index.html">Home</a></li>
         <li><a href="artworks.html">Gallery</a></li>
         <li><a href="artist-profile.html">Artists</a></li>
         <li><a href="auction.html">Auctions</a></li>
-        <li><a href="exhibitions.html">Exhibitions</a></li>
         <li><a href="reviews.html">Reviews</a></li>
         <li><a href="about.html">About</a></li>
-        <li><a href="artist-dashboard.html" class="active">Artist Studio</a></li>
+        <li><a href="artist-dashboard.html" class="active">Artist Dashboard</a></li>
       </ul>
 
-      <div class="nav-actions" id="navActions"></div>
+      <div class="nav-actions" id="navActions">
+        <!-- Injected dynamically via auth.js -->
+      </div>
     </div>
   </header>
 
@@ -42,27 +43,33 @@
         <div class="dashboard-greeting">
           <div style="display: flex; align-items: center; gap: 10px;">
             <span class="role-tag role-artist">Exhibiting Artist</span>
-            <span style="color: var(--gold-primary); font-size: 0.84rem;">• Private Studio</span>
+            <span style="color: var(--text-muted); font-size: 0.82rem;">• Private Atelier</span>
           </div>
           <h1 id="artistGreeting">Welcome, Artist</h1>
-          <p>Publish new paintings, configure live auction lots, monitor acquisitions, and manage your public portfolio.</p>
+          <p>Showcase new creations, configure live auction lots, monitor acquisitions, and curate your public gallery portfolio.</p>
         </div>
         <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-          <button type="button" onclick="openArtistAddModal()" class="btn btn-gold">+ Upload New Artwork</button>
-          <a href="artist-profile.html" id="artistProfileLink" class="btn btn-outline">View Public Profile</a>
-          <button type="button" onclick="logout()" class="btn btn-danger">Logout</button>
+          <button onclick="openArtistAddModal()" class="btn btn-accent">
+            + Upload New Artwork
+          </button>
+          <a href="artist-profile.html" id="artistProfileLink" class="btn btn-outline">
+            View Public Profile
+          </a>
+          <button onclick="logout()" class="btn btn-outline" style="color: var(--danger); border-color: var(--danger);">
+            Logout
+          </button>
         </div>
       </div>
     </div>
 
     <div class="container">
-      <!-- Artist Studio KPI Cards -->
+      <!-- Artist Studio KPI Metric Cards (CSS Grid) -->
       <div class="stats-grid">
         <div class="stat-card">
           <div class="stat-icon stat-icon-purple">🎨</div>
           <div class="stat-info">
             <h3 id="artistTotalArtworks">0</h3>
-            <p>Exhibited Works</p>
+            <p>My Exhibited Works</p>
           </div>
         </div>
 
@@ -70,7 +77,7 @@
           <div class="stat-icon stat-icon-green">💰</div>
           <div class="stat-info">
             <h3 id="artistTotalSales">₹0</h3>
-            <p>Sales Revenue</p>
+            <p>Total Sales Revenue</p>
           </div>
         </div>
 
@@ -78,7 +85,7 @@
           <div class="stat-icon stat-icon-gold">🔨</div>
           <div class="stat-info">
             <h3 id="artistActiveAuctions">0</h3>
-            <p>Auction Lots</p>
+            <p>Live Auction Lots</p>
           </div>
         </div>
 
@@ -86,7 +93,7 @@
           <div class="stat-icon stat-icon-blue">⭐</div>
           <div class="stat-info">
             <h3 id="artistTotalReviews">0</h3>
-            <p>Collector Critiques</p>
+            <p>Collector Reviews</p>
           </div>
         </div>
       </div>
@@ -94,10 +101,10 @@
       <!-- My Artworks Table Section -->
       <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
         <div>
-          <h2 style="font-size: 1.7rem; color: #ffffff;">My Artwork Catalog</h2>
-          <p style="color: var(--text-muted); font-size: 0.9rem;">Update metadata, pricing, or exhibition status for your portfolio.</p>
+          <h2 style="font-size: 1.8rem; font-weight: 700; color: var(--text-heading);">My Artwork Catalog</h2>
+          <p style="color: var(--text-muted); font-size: 0.90rem;">Update metadata, pricing, or exhibition status for your portfolio.</p>
         </div>
-        <button type="button" onclick="openArtistAddModal()" class="btn btn-sm btn-gold">+ Upload Artwork</button>
+        <button onclick="openArtistAddModal()" class="btn btn-sm btn-accent">+ Upload Artwork</button>
       </div>
 
       <div class="table-container">
@@ -113,7 +120,9 @@
               <th>Actions</th>
             </tr>
           </thead>
-          <tbody id="artistArtworksTableBody"></tbody>
+          <tbody id="artistArtworksTableBody">
+            <!-- Rendered dynamically via artist.js -->
+          </tbody>
         </table>
       </div>
     </div>
@@ -122,16 +131,14 @@
   <!-- Footer -->
   <footer class="site-footer">
     <div class="container footer-bottom">
-      <div>&copy; 2026 ZENITH Fine Art Gallery. All rights reserved.</div>
-      <div style="color: var(--gold-primary);">Artist Studio</div>
+      <div>&copy; 2026 ArtLoom Online Art Gallery. All rights reserved.</div>
+      <div style="color: var(--accent);">Artist Atelier Module</div>
     </div>
   </footer>
 
   <!-- Scripts -->
-  <script src="js/config.local.js"></script>
   <script src="js/storage.js"></script>
   <script src="js/auth.js"></script>
-  <script src="js/cart.js"></script>
   <script src="js/artist.js"></script>
 </body>
 </html>

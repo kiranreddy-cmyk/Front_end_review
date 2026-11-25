@@ -3,217 +3,227 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ZENITH — Fine Art Gallery &amp; Live Auctions</title>
+  <title>ArtLoom — Curated Online Art Gallery | Discover &amp; Collect Fine Art</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-  <!-- Master Navigation Header -->
+  <!-- Site Header / Navbar (Flexbox) -->
   <header class="site-header">
     <div class="container navbar">
       <a href="index.html" class="brand-logo">
-        <img src="images/logo.svg" alt="ZENITH Fine Art Gallery">
+        <img src="images/logo.svg" alt="ArtLoom Curated Fine Art Gallery">
       </a>
 
-      <button type="button" class="menu-toggle" id="menuToggle" aria-label="Toggle Navigation">☰</button>
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle Navigation">☰</button>
 
       <ul class="nav-links" id="navLinks">
         <li><a href="index.html" class="active">Home</a></li>
         <li><a href="artworks.html">Gallery</a></li>
         <li><a href="artist-profile.html">Artists</a></li>
         <li><a href="auction.html">Auctions</a></li>
-        <li><a href="exhibitions.html">Exhibitions</a></li>
         <li><a href="reviews.html">Reviews</a></li>
         <li><a href="about.html">About</a></li>
       </ul>
 
       <div class="nav-actions" id="navActions">
-        <a href="login.html" class="btn btn-sm btn-outline">Sign In</a>
-        <a href="signup.html" class="btn btn-sm btn-accent">Join Gallery</a>
+        <!-- Injected dynamically via auth.js -->
+        <a href="login.html" class="btn btn-sm btn-outline">Login</a>
+        <a href="signup.html" class="btn btn-sm btn-accent">Sign Up</a>
       </div>
     </div>
   </header>
 
   <main class="main-content">
-    <!-- Hero Section -->
+    <!-- Hero Section (Grand Gallery Entrance) -->
     <section class="hero-section">
       <div class="container hero-grid">
         <div class="hero-content">
-          <span class="hero-pill-badge">✦ Curated Fine Art Marketplace</span>
-          <h1>Where Visionary Masters Meet <span>Passionate Collectors</span></h1>
+          <span class="section-subtitle">Exhibition Season 2026</span>
+          <h1>Discover Fine Art. <span>Collect Meaning.</span></h1>
           <p>
-            Explore an exclusive fine art gallery connecting celebrated painters and discerning collectors worldwide. Acquire certified original paintings and bid in real-time live auctions.
+            Welcome to ArtLoom. Discover verified original masterpieces from celebrated independent artists worldwide — from classical chiaroscuro oil paintings and hand-chiseled sculptures to curated live auctions.
           </p>
           <div class="hero-actions">
-            <a href="artworks.html" class="btn btn-lg btn-gold">Browse Collection</a>
-            <a href="auction.html" class="btn btn-lg btn-outline">Live Auctions</a>
+            <a href="artworks.html" class="btn btn-lg btn-accent">Explore Gallery</a>
+            <a href="signup.html" class="btn btn-lg btn-outline">Become an Exhibitor</a>
           </div>
 
           <div class="hero-stats">
             <div class="hero-stat-item">
-              <h4>100%</h4>
-              <p>Authentic Paintings</p>
+              <h4>50+</h4>
+              <p>Curated Works</p>
+            </div>
+            <div class="hero-stat-item">
+              <h4>8</h4>
+              <p>Disciplines</p>
             </div>
             <div class="hero-stat-item">
               <h4>10</h4>
-              <p>Curated Disciplines</p>
-            </div>
-            <div class="hero-stat-item">
-              <h4>Verified</h4>
-              <p>International Artists</p>
+              <p>Master Artists</p>
             </div>
           </div>
         </div>
 
         <div class="hero-image-card">
-          <div class="hero-image-wrap">
-            <img src="assets/images/floral-classical-still-life.jpg" alt="Classical floral still-life oil painting featured at ZENITH Fine Art Gallery">
-            <div class="hero-card-overlay-caption">
-              <div>
-                <span class="caption-tag">Featured Masterwork</span>
-                <strong>Crown of Heritage Blooms</strong>
-                <p>Maya Anderson • Oil on Belgian Linen</p>
-              </div>
-              <a href="artwork-details.html?id=31" class="btn btn-sm btn-outline-gold">Inspect</a>
+          <div style="overflow: hidden; border-radius: 2px;">
+            <img src="assets/images/landscape-alpine-waters.jpg" alt="Featured Masterpiece: Golden Horizon by Elena Vance">
+          </div>
+          <div class="hero-card-meta">
+            <div>
+              <strong>Golden Horizon</strong>
+              <p>Elena Vance • Oil on Belgian Linen</p>
             </div>
+            <a href="artwork-details.html?id=1" class="btn btn-sm btn-outline-accent">View Details</a>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Browse by Category -->
-    <section class="section-padding section-bordered">
+    <!-- Categories Section (Museum-Inspired Curation) -->
+    <section class="section-padding" style="background-color: var(--surface-cream); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
       <div class="container">
-        <div class="section-header-split">
-          <div>
-            <span class="section-subtitle">Diverse Mediums</span>
-            <h2 class="section-title">Browse by Category</h2>
-          </div>
-          <a href="artworks.html" class="btn btn-sm btn-outline-gold">View Full Collection</a>
+        <div class="section-header">
+          <span class="section-subtitle">Artistic Disciplines</span>
+          <h2 class="section-title">Curated Collections</h2>
+          <p class="section-desc">Explore verified artworks cataloged across eight timeless artistic mediums and expressions.</p>
         </div>
 
-        <div class="category-grid" id="homeCategoriesGrid">
-          <!-- Populated dynamically via artworks.js -->
+        <div class="category-grid">
+          <a href="artworks.html?category=Painting" class="category-card">
+            <div class="category-icon-box">🎨</div>
+            <h3>Painting</h3>
+            <p>Oil, watercolor &amp; acrylic originals on canvas</p>
+          </a>
+
+          <a href="artworks.html?category=Digital Art" class="category-card">
+            <div class="category-icon-box">💻</div>
+            <h3>Digital Art</h3>
+            <p>Generative 3D concepts &amp; digital matte renderings</p>
+          </a>
+
+          <a href="artworks.html?category=Photography" class="category-card">
+            <div class="category-icon-box">📷</div>
+            <h3>Photography</h3>
+            <p>Fine art exhibition prints &amp; documentary captures</p>
+          </a>
+
+          <a href="artworks.html?category=Drawing" class="category-card">
+            <div class="category-icon-box">✏️</div>
+            <h3>Drawing</h3>
+            <p>Classical charcoal, silverpoint &amp; ink wash studies</p>
+          </a>
+
+          <a href="artworks.html?category=Portrait" class="category-card">
+            <div class="category-icon-box">👤</div>
+            <h3>Portrait</h3>
+            <p>Emotive chiaroscuro studies of human character</p>
+          </a>
+
+          <a href="artworks.html?category=Landscape" class="category-card">
+            <div class="category-icon-box">🌄</div>
+            <h3>Landscape</h3>
+            <p>Impressionist alpine vistas &amp; maritime seascapes</p>
+          </a>
+
+          <a href="artworks.html?category=Abstract" class="category-card">
+            <div class="category-icon-box">🌀</div>
+            <h3>Abstract</h3>
+            <p>Geometric harmonies, gold leaf &amp; color field pieces</p>
+          </a>
+
+          <a href="artworks.html?category=Sculpture" class="category-card">
+            <div class="category-icon-box">🗿</div>
+            <h3>Sculpture</h3>
+            <p>Patinated cast bronze &amp; carved Carrara marble</p>
+          </a>
         </div>
       </div>
     </section>
 
-    <!-- Featured Artworks -->
-    <section class="section-padding section-bordered">
+    <!-- Featured Artworks Section (Gallery Catalog) -->
+    <section class="section-padding">
       <div class="container">
-        <div class="section-header-split">
-          <div>
-            <span class="section-subtitle">Curator's Choice</span>
-            <h2 class="section-title">Featured Artworks</h2>
-          </div>
-          <a href="artworks.html" class="btn btn-sm btn-outline-gold">Explore Full Catalog</a>
+        <div class="section-header">
+          <span class="section-subtitle">Curator's Selection</span>
+          <h2 class="section-title">Featured Masterpieces</h2>
+          <p class="section-desc">Exceptional original creations highlighted by our resident gallery curators this season.</p>
         </div>
 
         <div class="artwork-grid" id="featuredArtworksGrid">
           <!-- Populated dynamically via artworks.js -->
         </div>
+
+        <div style="text-align: center; margin-top: 50px;">
+          <a href="artworks.html" class="btn btn-lg btn-outline">Explore Complete Catalog</a>
+        </div>
       </div>
     </section>
 
-    <!-- Live Auction Banner -->
-    <section class="auction-banner-section">
+    <!-- Live Auction Preview Section (Classic Evening Auction Salon) -->
+    <section class="section-padding" style="background-color: #201E1C; color: #F7F3EC; border-top: 1px solid #332E28; border-bottom: 1px solid #332E28;">
       <div class="container">
-        <div class="auction-banner-card">
-          <div style="max-width: 660px;">
-            <span class="badge badge-live-red" style="margin-bottom: 14px;">● LIVE BIDDING EVENT</span>
-            <h2 style="font-size: clamp(1.8rem, 3vw, 2.4rem); color: #ffffff; margin-bottom: 10px;">
-              High-Stakes Contemporary Art Auction
-            </h2>
-            <p style="color: var(--text-muted); font-size: 1rem; line-height: 1.7;">
-              Participate in live competitive bidding with transparent bid logs, real-time countdown timers, and verified artwork provenance.
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 32px;">
+          <div style="max-width: 620px;">
+            <span class="badge badge-auction" style="margin-bottom: 14px;">Live Bidding Room</span>
+            <h2 style="font-size: 2.8rem; font-weight: 700; margin-bottom: 12px; color: #F7F3EC;">Curated Fine Art Auctions</h2>
+            <p style="color: #A89F93; font-size: 1.05rem; line-height: 1.7;">
+              Place verified competitive bids on rare, one-of-a-kind artworks directly from celebrated artists. Real-time bid increments and transparent auction declarations.
             </p>
           </div>
           <div>
-            <a href="auction.html" class="btn btn-lg btn-gold">Enter Auction Room</a>
+            <a href="auction.html" class="btn btn-lg btn-accent">Enter Live Auction Hub</a>
           </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Curated Exhibitions -->
-    <section class="section-padding">
-      <div class="container">
-        <div class="section-header-split">
-          <div>
-            <span class="section-subtitle">Curated Showcases</span>
-            <h2 class="section-title">Current &amp; Upcoming Exhibitions</h2>
-          </div>
-          <a href="exhibitions.html" class="btn btn-sm btn-outline-gold">Exhibition Hall</a>
-        </div>
-
-        <div class="exhibition-grid" id="homeExhibitionsGrid">
-          <!-- Populated dynamically via exhibitions.js -->
         </div>
       </div>
     </section>
   </main>
 
-  <!-- Professional Footer -->
+  <!-- Site Footer (Classic Deep Charcoal & Gold) -->
   <footer class="site-footer">
     <div class="container footer-top">
-      <div class="footer-grid">
+      <div class="footer-grid" style="grid-template-columns: 2fr 1fr 1fr;">
         <div class="footer-col">
-          <img src="images/logo.svg" alt="ZENITH Fine Art Gallery" style="height: 44px; margin-bottom: 16px;">
-          <p style="font-size: 0.9rem; line-height: 1.7; max-width: 320px;">
-            ZENITH Fine Art Gallery &amp; Auction House connects visionary painters and distinguished collectors across curated exhibitions and live auctions.
+          <img src="images/logo.svg" alt="ArtLoom" style="height: 44px; margin-bottom: 18px;">
+          <p style="color: #A89F93; font-size: 0.90rem; max-width: 320px; line-height: 1.65; margin-bottom: 0;">
+            ArtLoom is a curated online art gallery connecting discerning collectors with visionary independent artists worldwide.
           </p>
         </div>
 
         <div class="footer-col">
-          <h4>Navigation</h4>
+          <h4>Explore</h4>
           <ul class="footer-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="artworks.html">Artwork Catalog</a></li>
+            <li><a href="artworks.html">Curated Catalog</a></li>
             <li><a href="auction.html">Live Auctions</a></li>
-            <li><a href="exhibitions.html">Virtual Exhibitions</a></li>
-            <li><a href="about.html">About ZENITH</a></li>
+            <li><a href="artist-profile.html">Featured Artists</a></li>
+            <li><a href="reviews.html">Collector Reviews</a></li>
           </ul>
         </div>
 
         <div class="footer-col">
-          <h4>Gallery Portals</h4>
+          <h4>Collection</h4>
           <ul class="footer-links">
-            <li><a href="artist-profile.html">Exhibiting Artists</a></li>
-            <li><a href="reviews.html">Collector Critiques</a></li>
-            <li><a href="favorites.html">Saved Favorites</a></li>
-            <li><a href="purchases.html">Order History</a></li>
+            <li><a href="about.html">About the Gallery</a></li>
             <li><a href="login.html">Member Sign In</a></li>
+            <li><a href="signup.html">Create Collector Account</a></li>
+            <li><a href="favorites.html">Saved Favorites</a></li>
           </ul>
-        </div>
-
-        <div class="footer-col">
-          <h4>Fine Art Digest</h4>
-          <p style="font-size: 0.86rem; line-height: 1.6;">
-            Receive private invitations to seasonal exhibitions and upcoming evening auctions.
-          </p>
-          <form class="newsletter-form" onsubmit="event.preventDefault(); showToast('Subscribed to ZENITH Fine Art Digest.', 'success'); this.reset();">
-            <input type="email" placeholder="collector@domain.com" required aria-label="Email address">
-            <button type="submit" class="btn btn-sm btn-gold">Subscribe</button>
-          </form>
         </div>
       </div>
     </div>
 
     <div class="container footer-bottom">
-      <div>&copy; 2026 ZENITH Fine Art Gallery. All rights reserved.</div>
-      <div style="color: var(--gold-primary);">Curated Fine Art &amp; Live Auctions</div>
+      <div>&copy; 2026 ArtLoom Online Art Gallery. All rights reserved.</div>
+      <div style="color: var(--accent);">Curated Fine Art &amp; Live Auctions</div>
     </div>
   </footer>
 
   <!-- Scripts -->
-  <script src="js/config.local.js"></script>
   <script src="js/storage.js"></script>
   <script src="js/auth.js"></script>
-  <script src="js/cart.js"></script>
   <script src="js/artworks.js"></script>
-  <script src="js/exhibitions.js"></script>
 </body>
 </html>

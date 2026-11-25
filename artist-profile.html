@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Exhibiting Artists — ZENITH Fine Art Gallery</title>
+  <title>Master Artists &amp; Portfolios — ArtLoom Online Art Gallery</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -15,63 +15,65 @@
   <header class="site-header">
     <div class="container navbar">
       <a href="index.html" class="brand-logo">
-        <img src="images/logo.svg" alt="ZENITH Fine Art Gallery">
+        <img src="images/logo.svg" alt="ArtLoom Logo">
       </a>
 
-      <button type="button" class="menu-toggle" id="menuToggle" aria-label="Toggle Navigation">☰</button>
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle Navigation">☰</button>
 
       <ul class="nav-links" id="navLinks">
         <li><a href="index.html">Home</a></li>
         <li><a href="artworks.html">Gallery</a></li>
         <li><a href="artist-profile.html" class="active">Artists</a></li>
         <li><a href="auction.html">Auctions</a></li>
-        <li><a href="exhibitions.html">Exhibitions</a></li>
         <li><a href="reviews.html">Reviews</a></li>
         <li><a href="about.html">About</a></li>
       </ul>
 
-      <div class="nav-actions" id="navActions"></div>
+      <div class="nav-actions" id="navActions">
+        <!-- Injected dynamically via auth.js -->
+      </div>
     </div>
   </header>
 
   <main class="main-content">
-    <div class="container" style="padding-top: 44px;">
+    <div class="container" style="padding-top: 45px;">
       <!-- Breadcrumb -->
-      <div style="margin-bottom: 20px; font-size: 0.88rem; color: var(--text-muted);">
-        <a href="index.html" style="color: var(--gold-primary);">Home</a> &gt;
-        <a href="artworks.html" style="color: var(--gold-primary);">Gallery</a> &gt;
-        <span style="color: #ffffff; font-weight: 600;">Resident Artist Portfolios</span>
+      <div style="margin-bottom: 22px; font-size: 0.88rem; color: var(--text-muted); letter-spacing: 0.02em;">
+        <a href="index.html">Home</a> &gt; <a href="artworks.html">Gallery</a> &gt; <span style="color: var(--text-main); font-weight: 600;">Resident Artist Portfolios</span>
       </div>
 
-      <!-- Featured Artists Directory -->
+      <!-- Featured Artists Directory Header -->
       <div style="margin-bottom: 36px;">
-        <span class="section-subtitle">Resident Masters &amp; Painters</span>
-        <h1 style="font-size: clamp(2rem, 3.5vw, 2.75rem); color: #ffffff; margin-bottom: 10px;">Exhibiting Artists Directory</h1>
-        <p style="color: var(--text-muted); font-size: 0.98rem; max-width: 820px; line-height: 1.65; margin-bottom: 24px;">
-          Discover verified painters across oil, watercolor, landscape, portraiture, abstract, and heritage disciplines. Select an artist below to explore their private portfolio.
+        <span class="section-subtitle">Resident Masters &amp; Creators</span>
+        <h1 style="font-size: 2.8rem; font-weight: 700; line-height: 1.15; margin-bottom: 10px;">Exhibiting Artists Directory</h1>
+        <p style="color: var(--text-muted); font-size: 1rem; max-width: 820px; line-height: 1.65; margin-bottom: 24px;">
+          Explore our certified independent artists across contemporary oil, generative 3D, fine art photography, classical heritage, and sculpture disciplines. Select any artist to explore their private portfolio and available works.
         </p>
 
-        <div id="artistDirectoryGrid" class="artist-directory-grid"></div>
+        <!-- Dynamic Artist Directory Grid -->
+        <div id="artistDirectoryGrid" class="artist-directory-grid">
+          <!-- Dynamically populated via artist.js with all 10 artists -->
+        </div>
       </div>
 
-      <!-- Main Artist Profile Container -->
-      <div id="artistProfileContainer"></div>
+      <!-- Main Artist Profile Container (Rendered dynamically via artist.js) -->
+      <div id="artistProfileContainer">
+        <!-- Profile info & artwork gallery dynamically injected -->
+      </div>
     </div>
   </main>
 
   <!-- Footer -->
   <footer class="site-footer">
     <div class="container footer-bottom">
-      <div>&copy; 2026 ZENITH Fine Art Gallery. All rights reserved.</div>
-      <div style="color: var(--gold-primary);">Resident Artist Portfolios</div>
+      <div>&copy; 2026 ArtLoom Online Art Gallery. All rights reserved.</div>
+      <div style="color: var(--accent);">Resident Artist Portfolios</div>
     </div>
   </footer>
 
   <!-- Scripts -->
-  <script src="js/config.local.js"></script>
   <script src="js/storage.js"></script>
   <script src="js/auth.js"></script>
-  <script src="js/cart.js"></script>
   <script src="js/artworks.js"></script>
   <script src="js/artist.js"></script>
 </body>

@@ -1,7 +1,7 @@
 /**
- * reviews.js - Collector Critiques & Ratings Module
- * ZENITH Fine Art Gallery & Auction House
- * Pure Vanilla JavaScript & LocalStorage
+ * reviews.js - Reviews & Ratings Module
+ * Online Art Gallery (ArtLoom) - SDC Project Review-1
+ * Strictly Vanilla JavaScript & LocalStorage
  */
 
 // Helper to generate star HTML string (e.g. ★★★★★)
@@ -20,7 +20,7 @@ function renderArtworkReviews(artworkId) {
   const reviewCountEl = document.getElementById('artworkReviewCount');
   if (!reviewsContainer) return;
 
-  const reviews = getData('reviews', []).filter(r => Number(r.artworkId) === Number(artworkId));
+  const reviews = getData('reviews', []).filter(r => r.artworkId === Number(artworkId));
 
   if (reviewCountEl) {
     reviewCountEl.textContent = `(${reviews.length} Customer Reviews)`;

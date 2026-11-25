@@ -1,7 +1,7 @@
 /**
- * storage.js - Local Storage Abstraction, Sample Data & Safe Migration
- * ZENITH Fine Art Gallery & Auction House
- * Pure Vanilla JavaScript & LocalStorage
+ * storage.js - Local Storage Abstraction and Sample Data Seeding
+ * Online Art Gallery (ArtLoom)
+ * Strictly Vanilla JavaScript & LocalStorage
  */
 
 // Core Storage Utility Functions
@@ -36,7 +36,7 @@ function removeData(key) {
   }
 }
 
-// Toast Notification System
+// User-friendly Toast Notification System
 function showToast(message, type = 'success') {
   let toastContainer = document.getElementById('toastContainer');
   if (!toastContainer) {
@@ -59,15 +59,17 @@ function showToast(message, type = 'success') {
   toast.innerHTML = `
     <span class="toast-icon">${iconMap[type] || '•'}</span>
     <span class="toast-message">${message}</span>
-    <button type="button" class="toast-close" onclick="this.parentElement.remove()" aria-label="Close">&times;</button>
+    <button class="toast-close" onclick="this.parentElement.remove()">&times;</button>
   `;
 
   toastContainer.appendChild(toast);
 
+  // Trigger animation
   requestAnimationFrame(() => {
     toast.classList.add('show');
   });
 
+  // Auto remove after 3.8 seconds
   setTimeout(() => {
     toast.classList.remove('show');
     setTimeout(() => {
@@ -84,30 +86,24 @@ function formatCurrency(amount) {
 // Generate Next ID for an entity array
 function getNextId(array) {
   if (!array || array.length === 0) return 1;
-  const max = array.reduce((prev, curr) => (Number(curr.id) > prev ? Number(curr.id) : prev), 0);
+  const max = array.reduce((prev, curr) => (curr.id > prev ? curr.id : prev), 0);
   return max + 1;
 }
 
-// Helper for future/past ISO timestamps (used by auction countdown timers)
-function offsetHoursISO(hoursOffset) {
-  return new Date(Date.now() + hoursOffset * 3600 * 1000).toISOString();
-}
-
-// Initialize and Seed Sample Data & Perform Safe Credential/Image Migration
+// Initialize and Seed Sample Data if not present
 function initializeSampleData() {
   const localCfg = (typeof window !== 'undefined' && window.ZENITH_LOCAL_CONFIG) ? window.ZENITH_LOCAL_CONFIG : {};
   const localAdmin = localCfg.admin || {};
-  const localUserPassword = String(localCfg.demoUserPassword || '');
-  const localArtistPassword = String(localCfg.demoArtistPassword || '');
+  const demoAdminEmail = String(localAdmin.email || 'admin@artloom-demo.local').trim();
+  const demoAdminPassword = String(localAdmin.password || 'DemoAdmin@123');
 
-  // 1. Initial Users (Admin, Collectors, and 10 Resident Artists)
-  // Note: Private credentials are loaded locally from gitignored js/config.local.js for demonstration only.
+  // 1. Initial Users (Admin, Buyers, and 10 Sample Artists)
   const initialUsers = [
     {
       id: 1,
-      name: "Gallery Administrator",
-      email: localAdmin.email || "admin@zenith-gallery.local",
-      password: localAdmin.password || "",
+      name: "Admin Administrator",
+      email: demoAdminEmail,
+      password: demoAdminPassword,
       role: "admin",
       avatar: "images/avatar-admin.svg",
       createdAt: "2026-01-10"
@@ -116,7 +112,7 @@ function initializeSampleData() {
       id: 2,
       name: "Kiran Reddy",
       email: "user@artgallery.com",
-      password: localUserPassword,
+      password: "user123",
       role: "user",
       avatar: "images/avatar-user.svg",
       createdAt: "2026-02-15"
@@ -125,29 +121,29 @@ function initializeSampleData() {
       id: 3,
       name: "Elena Vance",
       email: "artist@artgallery.com",
-      password: localArtistPassword,
+      password: "artist123",
       role: "artist",
       avatar: "images/avatar-artist.svg",
-      specialization: "Landscape & Oil Painting",
-      bio: "Elena Vance is celebrated for luminous oil landscapes, maritime horizons, and atmospheric light on Belgian linen.",
+      specialization: "Landscape & Impressionism",
+      bio: "Elena Vance is a contemporary fine artist celebrated for vivid light play, serene natural vistas, and expressive oil paintings. Her works are held in private galleries across the country.",
       createdAt: "2026-01-20"
     },
     {
       id: 4,
       name: "Marcus Sterling",
       email: "marcus@artgallery.com",
-      password: localArtistPassword,
+      password: "artist123",
       role: "artist",
       avatar: "images/avatar-artist.svg",
-      specialization: "Abstract & Modern Art",
-      bio: "Marcus Sterling explores bold constructivist geometry, monochrome contrasts, and vibrant impasto color planes.",
+      specialization: "Digital Art & Sculpture",
+      bio: "Marcus Sterling merges tactile sculpting with generative 3D digital mediums, creating visionary pieces that question space, geometry, and human emotion.",
       createdAt: "2026-02-01"
     },
     {
       id: 5,
       name: "Rahul Sharma",
       email: "rahul@artgallery.com",
-      password: localUserPassword,
+      password: "user123",
       role: "user",
       avatar: "images/avatar-user.svg",
       createdAt: "2026-02-20"
@@ -156,431 +152,358 @@ function initializeSampleData() {
       id: 6,
       name: "Sophia Bennett",
       email: "sophia@artgallery.com",
-      password: localArtistPassword,
+      password: "artist123",
       role: "artist",
       avatar: "images/avatar-artist.svg",
-      specialization: "Nature & Watercolor Painting",
-      bio: "Sophia Bennett captures tranquil woodlands, highland fauna, and translucent watercolor meadows.",
+      specialization: "Nature Art & Oil Painting",
+      bio: "Sophia Bennett captures the serene rhythms of untouched forests, botanical forms, and wild flora through rich, layered oil glazes on Belgian linen.",
       createdAt: "2026-02-05"
     },
     {
       id: 7,
       name: "Daniel Carter",
       email: "daniel@artgallery.com",
-      password: localArtistPassword,
+      password: "artist123",
       role: "artist",
       avatar: "images/avatar-artist.svg",
-      specialization: "Classical & Contemporary Portraits",
-      bio: "Daniel Carter creates deeply expressive figurative portraits studying light, drapery, and quiet human poise.",
+      specialization: "Contemporary Portraiture",
+      bio: "Daniel Carter specializes in expressive, high-contrast contemporary portraiture that illuminates human vulnerability, psychological depth, and emotional character.",
       createdAt: "2026-02-08"
     },
     {
       id: 8,
       name: "Olivia Morgan",
       email: "olivia@artgallery.com",
-      password: localArtistPassword,
+      password: "artist123",
       role: "artist",
       avatar: "images/avatar-artist.svg",
-      specialization: "Contemporary & Abstract Art",
-      bio: "Olivia Morgan composes large-scale contemporary and abstract works driven by chromatic energy and fluid gesture.",
+      specialization: "Abstract & Color Psychology",
+      bio: "Olivia Morgan explores chromatic harmony, emotional energy, and non-representational geometries, crafting large-scale abstract compositions that resonate with modern spaces.",
       createdAt: "2026-02-12"
     },
     {
       id: 9,
       name: "Arjun Mehta",
       email: "arjun@artgallery.com",
-      password: localArtistPassword,
+      password: "artist123",
       role: "artist",
       avatar: "images/avatar-artist.svg",
-      specialization: "Traditional & Heritage Painting",
-      bio: "Arjun Mehta preserves classical architectural frescoes, historical narratives, and traditional painterly mastery.",
+      specialization: "Traditional Art & Heritage",
+      bio: "Arjun Mehta reinterprets classical Indian miniature traditions, heritage architecture, and temple frescoes with rich pigment washes and intricate detailing.",
       createdAt: "2026-02-15"
     },
     {
       id: 10,
       name: "Maya Anderson",
       email: "maya@artgallery.com",
-      password: localArtistPassword,
+      password: "artist123",
       role: "artist",
       avatar: "images/avatar-artist.svg",
-      specialization: "Floral & Still Life Oil Painting",
-      bio: "Maya Anderson paints heirloom botanical still lifes and lush floral arrangements with rich oil glazes.",
+      specialization: "Fine Art Photography",
+      bio: "Maya Anderson is an award-winning fine art and documentary photographer capturing fleeting moments of atmospheric light, cinematic landscapes, and cultural heritage.",
       createdAt: "2026-02-18"
     },
     {
       id: 11,
       name: "Ethan Williams",
       email: "ethan@artgallery.com",
-      password: localArtistPassword,
+      password: "artist123",
       role: "artist",
       avatar: "images/avatar-artist.svg",
-      specialization: "Modern Art & Color Studies",
-      bio: "Ethan Williams investigates organic modernist forms, rhythmic color blocks, and contemporary minimalism.",
+      specialization: "Modern Sculpture & Bronze",
+      bio: "Ethan Williams creates architectural bronzes and dynamic stone sculptures, exploring organic flow, kinetic tension, and monolithic balance.",
       createdAt: "2026-02-22"
     },
     {
       id: 12,
       name: "Isabella Rossi",
       email: "isabella@artgallery.com",
-      password: localArtistPassword,
+      password: "artist123",
       role: "artist",
       avatar: "images/avatar-artist.svg",
-      specialization: "Watercolor & Botanical Art",
-      bio: "Isabella Rossi blends delicate cold-pressed watercolor washes with lyrical pastoral and floral compositions.",
+      specialization: "Minimalist & Line Art",
+      bio: "Isabella Rossi is renowned for minimalist ink wash and elegant one-line drawings, balancing negative space with powerful emotional restraint.",
       createdAt: "2026-02-25"
     },
     {
       id: 13,
       name: "Noah Thompson",
       email: "noah@artgallery.com",
-      password: localArtistPassword,
+      password: "artist123",
       role: "artist",
       avatar: "images/avatar-artist.svg",
-      specialization: "Contemporary & Oil Studies",
-      bio: "Noah Thompson bridges luminous contemporary brushwork with timeless maritime and horizon studies.",
+      specialization: "Cyberpunk & Generative 3D Art",
+      bio: "Noah Thompson pioneers at the intersection of creative coding, algorithmic fractals, and immersive cyberpunk aesthetics, pushing the frontier of generative 3D art.",
       createdAt: "2026-03-01"
     }
   ];
 
-  // 2. Categories (10 Curated Painting Varieties)
-  const initialCategories = [
-    { id: 1, name: "Abstract", description: "Expressive brushstrokes, layered forms, and chromatic abstractions", icon: "🌀" },
-    { id: 2, name: "Oil Painting", description: "Richly glazed oil originals on stretched canvas and Belgian linen", icon: "🎨" },
-    { id: 3, name: "Watercolor", description: "Translucent pigment washes and luminous paper compositions", icon: "💧" },
-    { id: 4, name: "Landscape", description: "Alpine peaks, river vistas, and dramatic coastal horizons", icon: "🌄" },
-    { id: 5, name: "Nature", description: "Woodland sanctuaries, wildlife studies, and organic serenity", icon: "🌿" },
-    { id: 6, name: "Portrait", description: "Expressive figurative portraits capturing character and grace", icon: "👤" },
-    { id: 7, name: "Contemporary", description: "Dynamic modern voices exploring bold light and movement", icon: "✨" },
-    { id: 8, name: "Modern Art", description: "Constructivist geometry, organic shapes, and avant-garde color", icon: "🔶" },
-    { id: 9, name: "Traditional", description: "Classical frescoes, heritage scenes, and timeless mastery", icon: "🏛️" },
-    { id: 10, name: "Floral", description: "Heirloom botanical bouquets and luminous floral still lifes", icon: "🌸" }
-  ];
+  if (!localStorage.getItem('users')) {
+    setData('users', initialUsers);
+  }
 
-  // 3. 50 Sample Artworks (Every image uniquely sourced from Unsplash paintings in assets/images/)
+  // 2. Categories (8 Standard Categories)
+  if (!localStorage.getItem('categories') || localStorage.getItem('zenith_migration_v3')) {
+    const initialCategories = [
+      { id: 1, name: "Painting", description: "Oil, acrylic, and watercolor originals on canvas", icon: "🎨" },
+      { id: 2, name: "Digital Art", description: "3D concepts, generative vectors, and digital matte painting", icon: "💻" },
+      { id: 3, name: "Photography", description: "Fine art, documentary, and wildlife captures", icon: "📷" },
+      { id: 4, name: "Drawing", description: "Charcoal, graphite, and expressive ink drawings", icon: "✏️" },
+      { id: 5, name: "Portrait", description: "Evocative human characters, cultural depictions, and profiles", icon: "👤" },
+      { id: 6, name: "Landscape", description: "Breathtaking natural horizons, mountains, and seascapes", icon: "🌄" },
+      { id: 7, name: "Abstract", description: "Harmonic forms, color psychology, and modern compositions", icon: "🌀" },
+      { id: 8, name: "Sculpture", description: "Three-dimensional carved marble, cast bronze, and mixed media", icon: "🗿" }
+    ];
+    setData('categories', initialCategories);
+  }
+
+  // 3. Artworks (50 Curated Artworks: Exactly 5 per Artist across all 10 Artists)
+  // Distribution: 35 For Sale (70%), 10 Live Auction (20%), 5 Winner Announced (10%)
   const initialArtworks = [
-    // --- Elena Vance (Artist ID: 3) ---
+    // --- Elena Vance (Artist ID: 3, Landscape & Impressionism) ---
     {
       id: 1,
-      name: "Alpine Waters at Dusk",
+      name: "Golden Horizon",
       artist: "Elena Vance",
       artistId: 3,
       category: "Landscape",
-      medium: "Oil on Belgian Linen",
-      dimensions: "36 x 48 in",
-      year: "2025",
-      description: "Luminous mountain peaks mirrored in tranquil alpine waters as evening amber light settles across the valley.",
-      price: 18500,
+      description: "An evocative oil-on-canvas masterpiece depicting the tranquil golden hour over jagged mountain peaks and reflecting alpine waters.",
+      price: 18000,
       type: "For Sale",
       image: "assets/images/landscape-alpine-waters.jpg",
-      altText: "Painting of mountains near a calm body of water",
       featured: true,
       status: "active",
-      isSample: true,
       createdAt: "2026-02-10"
     },
     {
       id: 2,
-      name: "Voyage Through Twilight",
+      name: "Whispers of the Ocean",
       artist: "Elena Vance",
       artistId: 3,
-      category: "Oil Painting",
-      medium: "Oil on Canvas",
-      dimensions: "30 x 40 in",
-      year: "2025",
-      description: "Classical maritime oil painting depicting a tall-masted sailing ship cutting across deep slate-blue ocean swells.",
-      price: 22000,
+      category: "Landscape",
+      description: "An impressionist coastal scene depicting powerful cerulean ocean swells cresting into luminous sea-foam along a sun-drenched shore.",
+      price: 15000,
       type: "For Sale",
-      image: "assets/images/oil-sail-ship-sea.jpg",
-      altText: "Oil painting of a brown and white sail ship on open sea",
+      image: "assets/images/landscape-coastal-waters.jpg",
       featured: false,
       status: "active",
-      isSample: true,
       createdAt: "2026-02-14"
     },
     {
       id: 3,
-      name: "River Crossing at Dawn",
+      name: "Midnight Serenade",
       artist: "Elena Vance",
       artistId: 3,
-      category: "Landscape",
-      medium: "Oil on Panel",
-      dimensions: "24 x 36 in",
-      year: "2025",
-      description: "Figures ferrying across a misty river beneath warm morning clouds, painted with soft atmospheric brushwork.",
+      category: "Abstract",
+      description: "Expressive lyrical brushstrokes of royal violet, turquoise, and gold leaf evoking the rhythmic harmony of midnight orchestral jazz.",
       price: 19500,
       type: "For Sale",
-      image: "assets/images/landscape-river-boat.jpg",
-      altText: "Landscape painting of figures in a boat on a river",
+      image: "assets/images/abstract-cobalt-crimson.jpg",
       featured: false,
       status: "active",
-      isSample: true,
       createdAt: "2026-02-18"
     },
     {
       id: 4,
-      name: "Golden Wheat Harvest",
+      name: "Lady in Saffron",
       artist: "Elena Vance",
       artistId: 3,
-      category: "Oil Painting",
-      medium: "Oil on Linen",
-      dimensions: "32 x 44 in",
-      year: "2026",
-      description: "Sun-warmed haystacks rising over a sweeping golden wheat field under a pale countryside sky.",
+      category: "Portrait",
+      description: "A poignant portrait capturing a serene woman adorned in flowing saffron silk drapery with intricate gold ornaments against deep chiaroscuro.",
       price: 22000,
       startingPrice: 22000,
       currentBid: 25000,
       currentBidder: "Kiran Reddy",
-      bidsCount: 2,
+      bidsCount: 3,
       type: "Auction",
       auctionStatus: "LIVE",
-      endTime: offsetHoursISO(52),
-      image: "assets/images/oil-golden-wheatfield.jpg",
-      altText: "Oil painting of a golden wheat field with haystacks",
+      image: "assets/images/portrait-blue-vessel.jpg",
       featured: true,
       status: "active",
-      isSample: true,
       createdAt: "2026-02-22"
     },
     {
       id: 5,
-      name: "Highland Lake Passage",
+      name: "Sunset Dreams",
       artist: "Elena Vance",
       artistId: 3,
-      category: "Landscape",
-      medium: "Oil on Canvas",
-      dimensions: "28 x 38 in",
-      year: "2025",
-      description: "A solitary wooden boat gliding across crystalline blue lake waters below snow-crowned mountain peaks.",
-      price: 15000,
-      startingPrice: 15000,
-      currentBid: 18500,
-      winningBid: 18500,
+      category: "Painting",
+      description: "A breathtaking impressionist sunset panorama over coastal dunes and glowing tidal waters, blending vivid amber, crimson, and lavender hues.",
+      price: 5000,
+      startingPrice: 5000,
+      currentBid: 8500,
+      winningBid: 8500,
       winnerName: "Kiran Reddy",
       winnerEmail: "user@artgallery.com",
       currentBidder: "Kiran Reddy",
-      bidsCount: 2,
+      bidsCount: 4,
       type: "Auction",
       auctionStatus: "WINNER ANNOUNCED",
-      endTime: offsetHoursISO(-24),
-      image: "assets/images/landscape-glacial-boat.jpg",
-      altText: "Painting of a small boat on a blue lake beneath snow-capped mountains",
-      featured: false,
+      image: "assets/images/contemporary-solar-waters.jpg",
+      featured: true,
       status: "active",
-      isSample: true,
       createdAt: "2026-02-26"
     },
 
-    // --- Marcus Sterling (Artist ID: 4) ---
+    // --- Marcus Sterling (Artist ID: 4, Digital Art & Sculpture) ---
     {
       id: 6,
-      name: "Vibrant Brushwork Symphony",
+      name: "Neon Cyber Odyssey",
       artist: "Marcus Sterling",
       artistId: 4,
-      category: "Abstract",
-      medium: "Acrylic & Impasto on Canvas",
-      dimensions: "40 x 50 in",
-      year: "2026",
-      description: "Energetic abstract composition combining bold sweeping brushstrokes and rich chromatic layering.",
-      price: 16500,
-      startingPrice: 16500,
-      currentBid: 19000,
+      category: "Digital Art",
+      description: "A visionary 3D rendered futuristic cityscape celebrating vaporwave aesthetics, holographic geometry, and neon cyberpunk architecture.",
+      price: 12500,
+      startingPrice: 12500,
+      currentBid: 14000,
       currentBidder: "Kiran Reddy",
       bidsCount: 2,
       type: "Auction",
       auctionStatus: "LIVE",
-      endTime: offsetHoursISO(34),
-      image: "assets/images/abstract-bold-brushstrokes.jpg",
-      altText: "Abstract painting with bold brushstrokes and vibrant colors",
+      image: "assets/images/contemporary-chromatic-wave.jpg",
       featured: true,
       status: "active",
-      isSample: true,
       createdAt: "2026-02-12"
     },
     {
       id: 7,
-      name: "Obsidian & Chalk Contrast",
+      name: "Bronze Harmony",
       artist: "Marcus Sterling",
       artistId: 4,
-      category: "Abstract",
-      medium: "Mixed Media on Canvas",
-      dimensions: "36 x 36 in",
-      year: "2025",
-      description: "Striking monochrome abstraction balancing textured ivory planes against deep charcoal strokes.",
-      price: 21000,
+      category: "Sculpture",
+      description: "Cast bronze infinity ribbon sculpture with polished golden patinas, mounted on an authentic honed volcanic slate plinth.",
+      price: 35000,
       type: "For Sale",
-      image: "assets/images/abstract-monochrome-contrast.jpg",
-      altText: "White and black abstract painting with rich texture",
-      featured: false,
+      image: "assets/images/modern-twin-forms.jpg",
+      featured: true,
       status: "active",
-      isSample: true,
       createdAt: "2026-02-16"
     },
     {
       id: 8,
-      name: "Crimson & Amber Surge",
+      name: "Geometric Reverie",
       artist: "Marcus Sterling",
       artistId: 4,
       category: "Abstract",
-      medium: "Acrylic on Stretched Linen",
-      dimensions: "30 x 42 in",
-      year: "2026",
-      description: "Radiant interplay of vermilion red and warm ochre pigment sculpted with palette-knife tension.",
-      price: 14000,
-      startingPrice: 14000,
-      currentBid: 16500,
+      description: "Constructivist vector abstract piece exploring color psychology, bold architectural arches, vibrant teal planes, and balance.",
+      price: 11000,
+      startingPrice: 11000,
+      currentBid: 13500,
       currentBidder: "Rahul Sharma",
-      bidsCount: 2,
+      bidsCount: 3,
       type: "Auction",
       auctionStatus: "LIVE",
-      endTime: offsetHoursISO(18),
-      image: "assets/images/abstract-crimson-amber.jpg",
-      altText: "Red and yellow abstract painting",
+      image: "assets/images/modern-primary-composition.jpg",
       featured: false,
       status: "active",
-      isSample: true,
       createdAt: "2026-02-20"
     },
     {
       id: 9,
-      name: "Cobalt & Crimson Harmony",
+      name: "Marble Flora",
       artist: "Marcus Sterling",
       artistId: 4,
-      category: "Abstract",
-      medium: "Oil & Cold Wax on Panel",
-      dimensions: "36 x 48 in",
-      year: "2025",
-      description: "Expressive chromatic dialogue between deep ultramarine currents and vivid crimson highlights.",
-      price: 28000,
-      startingPrice: 28000,
-      currentBid: 33000,
-      winningBid: 33000,
+      category: "Sculpture",
+      description: "Hand-chiseled organic botanical form in genuine Carrara white marble, featuring translucent delicate curves and soft light interplay.",
+      price: 42000,
+      startingPrice: 42000,
+      currentBid: 47000,
+      winningBid: 47000,
       winnerName: "Kiran Reddy",
       winnerEmail: "user@artgallery.com",
       currentBidder: "Kiran Reddy",
-      bidsCount: 2,
+      bidsCount: 5,
       type: "Auction",
       auctionStatus: "WINNER ANNOUNCED",
-      endTime: offsetHoursISO(-18),
-      image: "assets/images/abstract-cobalt-crimson.jpg",
-      altText: "Blue and red abstract painting",
-      featured: false,
+      image: "assets/images/floral-pale-roses.jpg",
+      featured: true,
       status: "active",
-      isSample: true,
       createdAt: "2026-02-24"
     },
     {
       id: 10,
-      name: "Azure & Earth Drift",
+      name: "Metropolis Awakening",
       artist: "Marcus Sterling",
       artistId: 4,
-      category: "Abstract",
-      medium: "Acrylic on Canvas",
-      dimensions: "32 x 40 in",
-      year: "2026",
-      description: "Layered composition of cerulean blue, umber earth, and chalk white evoking coastal strata.",
-      price: 17500,
+      category: "Digital Art",
+      description: "A sweeping digital panoramic matte capturing a bustling glass-and-steel megalopolis as the dawn sun emerges over harbor waters.",
+      price: 16000,
       type: "For Sale",
-      image: "assets/images/abstract-azure-earth.jpg",
-      altText: "Abstract painting of blue, brown, and white colors",
+      image: "assets/images/traditional-dome-waterfront.jpg",
       featured: false,
       status: "active",
-      isSample: true,
       createdAt: "2026-02-28"
     },
 
-    // --- Sophia Bennett (Artist ID: 6) ---
+    // --- Sophia Bennett (Artist ID: 6, Nature Art & Oil Painting) ---
     {
       id: 11,
-      name: "Emerald Woodland Mirror",
+      name: "Emerald Canopy",
       artist: "Sophia Bennett",
       artistId: 6,
-      category: "Nature",
-      medium: "Oil on Canvas",
-      dimensions: "30 x 40 in",
-      year: "2025",
-      description: "Tranquil forest lake bordered by sunlit foliage and serene reflections of overhanging trees.",
+      category: "Painting",
+      description: "Richly glazed oil painting capturing dappled forest sunlight illuminating ancient ferns, moss-draped branches, and woodland stream banks.",
       price: 24000,
       type: "For Sale",
       image: "assets/images/nature-forest-waters.jpg",
-      altText: "Painting of a calm body of water surrounded by trees",
       featured: true,
       status: "active",
-      isSample: true,
       createdAt: "2026-02-15"
     },
     {
       id: 12,
-      name: "Avian Sanctuary",
+      name: "Alpine Blossom",
       artist: "Sophia Bennett",
       artistId: 6,
-      category: "Nature",
-      medium: "Gouache & Watercolor on Paper",
-      dimensions: "22 x 30 in",
-      year: "2025",
-      description: "Delicate natural history painting of songbirds perched among flowering vines in a verdant canopy.",
-      price: 16800,
+      category: "Landscape",
+      description: "A tranquil depiction of high-altitude alpine wildflowers blooming against the dramatic backdrop of snow-dusted granite crags.",
+      price: 17500,
       type: "For Sale",
-      image: "assets/images/nature-avian-forest.jpg",
-      altText: "Painting of grey and orange birds perched on vines in a green forest",
+      image: "assets/images/watercolor-wildflower-hills.jpg",
       featured: false,
       status: "active",
-      isSample: true,
       createdAt: "2026-02-19"
     },
     {
       id: 13,
-      name: "Highland Stag Meadow",
+      name: "Sylvan Solitude",
       artist: "Sophia Bennett",
       artistId: 6,
-      category: "Nature",
-      medium: "Oil on Linen",
-      dimensions: "32 x 44 in",
-      year: "2026",
-      description: "Graceful deer grazing across a misty hillside meadow beneath distant mountain ridges.",
-      price: 19000,
-      startingPrice: 19000,
+      category: "Painting",
+      description: "Moody, atmospheric oil-on-panel portrayal of a misty forest clearing at daybreak, alive with golden god rays and dew-laden flora.",
+      price: 18000,
+      startingPrice: 18000,
       currentBid: 21500,
       currentBidder: "Rahul Sharma",
-      bidsCount: 2,
+      bidsCount: 3,
       type: "Auction",
       auctionStatus: "LIVE",
-      endTime: offsetHoursISO(41),
-      image: "assets/images/nature-highland-deer.jpg",
-      altText: "Painting of deer grazing on a grassy hillside with mountains behind",
+      image: "assets/images/watercolor-meadow-trees.jpg",
       featured: false,
       status: "active",
-      isSample: true,
       createdAt: "2026-02-23"
     },
     {
       id: 14,
-      name: "Sunlit Meadow Canopy",
+      name: "Whispering Pines",
       artist: "Sophia Bennett",
       artistId: 6,
-      category: "Watercolor",
-      medium: "Watercolor on Cold-Pressed Paper",
-      dimensions: "20 x 28 in",
-      year: "2025",
-      description: "Translucent watercolor wash study of sweeping open fields framed by soft summer trees.",
-      price: 13500,
+      category: "Landscape",
+      description: "Panoramic landscape study of towering evergreen ridges silhouetted against twilight violet skies and distant mountain ridges.",
+      price: 14000,
       type: "For Sale",
-      image: "assets/images/watercolor-meadow-trees.jpg",
-      altText: "Watercolor painting of a grassy field with trees",
+      image: "assets/images/landscape-trees-rock.jpg",
       featured: false,
       status: "active",
-      isSample: true,
       createdAt: "2026-02-27"
     },
     {
       id: 15,
-      name: "Wildflower Ridge Wash",
+      name: "Autumn Reverence",
       artist: "Sophia Bennett",
       artistId: 6,
-      category: "Watercolor",
-      medium: "Watercolor on Arches Paper",
-      dimensions: "24 x 32 in",
-      year: "2026",
-      description: "Impressionistic watercolor landscape alive with blooming meadow wildflowers and distant misty groves.",
+      category: "Painting",
+      description: "An evocative seasonal work capturing blazing russet, vermilion, and ochre foliage mirrored in still woodland lake waters.",
       price: 20000,
       startingPrice: 20000,
       currentBid: 26000,
@@ -588,151 +511,114 @@ function initializeSampleData() {
       winnerName: "Kiran Reddy",
       winnerEmail: "user@artgallery.com",
       currentBidder: "Kiran Reddy",
-      bidsCount: 2,
+      bidsCount: 4,
       type: "Auction",
       auctionStatus: "WINNER ANNOUNCED",
-      endTime: offsetHoursISO(-12),
-      image: "assets/images/watercolor-wildflower-hills.jpg",
-      altText: "Watercolor landscape painting with wildflowers and distant trees",
+      image: "assets/images/oil-golden-wheatfield.jpg",
       featured: false,
       status: "active",
-      isSample: true,
       createdAt: "2026-03-02"
     },
 
-    // --- Daniel Carter (Artist ID: 7) ---
+    // --- Daniel Carter (Artist ID: 7, Contemporary Portraiture) ---
     {
       id: 16,
-      name: "Child in the Wildflower Meadow",
+      name: "The Old Craftsman",
       artist: "Daniel Carter",
       artistId: 7,
       category: "Portrait",
-      medium: "Oil on Canvas",
-      dimensions: "28 x 36 in",
-      year: "2025",
-      description: "Tender sunlit portrait of a young figure seated amidst summer meadow blossoms in flowing white linen.",
-      price: 23500,
+      description: "Intimate and deeply detailed portrait celebrating generational wisdom, etched character lines, and focused craftsmanship in a woodshop.",
+      price: 8900,
       type: "For Sale",
-      image: "assets/images/portrait-wildflower-field.jpg",
-      altText: "Portrait painting of a child in white dress holding wildflowers",
-      featured: true,
+      image: "assets/images/traditional-cabin-gate.jpg",
+      featured: false,
       status: "active",
-      isSample: true,
       createdAt: "2026-02-17"
     },
     {
       id: 17,
-      name: "Keeper of the Cobalt Bowl",
+      name: "Gaze of Resilience",
       artist: "Daniel Carter",
       artistId: 7,
       category: "Portrait",
-      medium: "Oil on Belgian Linen",
-      dimensions: "26 x 34 in",
-      year: "2025",
-      description: "Dignified figurative portrait balancing crisp white drapery against a luminous cobalt ceramic vessel.",
+      description: "Powerful contemporary oil portrait depicting unwavering human strength and dignity illuminated by dramatic side lighting.",
       price: 21000,
       type: "For Sale",
-      image: "assets/images/portrait-blue-vessel.jpg",
-      altText: "Portrait painting of a woman in white headdress holding a blue bowl",
-      featured: false,
+      image: "assets/images/portrait-dark-elegance.jpg",
+      featured: true,
       status: "active",
-      isSample: true,
       createdAt: "2026-02-21"
     },
     {
       id: 18,
-      name: "Quiet Reflection in Ivory",
+      name: "Nomad of Ladakh",
       artist: "Daniel Carter",
       artistId: 7,
       category: "Portrait",
-      medium: "Oil on Canvas",
-      dimensions: "24 x 30 in",
-      year: "2026",
-      description: "Contemplative portrait study highlighting soft facial chiaroscuro and delicate linen folds.",
+      description: "Expressive figurative study of a Himalayan shepherd dressed in traditional woven wool garments against high-altitude winds.",
       price: 16000,
       startingPrice: 16000,
       currentBid: 19500,
       currentBidder: "Kiran Reddy",
-      bidsCount: 2,
+      bidsCount: 3,
       type: "Auction",
       auctionStatus: "LIVE",
-      endTime: offsetHoursISO(29),
       image: "assets/images/portrait-white-scarf.jpg",
-      altText: "Portrait painting of a woman wearing a white headscarf",
       featured: false,
       status: "active",
-      isSample: true,
       createdAt: "2026-02-25"
     },
     {
       id: 19,
-      name: "Nocturne in Obsidian Silk",
+      name: "Velvet Contemplation",
       artist: "Daniel Carter",
       artistId: 7,
       category: "Portrait",
-      medium: "Oil & Charcoal on Canvas",
-      dimensions: "30 x 38 in",
-      year: "2026",
-      description: "Expressive modern portrait rendered in rich dark tones with poised, understated elegance.",
-      price: 24500,
+      description: "A sensitive portrait exploring internal reflection and quiet grace, framed by deep Prussian blue textiles and golden ambient warmth.",
+      price: 23500,
       type: "For Sale",
-      image: "assets/images/portrait-dark-elegance.jpg",
-      altText: "Expressive portrait painting of a woman with dark hair",
+      image: "assets/images/portrait-profile-collar.jpg",
       featured: false,
       status: "active",
-      isSample: true,
       createdAt: "2026-03-01"
     },
     {
       id: 20,
-      name: "Profile with Lace Collar",
+      name: "The Weaver's Daughter",
       artist: "Daniel Carter",
       artistId: 7,
-      category: "Portrait",
-      medium: "Oil on Oak Panel",
-      dimensions: "22 x 28 in",
-      year: "2025",
-      description: "Classical side-profile portrait demonstrating refined Renaissance precision and translucent glazing.",
-      price: 27000,
+      category: "Drawing",
+      description: "Delicate charcoal and sepia wash study of hands diligently threading an artisanal wooden handloom with raw silk yarn.",
+      price: 9500,
       type: "For Sale",
-      image: "assets/images/portrait-profile-collar.jpg",
-      altText: "Classical profile painting of a woman with a ruffled collar",
+      image: "assets/images/portrait-wildflower-field.jpg",
       featured: false,
       status: "active",
-      isSample: true,
       createdAt: "2026-03-05"
     },
 
-    // --- Olivia Morgan (Artist ID: 8) ---
+    // --- Olivia Morgan (Artist ID: 8, Abstract & Color Psychology) ---
     {
       id: 21,
-      name: "Chromatic Tide",
+      name: "Chromatic Symphony",
       artist: "Olivia Morgan",
       artistId: 8,
-      category: "Contemporary",
-      medium: "Acrylic & Pigment on Canvas",
-      dimensions: "40 x 54 in",
-      year: "2026",
-      description: "Sweeping contemporary canvas alive with saturated cobalt, cadmium red, and sunlit gold waves.",
-      price: 26500,
+      category: "Abstract",
+      description: "Vibrant large-format acrylic composition orchestrating intense cadmium orange, cobalt blue, and radiant gold leaf accents.",
+      price: 26000,
       type: "For Sale",
-      image: "assets/images/contemporary-chromatic-wave.jpg",
-      altText: "Contemporary painting in bold red, blue, and yellow brushstrokes",
+      image: "assets/images/abstract-bold-brushstrokes.jpg",
       featured: true,
       status: "active",
-      isSample: true,
       createdAt: "2026-02-18"
     },
     {
       id: 22,
-      name: "Expressive Field Study",
+      name: "Prismatic Horizon",
       artist: "Olivia Morgan",
       artistId: 8,
-      category: "Contemporary",
-      medium: "Mixed Media on Linen",
-      dimensions: "34 x 46 in",
-      year: "2026",
-      description: "Layered contemporary gesture work balancing spontaneous ink lines with luminous color washes.",
+      category: "Abstract",
+      description: "Dynamic geometric study contrasting clean modern architectural lines against organic chromatic watercolor washes.",
       price: 15000,
       startingPrice: 15000,
       currentBid: 17500,
@@ -740,62 +626,46 @@ function initializeSampleData() {
       bidsCount: 2,
       type: "Auction",
       auctionStatus: "LIVE",
-      endTime: offsetHoursISO(63),
-      image: "assets/images/contemporary-expressive-field.jpg",
-      altText: "Expressive contemporary abstract painting",
+      image: "assets/images/modern-emerald-ochre.jpg",
       featured: false,
       status: "active",
-      isSample: true,
       createdAt: "2026-02-22"
     },
     {
       id: 23,
-      name: "Solar Crimson Horizon",
+      name: "Resonance in Indigo",
       artist: "Olivia Morgan",
       artistId: 8,
-      category: "Contemporary",
-      medium: "Acrylic & Gold Leaf on Canvas",
-      dimensions: "36 x 48 in",
-      year: "2025",
-      description: "Radiant contemporary composition contrasting warm amber and crimson against crisp ivory space.",
-      price: 19500,
+      category: "Abstract",
+      description: "Subtle minimalist color field exploration in hand-ground organic indigo pigment, layered for infinite atmospheric depth.",
+      price: 18500,
       type: "For Sale",
-      image: "assets/images/contemporary-gold-crimson.jpg",
-      altText: "Contemporary painting in yellow, red, and white tones",
+      image: "assets/images/abstract-azure-earth.jpg",
       featured: false,
       status: "active",
-      isSample: true,
       createdAt: "2026-02-26"
     },
     {
       id: 24,
-      name: "Solstice Over Calm Waters",
+      name: "Kinetic Geometry",
       artist: "Olivia Morgan",
       artistId: 8,
-      category: "Contemporary",
-      medium: "Oil & Acrylic on Canvas",
-      dimensions: "30 x 40 in",
-      year: "2026",
-      description: "Minimalist contemporary seascape featuring a glowing tangerine sun suspended above twilight waters.",
-      price: 18000,
+      category: "Abstract",
+      description: "Bold optical abstractions playing with sharp diagonals, intersecting concentric circles, and optical dimensional vibration.",
+      price: 13000,
       type: "For Sale",
-      image: "assets/images/contemporary-solar-waters.jpg",
-      altText: "Contemporary painting of an orange sun over dark water",
+      image: "assets/images/modern-organic-forms.jpg",
       featured: false,
       status: "active",
-      isSample: true,
       createdAt: "2026-03-02"
     },
     {
       id: 25,
-      name: "Emerald & Ochre Pulse",
+      name: "Ethereal Pulse",
       artist: "Olivia Morgan",
       artistId: 8,
-      category: "Modern Art",
-      medium: "Acrylic on Stretched Canvas",
-      dimensions: "36 x 44 in",
-      year: "2026",
-      description: "Modernist exploration of organic green and sunlit ochre rhythms layered over bright gesso.",
+      category: "Abstract",
+      description: "An energetic color study capturing musical rhythms and sonic vibrations converted into layered flowing pigment ribbons.",
       price: 19000,
       startingPrice: 19000,
       currentBid: 23000,
@@ -803,48 +673,37 @@ function initializeSampleData() {
       winnerName: "Rahul Sharma",
       winnerEmail: "rahul@artgallery.com",
       currentBidder: "Rahul Sharma",
-      bidsCount: 2,
+      bidsCount: 3,
       type: "Auction",
       auctionStatus: "WINNER ANNOUNCED",
-      endTime: offsetHoursISO(-8),
-      image: "assets/images/modern-emerald-ochre.jpg",
-      altText: "Modern yellow, green, and white abstract painting",
+      image: "assets/images/abstract-crimson-amber.jpg",
       featured: false,
       status: "active",
-      isSample: true,
       createdAt: "2026-03-06"
     },
 
-    // --- Arjun Mehta (Artist ID: 9) ---
+    // --- Arjun Mehta (Artist ID: 9, Traditional Art & Heritage) ---
     {
       id: 26,
-      name: "Cottage Gate at Twilight",
+      name: "Royal Court of Mewar",
       artist: "Arjun Mehta",
       artistId: 9,
-      category: "Traditional",
-      medium: "Oil on Canvas",
-      dimensions: "28 x 38 in",
-      year: "2025",
-      description: "Pastoral heritage scene portraying a mother and child beside a timber gate framed by ancient oaks.",
-      price: 29000,
+      category: "Painting",
+      description: "Intricately detailed gouache and 24-karat gold leaf painting reviving classical Rajasthani miniature painting techniques.",
+      price: 32000,
       type: "For Sale",
-      image: "assets/images/traditional-cabin-gate.jpg",
-      altText: "Traditional painting of figures at a wooden gate near a cottage and trees",
-      featured: false,
+      image: "assets/images/traditional-palazzo-fresco.jpg",
+      featured: true,
       status: "active",
-      isSample: true,
       createdAt: "2026-02-19"
     },
     {
       id: 27,
-      name: "Celestial Baroque Vault",
+      name: "Temple of the Rising Sun",
       artist: "Arjun Mehta",
       artistId: 9,
-      category: "Traditional",
-      medium: "Tempera & Fresco Study",
-      dimensions: "36 x 48 in",
-      year: "2025",
-      description: "Grand classical ceiling fresco study filled with luminous clouds, gilded light, and Renaissance figures.",
+      category: "Painting",
+      description: "Splendid heritage architectural painting showcasing carved stone spires of ancient Khajuraho glowing under dawn mist.",
       price: 25000,
       startingPrice: 25000,
       currentBid: 28000,
@@ -852,249 +711,186 @@ function initializeSampleData() {
       bidsCount: 2,
       type: "Auction",
       auctionStatus: "LIVE",
-      endTime: offsetHoursISO(46),
       image: "assets/images/traditional-baroque-fresco.jpg",
-      altText: "Traditional Baroque ceiling fresco painting",
       featured: false,
       status: "active",
-      isSample: true,
       createdAt: "2026-02-23"
     },
     {
       id: 28,
-      name: "Riders of the Valley",
+      name: "Heritage Courtyard",
       artist: "Arjun Mehta",
       artistId: 9,
-      category: "Traditional",
-      medium: "Oil on Linen",
-      dimensions: "34 x 46 in",
-      year: "2025",
-      description: "Classical equestrian narrative painting capturing movement, warm earth tones, and dramatic sky light.",
-      price: 24000,
+      category: "Landscape",
+      description: "Serene portrayal of a traditional sandstone haveli courtyard with shaded arched verandas, brass urns, and sacred tulsi planter.",
+      price: 19000,
       type: "For Sale",
-      image: "assets/images/traditional-equestrian-group.jpg",
-      altText: "Traditional painting of riders on horses",
+      image: "assets/images/traditional-cathedral-gathering.jpg",
       featured: false,
       status: "active",
-      isSample: true,
       createdAt: "2026-02-27"
     },
     {
       id: 29,
-      name: "Grand Dome on the Lagoon",
+      name: "The Sacred River",
       artist: "Arjun Mehta",
       artistId: 9,
-      category: "Traditional",
-      medium: "Oil on Canvas",
-      dimensions: "30 x 42 in",
-      year: "2026",
-      description: "Architectural veduta painting of a classical domed basilica rising above shimmering waterfront reflections.",
-      price: 26500,
+      category: "Painting",
+      description: "An atmospheric impressionist riverfront view capturing flickering earthen lamps floating on sacred waters at evening aarti.",
+      price: 22500,
       type: "For Sale",
-      image: "assets/images/traditional-dome-waterfront.jpg",
-      altText: "Traditional painting of a domed building near water",
+      image: "assets/images/landscape-river-boat.jpg",
       featured: false,
       status: "active",
-      isSample: true,
       createdAt: "2026-03-03"
     },
     {
       id: 30,
-      name: "Sanctuary Procession",
+      name: "Mughal Botanical Study",
       artist: "Arjun Mehta",
       artistId: 9,
-      category: "Traditional",
-      medium: "Oil on Panel",
-      dimensions: "26 x 36 in",
-      year: "2025",
-      description: "Detailed classical interior painting illuminating sunlit stone arches and quiet congregational life.",
-      price: 21500,
+      category: "Drawing",
+      description: "Refined handmade wasli paper drawing of blooming desert poppies with fine squirrel-hair brushwork and natural mineral pigments.",
+      price: 11000,
       type: "For Sale",
-      image: "assets/images/traditional-cathedral-gathering.jpg",
-      altText: "Traditional painting of a cathedral interior with figures",
+      image: "assets/images/floral-wildflowers-vase.jpg",
       featured: false,
       status: "active",
-      isSample: true,
       createdAt: "2026-03-07"
     },
 
-    // --- Maya Anderson (Artist ID: 10) ---
+    // --- Maya Anderson (Artist ID: 10, Fine Art Photography) ---
     {
       id: 31,
-      name: "Crown of Wild Blooms",
+      name: "Soul of the Wild",
       artist: "Maya Anderson",
       artistId: 10,
-      category: "Floral",
-      medium: "Oil on Belgian Linen",
-      dimensions: "26 x 34 in",
-      year: "2026",
-      description: "Vibrant crimson, cobalt, and ivory blossoms arranged in an opulent classical floral still life.",
-      price: 21000,
+      category: "Photography",
+      description: "A misty, cinematic wildlife photograph capturing the quiet majesty of a forest stag amid early morning emerald light and gentle bokeh.",
+      price: 9800,
       type: "For Sale",
-      image: "assets/images/floral-bloom-bouquet.jpg",
-      altText: "Floral still life painting of red, blue, and white flowers",
+      image: "assets/images/nature-highland-deer.jpg",
       featured: true,
       status: "active",
-      isSample: true,
       createdAt: "2026-02-20"
     },
     {
       id: 32,
-      name: "Botanical Table Arrangement",
+      name: "Mist Over the Valley",
       artist: "Maya Anderson",
       artistId: 10,
-      category: "Floral",
-      medium: "Oil on Canvas",
-      dimensions: "24 x 32 in",
-      year: "2025",
-      description: "Heirloom ceramic vase overflowing with seasonal garden blooms resting on a draped walnut table.",
-      price: 18500,
+      category: "Photography",
+      description: "Large-format archival landscape print recording dramatic cloud inversions pouring over jagged alpine spruce forests.",
+      price: 12000,
       type: "For Sale",
-      image: "assets/images/floral-vase-table.jpg",
-      altText: "Painting of flowers in a vase on a table",
+      image: "assets/images/landscape-mountain-lake.jpg",
       featured: false,
       status: "active",
-      isSample: true,
       createdAt: "2026-02-24"
     },
     {
       id: 33,
-      name: "Summer Meadow Bouquet",
+      name: "Coastal Solitude",
       artist: "Maya Anderson",
       artistId: 10,
-      category: "Floral",
-      medium: "Oil on Panel",
-      dimensions: "24 x 30 in",
-      year: "2026",
-      description: "Luminous wildflower bouquet rendered with impasto petals against a moody dark studio backdrop.",
-      price: 14500,
-      startingPrice: 14500,
+      category: "Photography",
+      description: "Long-exposure monochrome study of sea stacks emerging from silky white surf along a remote northern shoreline.",
+      price: 14000,
+      startingPrice: 14000,
       currentBid: 16500,
       currentBidder: "Kiran Reddy",
       bidsCount: 2,
       type: "Auction",
       auctionStatus: "LIVE",
-      endTime: offsetHoursISO(38),
-      image: "assets/images/floral-wildflowers-vase.jpg",
-      altText: "Painting of a colorful bouquet of wildflowers in a vase",
+      image: "assets/images/landscape-island-vista.jpg",
       featured: false,
       status: "active",
-      isSample: true,
       createdAt: "2026-02-28"
     },
     {
       id: 34,
-      name: "Porcelain Roses on Slate",
+      name: "Monolith at Dusk",
       artist: "Maya Anderson",
       artistId: 10,
-      category: "Floral",
-      medium: "Oil on Linen",
-      dimensions: "20 x 28 in",
-      year: "2025",
-      description: "Delicate pale blush roses and emerald stems emerging softly from a textured dove-grey ground.",
-      price: 17000,
+      category: "Photography",
+      description: "Fine art photographic capture of isolated sandstone towers glowing ember-red beneath the first emerging twilight constellations.",
+      price: 15500,
       type: "For Sale",
-      image: "assets/images/floral-pale-roses.jpg",
-      altText: "Painting of pale pink roses with green leaves on grey background",
+      image: "assets/images/landscape-glacial-boat.jpg",
       featured: false,
       status: "active",
-      isSample: true,
       createdAt: "2026-03-04"
     },
     {
       id: 35,
-      name: "Crimson & Cobalt Petals",
+      name: "Echoes of the Dunes",
       artist: "Maya Anderson",
       artistId: 10,
-      category: "Floral",
-      medium: "Oil on Canvas",
-      dimensions: "24 x 32 in",
-      year: "2026",
-      description: "Rich botanical study uniting deep indigo bellflowers and velvety scarlet blooms.",
-      price: 16200,
+      category: "Photography",
+      description: "Hypnotic patterns of wind-sculpted golden sand ridges in the Thar desert captured under low-raking sunset illumination.",
+      price: 13200,
       type: "For Sale",
-      image: "assets/images/floral-crimson-indigo-blooms.jpg",
-      altText: "Painting of red, blue, and white flowers",
+      image: "assets/images/watercolor-amber-rose.jpg",
       featured: false,
       status: "active",
-      isSample: true,
       createdAt: "2026-03-08"
     },
 
-    // --- Ethan Williams (Artist ID: 11) ---
+    // --- Ethan Williams (Artist ID: 11, Modern Sculpture & Bronze) ---
     {
       id: 36,
-      name: "Primary Geometry III",
+      name: "Infinity in Bronze",
       artist: "Ethan Williams",
       artistId: 11,
-      category: "Modern Art",
-      medium: "Acrylic on Canvas",
-      dimensions: "38 x 48 in",
-      year: "2026",
-      description: "Bold modernist composition contrasting cobalt blue, cadmium yellow, and crimson architectural planes.",
-      price: 25000,
+      category: "Sculpture",
+      description: "Seamless mobius loop cast in mirror-polished bronze, balanced effortlessly on a hand-carved black basalt pedestal.",
+      price: 38000,
       type: "For Sale",
-      image: "assets/images/modern-primary-composition.jpg",
-      altText: "Modern blue, yellow, and red abstract painting",
+      image: "assets/images/abstract-monochrome-contrast.jpg",
       featured: true,
       status: "active",
-      isSample: true,
       createdAt: "2026-02-22"
     },
     {
       id: 37,
-      name: "Organic Equilibrium",
+      name: "Monolithic Spiral",
       artist: "Ethan Williams",
       artistId: 11,
-      category: "Modern Art",
-      medium: "Gouache & Ink on Canvas",
-      dimensions: "32 x 42 in",
-      year: "2026",
-      description: "Playful mid-century modernist study of interlocking organic silhouettes and vibrant pigment fields.",
+      category: "Sculpture",
+      description: "Brutalist architectural sculpture interweaving verdigris patinated bronze and raw quarried travertine stone blocks.",
       price: 30000,
       startingPrice: 30000,
       currentBid: 34500,
       currentBidder: "Kiran Reddy",
-      bidsCount: 2,
+      bidsCount: 3,
       type: "Auction",
       auctionStatus: "LIVE",
-      endTime: offsetHoursISO(58),
-      image: "assets/images/modern-organic-forms.jpg",
-      altText: "Modernist painting of colorful organic geometric shapes",
+      image: "assets/images/contemporary-expressive-field.jpg",
       featured: false,
       status: "active",
-      isSample: true,
       createdAt: "2026-02-26"
     },
     {
       id: 38,
-      name: "Twin Monoliths",
+      name: "Flight of the Falcon",
       artist: "Ethan Williams",
       artistId: 11,
-      category: "Modern Art",
-      medium: "Acrylic & Plaster on Panel",
-      dimensions: "30 x 40 in",
-      year: "2025",
-      description: "Minimalist modernist diptych exploring balance, silence, and sculptural contour in warm neutrals.",
-      price: 22500,
+      category: "Sculpture",
+      description: "Kinetic abstract bronze capturing the sweeping wingspan and aerodynamic tension of a falcon in high-speed dive.",
+      price: 29000,
       type: "For Sale",
-      image: "assets/images/modern-twin-forms.jpg",
-      altText: "Modernist painting of two abstract forms",
+      image: "assets/images/nature-avian-forest.jpg",
       featured: false,
       status: "active",
-      isSample: true,
       createdAt: "2026-03-02"
     },
     {
       id: 39,
-      name: "Palazzo Triumph Fresco",
+      name: "Echoes of Carrara",
       artist: "Ethan Williams",
       artistId: 11,
-      category: "Traditional",
-      medium: "Oil & Fresco Glaze on Canvas",
-      dimensions: "42 x 54 in",
-      year: "2025",
-      description: "Monumental classical tribute inspired by Roman Baroque ceiling frescoes and architectural illusionism.",
+      category: "Sculpture",
+      description: "Monumental organic stone sculpture carved from pure Statuario marble, exploring flowing fluid forms frozen in solid mineral.",
       price: 40000,
       startingPrice: 40000,
       currentBid: 45000,
@@ -1102,86 +898,65 @@ function initializeSampleData() {
       winnerName: "Rahul Sharma",
       winnerEmail: "rahul@artgallery.com",
       currentBidder: "Rahul Sharma",
-      bidsCount: 2,
+      bidsCount: 4,
       type: "Auction",
       auctionStatus: "WINNER ANNOUNCED",
-      endTime: offsetHoursISO(-36),
-      image: "assets/images/traditional-palazzo-fresco.jpg",
-      altText: "Traditional Baroque ceiling fresco painting in Rome",
+      image: "assets/images/oil-white-roses.jpg",
       featured: false,
       status: "active",
-      isSample: true,
       createdAt: "2026-03-06"
     },
     {
       id: 40,
-      name: "Misty Crags & Pines",
+      name: "Sentinel of Stone",
       artist: "Ethan Williams",
       artistId: 11,
-      category: "Landscape",
-      medium: "Oil on Linen",
-      dimensions: "32 x 44 in",
-      year: "2026",
-      description: "Dramatic rocky cliffs and windswept woodland rendered in earthy umber and slate tones.",
-      price: 23000,
+      category: "Sculpture",
+      description: "Towering mixed-medium sculpture combining forged weathering steel, reclaimed teakwood, and hand-chiseled granite.",
+      price: 48000,
       type: "For Sale",
-      image: "assets/images/landscape-trees-rock.jpg",
-      altText: "Landscape painting of trees and rock formations",
+      image: "assets/images/traditional-equestrian-group.jpg",
       featured: false,
       status: "active",
-      isSample: true,
       createdAt: "2026-03-10"
     },
 
-    // --- Isabella Rossi (Artist ID: 12) ---
+    // --- Isabella Rossi (Artist ID: 12, Minimalist & Line Art) ---
     {
       id: 41,
-      name: "Cerulean Drift Wash",
+      name: "Graphite Elegance",
       artist: "Isabella Rossi",
       artistId: 12,
-      category: "Watercolor",
-      medium: "Watercolor on Cotton Rag",
-      dimensions: "22 x 30 in",
-      year: "2026",
-      description: "Fluid sky-blue watercolor clouds blooming softly across textured handmade cotton paper.",
-      price: 9500,
+      category: "Drawing",
+      description: "Masterful cross-hatch charcoal and graphite study of an Arabian stallion in motion, capturing muscular tension and dynamic energy.",
+      price: 6500,
       type: "For Sale",
-      image: "assets/images/watercolor-cerulean-wash.jpg",
-      altText: "Light blue watercolor wash painting",
+      image: "assets/images/oil-pastoral-meadow.jpg",
       featured: false,
       status: "active",
-      isSample: true,
       createdAt: "2026-02-23"
     },
     {
       id: 42,
-      name: "Amber Rose Horizon",
+      name: "Line of Serenity",
       artist: "Isabella Rossi",
       artistId: 12,
-      category: "Watercolor",
-      medium: "Watercolor & Mineral Pigment",
-      dimensions: "20 x 28 in",
-      year: "2026",
-      description: "Warm coral and apricot watercolor blooms evoking desert twilight and delicate silk petals.",
-      price: 10200,
+      category: "Drawing",
+      description: "Minimalist continuous-line drawing exploring the graceful contours of feminine movement with exquisite Zen simplicity.",
+      price: 8200,
       type: "For Sale",
-      image: "assets/images/watercolor-amber-rose.jpg",
-      altText: "Pink and orange watercolor wash painting",
-      featured: false,
+      image: "assets/images/floral-blush-petals.jpg",
+      featured: true,
       status: "active",
-      isSample: true,
       createdAt: "2026-02-27"
     },
     {
       id: 43,
-      name: "Blush Garden Still Life",
+      name: "Silent Silhouette",
       artist: "Isabella Rossi",
       artistId: 12,
-      category: "Floral",
-      medium: "Watercolor & Gouache on Paper",
-      dimensions: "22 x 28 in",
-      year: "2026",
-      description: "Soft rose and ivory petals arranged in graceful natural harmony against shadowed leaves.",
+      category: "Drawing",
+      description: "Sumi ink wash and fine Japanese calligraphy pen illustration celebrating negative space and meditative balance.",
       price: 7500,
       startingPrice: 7500,
       currentBid: 9200,
@@ -1189,198 +964,165 @@ function initializeSampleData() {
       bidsCount: 2,
       type: "Auction",
       auctionStatus: "LIVE",
-      endTime: offsetHoursISO(22),
-      image: "assets/images/floral-blush-petals.jpg",
-      altText: "Pink and white flower painting",
+      image: "assets/images/floral-classical-still-life.jpg",
       featured: false,
       status: "active",
-      isSample: true,
       createdAt: "2026-03-03"
     },
     {
       id: 44,
-      name: "Amber Vase Heritage",
+      name: "Fluid Equilibrium",
       artist: "Isabella Rossi",
       artistId: 12,
-      category: "Floral",
-      medium: "Oil & Gouache on Panel",
-      dimensions: "24 x 30 in",
-      year: "2025",
-      description: "Luminous floral tabletop study capturing delicate reflections on glass and polished timber.",
-      price: 12500,
+      category: "Drawing",
+      description: "Experimental charcoal and raw pigment powder composition capturing tidal ripples and wind patterns over river sediment.",
+      price: 10500,
       type: "For Sale",
-      image: "assets/images/floral-amber-vase.jpg",
-      altText: "Painting of flowers in a vase on a table",
+      image: "assets/images/watercolor-cerulean-wash.jpg",
       featured: false,
       status: "active",
-      isSample: true,
       createdAt: "2026-03-07"
     },
     {
       id: 45,
-      name: "Alpine Valley Mirror",
+      name: "Contours of Dawn",
       artist: "Isabella Rossi",
       artistId: 12,
-      category: "Landscape",
-      medium: "Oil on Canvas",
-      dimensions: "28 x 38 in",
-      year: "2026",
-      description: "Grand mountain valley illuminated by golden afternoon light reflecting over still glacial waters.",
-      price: 19800,
+      category: "Drawing",
+      description: "Intimate silverpoint drawing on prepared gesso ground, depicting botanical ivy vines intertwining in early morning light.",
+      price: 7800,
       type: "For Sale",
-      image: "assets/images/landscape-mountain-lake.jpg",
-      altText: "Landscape painting of a mountain scene with a lake",
+      image: "assets/images/floral-vase-table.jpg",
       featured: false,
       status: "active",
-      isSample: true,
       createdAt: "2026-03-11"
     },
 
-    // --- Noah Thompson (Artist ID: 13) ---
+    // --- Noah Thompson (Artist ID: 13, Cyberpunk & Generative 3D Art) ---
     {
       id: 46,
-      name: "Pastoral Grazing Light",
+      name: "Neural Matrix 2099",
       artist: "Noah Thompson",
       artistId: 13,
-      category: "Oil Painting",
-      medium: "Oil on Canvas",
-      dimensions: "30 x 42 in",
-      year: "2025",
-      description: "Sun-dappled green pasture painted in rich Dutch-school oil glazes beneath dramatic cumulus clouds.",
-      price: 18500,
+      category: "Digital Art",
+      description: "Algorithmic 3D generative simulation depicting synthetic neural pathways connecting across high-density quantum processors.",
+      price: 17000,
       type: "For Sale",
-      image: "assets/images/oil-pastoral-meadow.jpg",
-      altText: "Oil painting of cattle in a sunlit green meadow",
-      featured: false,
+      image: "assets/images/contemporary-gold-crimson.jpg",
+      featured: true,
       status: "active",
-      isSample: true,
       createdAt: "2026-02-24"
     },
     {
       id: 47,
-      name: "Dutch Botanical Table",
+      name: "Quantum Labyrinth",
       artist: "Noah Thompson",
       artistId: 13,
-      category: "Oil Painting",
-      medium: "Oil on Belgian Linen",
-      dimensions: "26 x 34 in",
-      year: "2026",
-      description: "Classical still-life oil study celebrating sculptural blossoms and warm chiaroscuro shadows.",
-      price: 21500,
+      category: "Digital Art",
+      description: "Complex multi-dimensional fractal geometry rendered in ray-traced glass, obsidian, and chromatic dispersion.",
+      price: 16500,
       type: "For Sale",
       image: "assets/images/oil-botanical-table.jpg",
-      altText: "Oil painting of flowers in a vase on a table",
       featured: false,
       status: "active",
-      isSample: true,
       createdAt: "2026-02-28"
     },
     {
       id: 48,
-      name: "Velvet Crimson Roses",
+      name: "Synthwave Horizon",
       artist: "Noah Thompson",
       artistId: 13,
-      category: "Oil Painting",
-      medium: "Oil on Canvas",
-      dimensions: "24 x 30 in",
-      year: "2026",
-      description: "Lush red and blush roses nestled in twin ceramic vases, layered with luminous impasto highlights.",
-      price: 19200,
+      category: "Digital Art",
+      description: "Retro-futuristic digital composition celebrating neon wireframe grids, chrome spheres, and endless glowing retro-tech horizons.",
+      price: 13500,
       type: "For Sale",
-      image: "assets/images/oil-crimson-roses.jpg",
-      altText: "Oil still life painting of red and pink roses in vases",
+      image: "assets/images/oil-sail-ship-sea.jpg",
       featured: false,
       status: "active",
-      isSample: true,
       createdAt: "2026-03-04"
     },
     {
       id: 49,
-      name: "Emerald Vase & White Roses",
+      name: "Holographic Bloom",
       artist: "Noah Thompson",
       artistId: 13,
-      category: "Oil Painting",
-      medium: "Oil on Canvas",
-      dimensions: "24 x 32 in",
-      year: "2026",
-      description: "Museum-inspired oil composition pairing creamy white roses with an emerald glazed vessel.",
-      price: 23000,
+      category: "Digital Art",
+      description: "Volumetric light simulation of an ethereal bioluminescent flower blossoming inside a cyberpunk megacity greenhouse.",
+      price: 15000,
       type: "For Sale",
-      image: "assets/images/oil-white-roses.jpg",
-      altText: "Oil painting of white roses in a green vase on a table",
+      image: "assets/images/floral-bloom-bouquet.jpg",
       featured: false,
       status: "active",
-      isSample: true,
       createdAt: "2026-03-08"
     },
     {
       id: 50,
-      name: "Coastal Horizon & Island",
+      name: "Cybernetic Renaissance",
       artist: "Noah Thompson",
       artistId: 13,
-      category: "Landscape",
-      medium: "Oil on Linen",
-      dimensions: "34 x 46 in",
-      year: "2026",
-      description: "Serene coastal seascape capturing golden evening light spilling across tranquil island waters.",
+      category: "Digital Art",
+      description: "Masterwork blending classical anatomical marble proportions with exposed fiber-optic nervous systems and liquid gold coolant conduits.",
       price: 21000,
       type: "For Sale",
-      image: "assets/images/landscape-island-vista.jpg",
-      altText: "Landscape painting of a coastal island vista",
+      image: "assets/images/oil-crimson-roses.jpg",
       featured: false,
       status: "active",
-      isSample: true,
       createdAt: "2026-03-12"
     }
   ];
 
-  // 4. Sample Exhibitions (Using dedicated Unsplash painting cover images)
-  const initialExhibitions = [
-    {
-      id: "exh-1",
-      title: "Luminescence: Light & Chiaroscuro in Oil",
-      curator: "Gallery Administrator",
-      coverImage: "assets/images/oil-blossom-still-life.jpg",
-      startDate: "2026-10-01",
-      endDate: "2026-12-30",
-      description: "An intimate curatorial showcase exploring luminous oil glazing, golden hour horizons, and botanical still lifes.",
-      artworkIds: [1, 4, 31, 49],
-      featured: true
-    },
-    {
-      id: "exh-2",
-      title: "Chromatic Horizon: Contemporary & Abstract Voices",
-      curator: "Olivia Morgan",
-      coverImage: "assets/images/landscape-coastal-waters.jpg",
-      startDate: "2026-11-01",
-      endDate: "2027-01-31",
-      description: "Celebrating expressive brushwork, bold modernist geometry, and dynamic color fields from leading contemporary painters.",
-      artworkIds: [6, 21, 24, 36],
-      featured: true
-    },
-    {
-      id: "exh-3",
-      title: "Heritage & Nature: Classical Landscapes & Frescoes",
-      curator: "Arjun Mehta",
-      coverImage: "assets/images/oil-arranged-bouquet.jpg",
-      startDate: "2026-11-15",
-      endDate: "2027-02-15",
-      description: "A bridge between timeless European landscape traditions, woodland sanctuaries, and architectural fresco heritage.",
-      artworkIds: [11, 16, 27, 45],
-      featured: true
+  if (!localStorage.getItem('artworks')) {
+    setData('artworks', initialArtworks);
+  } else {
+    // Enhance existing stored artworks with diverse fine art imagery
+    try {
+      const stored = getData('artworks', []);
+      if (Array.isArray(stored) && stored.length > 0) {
+        let changed = false;
+        const diverseMap = {
+          5: "assets/images/contemporary-solar-waters.jpg",
+          12: "assets/images/watercolor-wildflower-hills.jpg",
+          13: "assets/images/watercolor-meadow-trees.jpg",
+          15: "assets/images/oil-golden-wheatfield.jpg",
+          18: "assets/images/portrait-white-scarf.jpg",
+          20: "assets/images/portrait-wildflower-field.jpg",
+          23: "assets/images/abstract-azure-earth.jpg",
+          26: "assets/images/traditional-palazzo-fresco.jpg",
+          29: "assets/images/landscape-river-boat.jpg",
+          30: "assets/images/floral-wildflowers-vase.jpg",
+          32: "assets/images/landscape-mountain-lake.jpg",
+          34: "assets/images/landscape-glacial-boat.jpg",
+          42: "assets/images/floral-blush-petals.jpg",
+          43: "assets/images/floral-classical-still-life.jpg",
+          44: "assets/images/watercolor-cerulean-wash.jpg",
+          48: "assets/images/oil-sail-ship-sea.jpg",
+          50: "assets/images/oil-crimson-roses.jpg"
+        };
+        stored.forEach(a => {
+          if (diverseMap[a.id] && a.image && a.image.startsWith('images/artworks/artwork-') && a.image !== diverseMap[a.id]) {
+            a.image = diverseMap[a.id];
+            changed = true;
+          }
+        });
+        if (changed) {
+          setData('artworks', stored);
+        }
+      }
+    } catch (e) {
+      console.warn("Artwork image mapping update skipped:", e);
     }
-  ];
+  }
 
-  // 5. Initial Purchases
+  // 4. Sample Purchases (Buyer Orders)
   const initialPurchases = [
     {
       id: 1,
       userId: 2,
       userName: "Kiran Reddy",
       artworkId: 1,
-      artworkName: "Alpine Waters at Dusk",
+      artworkName: "Golden Horizon",
       artist: "Elena Vance",
-      price: 18500,
+      price: 18000,
       date: "2026-03-10",
       image: "assets/images/landscape-alpine-waters.jpg",
       status: "Confirmed",
@@ -1391,11 +1133,11 @@ function initializeSampleData() {
       userId: 2,
       userName: "Kiran Reddy",
       artworkId: 5,
-      artworkName: "Highland Lake Passage",
+      artworkName: "Sunset Dreams",
       artist: "Elena Vance",
-      price: 18500,
+      price: 8500,
       date: "2026-03-22",
-      image: "assets/images/landscape-glacial-boat.jpg",
+      image: "assets/images/contemporary-solar-waters.jpg",
       status: "Confirmed",
       paymentMethod: "Won at Auction"
     },
@@ -1404,214 +1146,451 @@ function initializeSampleData() {
       userId: 5,
       userName: "Rahul Sharma",
       artworkId: 25,
-      artworkName: "Emerald & Ochre Pulse",
+      artworkName: "Ethereal Pulse",
       artist: "Olivia Morgan",
       price: 23000,
       date: "2026-03-24",
-      image: "assets/images/modern-emerald-ochre.jpg",
+      image: "assets/images/abstract-crimson-amber.jpg",
       status: "Confirmed",
       paymentMethod: "Won at Auction"
     }
   ];
 
-  // 6. Initial Bids
+  if (!localStorage.getItem('purchases')) {
+    setData('purchases', initialPurchases);
+  }
+
+  // 5. Favorites
+  if (!localStorage.getItem('favorites')) {
+    const initialFavorites = {
+      "2": [1, 4, 11, 21, 36, 42]
+    };
+    setData('favorites', initialFavorites);
+  }
+
+  // 6. Bids History (10 LIVE Auctions & 5 Closed Auctions)
   const initialBids = [
-    { id: 1, artworkId: 4, artworkName: "Golden Wheat Harvest", userId: 5, userName: "Rahul Sharma", userEmail: "rahul@artgallery.com", bidAmount: 23000, date: "2026-03-16 11:20", status: "Outbid" },
-    { id: 2, artworkId: 4, artworkName: "Golden Wheat Harvest", userId: 2, userName: "Kiran Reddy", userEmail: "user@artgallery.com", bidAmount: 25000, date: "2026-03-18 14:15", status: "Leading" },
-    { id: 3, artworkId: 5, artworkName: "Highland Lake Passage", userId: 5, userName: "Rahul Sharma", userEmail: "rahul@artgallery.com", bidAmount: 16500, date: "2026-03-14 09:30", status: "Outbid" },
-    { id: 4, artworkId: 5, artworkName: "Highland Lake Passage", userId: 2, userName: "Kiran Reddy", userEmail: "user@artgallery.com", bidAmount: 18500, date: "2026-03-20 18:40", status: "Leading" },
-    { id: 5, artworkId: 6, artworkName: "Vibrant Brushwork Symphony", userId: 5, userName: "Rahul Sharma", userEmail: "rahul@artgallery.com", bidAmount: 17500, date: "2026-03-15 10:00", status: "Outbid" },
-    { id: 6, artworkId: 6, artworkName: "Vibrant Brushwork Symphony", userId: 2, userName: "Kiran Reddy", userEmail: "user@artgallery.com", bidAmount: 19000, date: "2026-03-17 15:45", status: "Leading" },
-    { id: 7, artworkId: 8, artworkName: "Crimson & Amber Surge", userId: 2, userName: "Kiran Reddy", userEmail: "user@artgallery.com", bidAmount: 15000, date: "2026-03-16 16:30", status: "Outbid" },
-    { id: 8, artworkId: 8, artworkName: "Crimson & Amber Surge", userId: 5, userName: "Rahul Sharma", userEmail: "rahul@artgallery.com", bidAmount: 16500, date: "2026-03-19 12:10", status: "Leading" },
-    { id: 9, artworkId: 9, artworkName: "Cobalt & Crimson Harmony", userId: 5, userName: "Rahul Sharma", userEmail: "rahul@artgallery.com", bidAmount: 30000, date: "2026-03-18 10:20", status: "Outbid" },
-    { id: 10, artworkId: 9, artworkName: "Cobalt & Crimson Harmony", userId: 2, userName: "Kiran Reddy", userEmail: "user@artgallery.com", bidAmount: 33000, date: "2026-03-21 16:00", status: "Leading" },
-    { id: 11, artworkId: 13, artworkName: "Highland Stag Meadow", userId: 2, userName: "Kiran Reddy", userEmail: "user@artgallery.com", bidAmount: 20000, date: "2026-03-17 11:45", status: "Outbid" },
-    { id: 12, artworkId: 13, artworkName: "Highland Stag Meadow", userId: 5, userName: "Rahul Sharma", userEmail: "rahul@artgallery.com", bidAmount: 21500, date: "2026-03-19 17:20", status: "Leading" },
-    { id: 13, artworkId: 15, artworkName: "Wildflower Ridge Wash", userId: 5, userName: "Rahul Sharma", userEmail: "rahul@artgallery.com", bidAmount: 23000, date: "2026-03-19 14:00", status: "Outbid" },
-    { id: 14, artworkId: 15, artworkName: "Wildflower Ridge Wash", userId: 2, userName: "Kiran Reddy", userEmail: "user@artgallery.com", bidAmount: 26000, date: "2026-03-22 15:30", status: "Leading" },
-    { id: 15, artworkId: 18, artworkName: "Quiet Reflection in Ivory", userId: 5, userName: "Rahul Sharma", userEmail: "rahul@artgallery.com", bidAmount: 17500, date: "2026-03-18 13:10", status: "Outbid" },
-    { id: 16, artworkId: 18, artworkName: "Quiet Reflection in Ivory", userId: 2, userName: "Kiran Reddy", userEmail: "user@artgallery.com", bidAmount: 19500, date: "2026-03-20 19:00", status: "Leading" },
-    { id: 17, artworkId: 22, artworkName: "Expressive Field Study", userId: 5, userName: "Rahul Sharma", userEmail: "rahul@artgallery.com", bidAmount: 16000, date: "2026-03-18 11:00", status: "Outbid" },
-    { id: 18, artworkId: 22, artworkName: "Expressive Field Study", userId: 2, userName: "Kiran Reddy", userEmail: "user@artgallery.com", bidAmount: 17500, date: "2026-03-20 14:15", status: "Leading" },
-    { id: 19, artworkId: 25, artworkName: "Emerald & Ochre Pulse", userId: 2, userName: "Kiran Reddy", userEmail: "user@artgallery.com", bidAmount: 21000, date: "2026-03-20 16:30", status: "Outbid" },
-    { id: 20, artworkId: 25, artworkName: "Emerald & Ochre Pulse", userId: 5, userName: "Rahul Sharma", userEmail: "rahul@artgallery.com", bidAmount: 23000, date: "2026-03-23 11:20", status: "Leading" },
-    { id: 21, artworkId: 27, artworkName: "Celestial Baroque Vault", userId: 5, userName: "Rahul Sharma", userEmail: "rahul@artgallery.com", bidAmount: 26500, date: "2026-03-19 15:40", status: "Outbid" },
-    { id: 22, artworkId: 27, artworkName: "Celestial Baroque Vault", userId: 2, userName: "Kiran Reddy", userEmail: "user@artgallery.com", bidAmount: 28000, date: "2026-03-21 17:50", status: "Leading" },
-    { id: 23, artworkId: 33, artworkName: "Summer Meadow Bouquet", userId: 5, userName: "Rahul Sharma", userEmail: "rahul@artgallery.com", bidAmount: 15500, date: "2026-03-20 12:00", status: "Outbid" },
-    { id: 24, artworkId: 33, artworkName: "Summer Meadow Bouquet", userId: 2, userName: "Kiran Reddy", userEmail: "user@artgallery.com", bidAmount: 16500, date: "2026-03-22 18:10", status: "Leading" },
-    { id: 25, artworkId: 37, artworkName: "Organic Equilibrium", userId: 5, userName: "Rahul Sharma", userEmail: "rahul@artgallery.com", bidAmount: 32000, date: "2026-03-21 14:20", status: "Outbid" },
-    { id: 26, artworkId: 37, artworkName: "Organic Equilibrium", userId: 2, userName: "Kiran Reddy", userEmail: "user@artgallery.com", bidAmount: 34500, date: "2026-03-23 20:00", status: "Leading" },
-    { id: 27, artworkId: 39, artworkName: "Palazzo Triumph Fresco", userId: 2, userName: "Kiran Reddy", userEmail: "user@artgallery.com", bidAmount: 42500, date: "2026-03-21 10:15", status: "Outbid" },
-    { id: 28, artworkId: 39, artworkName: "Palazzo Triumph Fresco", userId: 5, userName: "Rahul Sharma", userEmail: "rahul@artgallery.com", bidAmount: 45000, date: "2026-03-23 16:45", status: "Leading" },
-    { id: 29, artworkId: 43, artworkName: "Blush Garden Still Life", userId: 5, userName: "Rahul Sharma", userEmail: "rahul@artgallery.com", bidAmount: 8200, date: "2026-03-22 13:30", status: "Outbid" },
-    { id: 30, artworkId: 43, artworkName: "Blush Garden Still Life", userId: 2, userName: "Kiran Reddy", userEmail: "user@artgallery.com", bidAmount: 9200, date: "2026-03-24 19:15", status: "Leading" }
+    // Artwork #4: Lady in Saffron (Elena Vance, LIVE)
+    { id: 1, artworkId: 4, artworkName: "Lady in Saffron", userId: 5, userName: "Rahul Sharma", userEmail: "rahul@artgallery.com", bidAmount: 23000, date: "2026-03-16 11:20", status: "Outbid" },
+    { id: 2, artworkId: 4, artworkName: "Lady in Saffron", userId: 2, userName: "Kiran Reddy", userEmail: "user@artgallery.com", bidAmount: 25000, date: "2026-03-18 14:15", status: "Leading" },
+
+    // Artwork #5: Sunset Dreams (Elena Vance, WINNER ANNOUNCED)
+    { id: 3, artworkId: 5, artworkName: "Sunset Dreams", userId: 5, userName: "Rahul Sharma", userEmail: "rahul@artgallery.com", bidAmount: 6000, date: "2026-03-14 09:30", status: "Outbid" },
+    { id: 4, artworkId: 5, artworkName: "Sunset Dreams", userId: 2, userName: "Kiran Reddy", userEmail: "user@artgallery.com", bidAmount: 8500, date: "2026-03-20 18:40", status: "Leading" },
+
+    // Artwork #6: Neon Cyber Odyssey (Marcus Sterling, LIVE)
+    { id: 5, artworkId: 6, artworkName: "Neon Cyber Odyssey", userId: 5, userName: "Rahul Sharma", userEmail: "rahul@artgallery.com", bidAmount: 13000, date: "2026-03-15 10:00", status: "Outbid" },
+    { id: 6, artworkId: 6, artworkName: "Neon Cyber Odyssey", userId: 2, userName: "Kiran Reddy", userEmail: "user@artgallery.com", bidAmount: 14000, date: "2026-03-17 15:45", status: "Leading" },
+
+    // Artwork #8: Geometric Reverie (Marcus Sterling, LIVE)
+    { id: 7, artworkId: 8, artworkName: "Geometric Reverie", userId: 2, userName: "Kiran Reddy", userEmail: "user@artgallery.com", bidAmount: 12000, date: "2026-03-16 16:30", status: "Outbid" },
+    { id: 8, artworkId: 8, artworkName: "Geometric Reverie", userId: 5, userName: "Rahul Sharma", userEmail: "rahul@artgallery.com", bidAmount: 13500, date: "2026-03-19 12:10", status: "Leading" },
+
+    // Artwork #9: Marble Flora (Marcus Sterling, WINNER ANNOUNCED)
+    { id: 9, artworkId: 9, artworkName: "Marble Flora", userId: 5, userName: "Rahul Sharma", userEmail: "rahul@artgallery.com", bidAmount: 44000, date: "2026-03-18 10:20", status: "Outbid" },
+    { id: 10, artworkId: 9, artworkName: "Marble Flora", userId: 2, userName: "Kiran Reddy", userEmail: "user@artgallery.com", bidAmount: 47000, date: "2026-03-21 16:00", status: "Leading" },
+
+    // Artwork #13: Sylvan Solitude (Sophia Bennett, LIVE)
+    { id: 11, artworkId: 13, artworkName: "Sylvan Solitude", userId: 2, userName: "Kiran Reddy", userEmail: "user@artgallery.com", bidAmount: 19500, date: "2026-03-17 11:45", status: "Outbid" },
+    { id: 12, artworkId: 13, artworkName: "Sylvan Solitude", userId: 5, userName: "Rahul Sharma", userEmail: "rahul@artgallery.com", bidAmount: 21500, date: "2026-03-19 17:20", status: "Leading" },
+
+    // Artwork #15: Autumn Reverence (Sophia Bennett, WINNER ANNOUNCED)
+    { id: 13, artworkId: 15, artworkName: "Autumn Reverence", userId: 5, userName: "Rahul Sharma", userEmail: "rahul@artgallery.com", bidAmount: 23000, date: "2026-03-19 14:00", status: "Outbid" },
+    { id: 14, artworkId: 15, artworkName: "Autumn Reverence", userId: 2, userName: "Kiran Reddy", userEmail: "user@artgallery.com", bidAmount: 26000, date: "2026-03-22 15:30", status: "Leading" },
+
+    // Artwork #18: Nomad of Ladakh (Daniel Carter, LIVE)
+    { id: 15, artworkId: 18, artworkName: "Nomad of Ladakh", userId: 5, userName: "Rahul Sharma", userEmail: "rahul@artgallery.com", bidAmount: 17500, date: "2026-03-18 13:10", status: "Outbid" },
+    { id: 16, artworkId: 18, artworkName: "Nomad of Ladakh", userId: 2, userName: "Kiran Reddy", userEmail: "user@artgallery.com", bidAmount: 19500, date: "2026-03-20 19:00", status: "Leading" },
+
+    // Artwork #22: Prismatic Horizon (Olivia Morgan, LIVE)
+    { id: 17, artworkId: 22, artworkName: "Prismatic Horizon", userId: 5, userName: "Rahul Sharma", userEmail: "rahul@artgallery.com", bidAmount: 16000, date: "2026-03-18 11:00", status: "Outbid" },
+    { id: 18, artworkId: 22, artworkName: "Prismatic Horizon", userId: 2, userName: "Kiran Reddy", userEmail: "user@artgallery.com", bidAmount: 17500, date: "2026-03-20 14:15", status: "Leading" },
+
+    // Artwork #25: Ethereal Pulse (Olivia Morgan, WINNER ANNOUNCED)
+    { id: 19, artworkId: 25, artworkName: "Ethereal Pulse", userId: 2, userName: "Kiran Reddy", userEmail: "user@artgallery.com", bidAmount: 21000, date: "2026-03-20 16:30", status: "Outbid" },
+    { id: 20, artworkId: 25, artworkName: "Ethereal Pulse", userId: 5, userName: "Rahul Sharma", userEmail: "rahul@artgallery.com", bidAmount: 23000, date: "2026-03-23 11:20", status: "Leading" },
+
+    // Artwork #27: Temple of the Rising Sun (Arjun Mehta, LIVE)
+    { id: 21, artworkId: 27, artworkName: "Temple of the Rising Sun", userId: 5, userName: "Rahul Sharma", userEmail: "rahul@artgallery.com", bidAmount: 26500, date: "2026-03-19 15:40", status: "Outbid" },
+    { id: 22, artworkId: 27, artworkName: "Temple of the Rising Sun", userId: 2, userName: "Kiran Reddy", userEmail: "user@artgallery.com", bidAmount: 28000, date: "2026-03-21 17:50", status: "Leading" },
+
+    // Artwork #33: Coastal Solitude (Maya Anderson, LIVE)
+    { id: 23, artworkId: 33, artworkName: "Coastal Solitude", userId: 5, userName: "Rahul Sharma", userEmail: "rahul@artgallery.com", bidAmount: 15000, date: "2026-03-20 12:00", status: "Outbid" },
+    { id: 24, artworkId: 33, artworkName: "Coastal Solitude", userId: 2, userName: "Kiran Reddy", userEmail: "user@artgallery.com", bidAmount: 16500, date: "2026-03-22 18:10", status: "Leading" },
+
+    // Artwork #37: Monolithic Spiral (Ethan Williams, LIVE)
+    { id: 25, artworkId: 37, artworkName: "Monolithic Spiral", userId: 5, userName: "Rahul Sharma", userEmail: "rahul@artgallery.com", bidAmount: 32000, date: "2026-03-21 14:20", status: "Outbid" },
+    { id: 26, artworkId: 37, artworkName: "Monolithic Spiral", userId: 2, userName: "Kiran Reddy", userEmail: "user@artgallery.com", bidAmount: 34500, date: "2026-03-23 20:00", status: "Leading" },
+
+    // Artwork #39: Echoes of Carrara (Ethan Williams, WINNER ANNOUNCED)
+    { id: 27, artworkId: 39, artworkName: "Echoes of Carrara", userId: 2, userName: "Kiran Reddy", userEmail: "user@artgallery.com", bidAmount: 42500, date: "2026-03-21 10:15", status: "Outbid" },
+    { id: 28, artworkId: 39, artworkName: "Echoes of Carrara", userId: 5, userName: "Rahul Sharma", userEmail: "rahul@artgallery.com", bidAmount: 45000, date: "2026-03-23 16:45", status: "Leading" },
+
+    // Artwork #43: Silent Silhouette (Isabella Rossi, LIVE)
+    { id: 29, artworkId: 43, artworkName: "Silent Silhouette", userId: 5, userName: "Rahul Sharma", userEmail: "rahul@artgallery.com", bidAmount: 8200, date: "2026-03-22 13:30", status: "Outbid" },
+    { id: 30, artworkId: 43, artworkName: "Silent Silhouette", userId: 2, userName: "Kiran Reddy", userEmail: "user@artgallery.com", bidAmount: 9200, date: "2026-03-24 19:15", status: "Leading" }
   ];
 
-  // 7. Initial Reviews
-  const initialReviews = [
-    { id: 1, artworkId: 1, artworkName: "Alpine Waters at Dusk", userId: 2, userName: "Kiran Reddy", rating: 5, comment: "Luminous brushwork and remarkable reflection depth across the mountain lake.", date: "2026-03-12" },
-    { id: 2, artworkId: 6, artworkName: "Vibrant Brushwork Symphony", userId: 5, userName: "Rahul Sharma", rating: 5, comment: "Dynamic energy and richly textured impasto layers that command the entire room.", date: "2026-03-14" },
-    { id: 3, artworkId: 11, artworkName: "Emerald Woodland Mirror", userId: 2, userName: "Kiran Reddy", rating: 5, comment: "Peaceful, museum-grade woodland composition with wonderful depth of field.", date: "2026-03-16" },
-    { id: 4, artworkId: 16, artworkName: "Child in the Wildflower Meadow", userId: 5, userName: "Rahul Sharma", rating: 5, comment: "Gentle natural lighting and exquisite tenderness in the brushwork.", date: "2026-03-17" },
-    { id: 5, artworkId: 21, artworkName: "Chromatic Tide", userId: 2, userName: "Kiran Reddy", rating: 5, comment: "Bold contemporary color balance with extraordinary movement and warmth.", date: "2026-03-18" },
-    { id: 6, artworkId: 31, artworkName: "Crown of Wild Blooms", userId: 5, userName: "Rahul Sharma", rating: 5, comment: "Crisp botanical detail and timeless Dutch still-life richness.", date: "2026-03-20" },
-    { id: 7, artworkId: 36, artworkName: "Primary Geometry III", userId: 2, userName: "Kiran Reddy", rating: 5, comment: "Clean modernist proportions with vivid, museum-worthy color saturation.", date: "2026-03-21" }
-  ];
-
-  // 8. Initial Auction Results
-  const initialAuctionResults = [
-    { id: 1, artworkId: 5, artworkName: "Highland Lake Passage", artist: "Elena Vance", winnerName: "Kiran Reddy", winnerEmail: "user@artgallery.com", winningBid: 18500, announcedAt: "2026-03-22" },
-    { id: 2, artworkId: 9, artworkName: "Cobalt & Crimson Harmony", artist: "Marcus Sterling", winnerName: "Kiran Reddy", winnerEmail: "user@artgallery.com", winningBid: 33000, announcedAt: "2026-03-23" },
-    { id: 3, artworkId: 15, artworkName: "Wildflower Ridge Wash", artist: "Sophia Bennett", winnerName: "Kiran Reddy", winnerEmail: "user@artgallery.com", winningBid: 26000, announcedAt: "2026-03-23" },
-    { id: 4, artworkId: 25, artworkName: "Emerald & Ochre Pulse", artist: "Olivia Morgan", winnerName: "Rahul Sharma", winnerEmail: "rahul@artgallery.com", winningBid: 23000, announcedAt: "2026-03-24" },
-    { id: 5, artworkId: 39, artworkName: "Palazzo Triumph Fresco", artist: "Ethan Williams", winnerName: "Rahul Sharma", winnerEmail: "rahul@artgallery.com", winningBid: 45000, announcedAt: "2026-03-24" }
-  ];
-
-  // First-load seeding
-  if (!localStorage.getItem('users')) setData('users', initialUsers);
-  if (!localStorage.getItem('categories')) setData('categories', initialCategories);
-  if (!localStorage.getItem('artworks')) setData('artworks', initialArtworks);
-  if (!localStorage.getItem('exhibitions')) setData('exhibitions', initialExhibitions);
-  if (!localStorage.getItem('purchases')) setData('purchases', initialPurchases);
-  if (!localStorage.getItem('favorites')) setData('favorites', { "2": [1, 4, 11, 21, 31, 36] });
   if (!localStorage.getItem('bids')) {
     setData('bids', initialBids);
     setData('auctionBids', initialBids);
   }
-  if (!localStorage.getItem('reviews')) setData('reviews', initialReviews);
-  if (!localStorage.getItem('auctionResults')) setData('auctionResults', initialAuctionResults);
-  if (!localStorage.getItem('cart')) setData('cart', []);
 
-  // Safe Non-Destructive Migration (v3: ZENITH Branding, Admin Credentials & Painting Images)
+  // 7. Reviews (Collector Testimonials)
+  if (!localStorage.getItem('reviews')) {
+    const initialReviews = [
+      {
+        id: 1,
+        artworkId: 1,
+        artworkName: "Golden Horizon",
+        userId: 2,
+        userName: "Kiran Reddy",
+        rating: 5,
+        comment: "Absolutely breathtaking texture and warm tones. Transforms the ambience of the entire room!",
+        date: "2026-03-12"
+      },
+      {
+        id: 2,
+        artworkId: 6,
+        artworkName: "Neon Cyber Odyssey",
+        userId: 5,
+        userName: "Rahul Sharma",
+        rating: 5,
+        comment: "The 3D cybernetic atmosphere and lighting contrasts are unreal. Truly top-tier digital mastery.",
+        date: "2026-03-14"
+      },
+      {
+        id: 3,
+        artworkId: 11,
+        artworkName: "Emerald Canopy",
+        userId: 2,
+        userName: "Kiran Reddy",
+        rating: 5,
+        comment: "Sophia Bennett captures forest light like no one else. The delicate glaze layers give remarkable depth.",
+        date: "2026-03-16"
+      },
+      {
+        id: 4,
+        artworkId: 17,
+        artworkName: "Gaze of Resilience",
+        userId: 5,
+        userName: "Rahul Sharma",
+        rating: 5,
+        comment: "The emotional gravitas in this portrait is mesmerizing. An instant conversation starter in our home.",
+        date: "2026-03-17"
+      },
+      {
+        id: 5,
+        artworkId: 21,
+        artworkName: "Chromatic Symphony",
+        userId: 2,
+        userName: "Kiran Reddy",
+        rating: 5,
+        comment: "A joyful explosion of harmonic color. Olivia Morgan's color psychology creates extraordinary energy.",
+        date: "2026-03-18"
+      },
+      {
+        id: 6,
+        artworkId: 26,
+        artworkName: "Royal Court of Mewar",
+        userId: 5,
+        userName: "Rahul Sharma",
+        rating: 5,
+        comment: "The gold leaf detailing and miniature precision remind one of royal museum collections. Truly magnificent.",
+        date: "2026-03-19"
+      },
+      {
+        id: 7,
+        artworkId: 31,
+        artworkName: "Soul of the Wild",
+        userId: 2,
+        userName: "Kiran Reddy",
+        rating: 5,
+        comment: "The depth and atmospheric lighting in this wildlife photograph are world-class fine art.",
+        date: "2026-03-20"
+      },
+      {
+        id: 8,
+        artworkId: 36,
+        artworkName: "Infinity in Bronze",
+        userId: 5,
+        userName: "Rahul Sharma",
+        rating: 5,
+        comment: "The balance and flawless mirror-polish finish of this bronze mobius loop are breathtaking.",
+        date: "2026-03-21"
+      },
+      {
+        id: 9,
+        artworkId: 42,
+        artworkName: "Line of Serenity",
+        userId: 2,
+        userName: "Kiran Reddy",
+        rating: 5,
+        comment: "Minimalist perfection. Isabella Rossi achieves so much emotion with pure, fluid continuous line work.",
+        date: "2026-03-22"
+      },
+      {
+        id: 10,
+        artworkId: 46,
+        artworkName: "Neural Matrix 2099",
+        userId: 5,
+        userName: "Rahul Sharma",
+        rating: 5,
+        comment: "Noah Thompson's generative cyberpunk aesthetic is unlike anything in contemporary digital art. Stunning.",
+        date: "2026-03-23"
+      }
+    ];
+    setData('reviews', initialReviews);
+  }
+
+  // 8. Auction Results Store (Official Admin Announced Winners)
+  const initialAuctionResults = [
+    {
+      id: 1,
+      artworkId: 5,
+      artworkName: "Sunset Dreams",
+      artist: "Elena Vance",
+      winnerName: "Kiran Reddy",
+      winnerEmail: "user@artgallery.com",
+      winningBid: 8500,
+      announcedAt: "2026-03-22"
+    },
+    {
+      id: 2,
+      artworkId: 9,
+      artworkName: "Marble Flora",
+      artist: "Marcus Sterling",
+      winnerName: "Kiran Reddy",
+      winnerEmail: "user@artgallery.com",
+      winningBid: 47000,
+      announcedAt: "2026-03-23"
+    },
+    {
+      id: 3,
+      artworkId: 15,
+      artworkName: "Autumn Reverence",
+      artist: "Sophia Bennett",
+      winnerName: "Kiran Reddy",
+      winnerEmail: "user@artgallery.com",
+      winningBid: 26000,
+      announcedAt: "2026-03-23"
+    },
+    {
+      id: 4,
+      artworkId: 25,
+      artworkName: "Ethereal Pulse",
+      artist: "Olivia Morgan",
+      winnerName: "Rahul Sharma",
+      winnerEmail: "rahul@artgallery.com",
+      winningBid: 23000,
+      announcedAt: "2026-03-24"
+    },
+    {
+      id: 5,
+      artworkId: 39,
+      artworkName: "Echoes of Carrara",
+      artist: "Ethan Williams",
+      winnerName: "Rahul Sharma",
+      winnerEmail: "rahul@artgallery.com",
+      winningBid: 45000,
+      announcedAt: "2026-03-24"
+    }
+  ];
+
+  if (!localStorage.getItem('auctionResults')) {
+    setData('auctionResults', initialAuctionResults);
+  }
+
+  // 9. Retro-compatibility & Live Storage Migration
+  // Automatically upgrades active browser sessions to the complete 10-artist, 50-artwork catalog
   try {
-    const migrationKey = 'zenith_migration_v3';
-    const needsMigration = localStorage.getItem(migrationKey) !== 'done';
-
-    // A. Sync admin & sample user credentials from local config without deleting any user
+    // A. Sync and Upgrade Users (Ensure all 10 verified artists and admin account exist)
     const currentUsers = getData('users', []);
-    if (Array.isArray(currentUsers) && currentUsers.length > 0) {
+    if (currentUsers && currentUsers.length > 0) {
       let usersModified = false;
+
+      // Ensure default admin user
       const adminUser = currentUsers.find(u => (u.role || '').toLowerCase() === 'admin');
-      if (adminUser && localAdmin.email && localAdmin.password) {
-        if (adminUser.email !== localAdmin.email || adminUser.password !== localAdmin.password) {
-          adminUser.email = localAdmin.email;
-          adminUser.password = localAdmin.password;
+      if (adminUser) {
+        if (adminUser.email !== demoAdminEmail || adminUser.password !== demoAdminPassword) {
+          adminUser.email = demoAdminEmail;
+          adminUser.password = demoAdminPassword;
           usersModified = true;
         }
-      } else if (!adminUser) {
+      } else {
         currentUsers.unshift(initialUsers[0]);
         usersModified = true;
       }
 
+      // Ensure all 10 artists exist in currentUsers
       initialUsers.forEach(initUser => {
         const found = currentUsers.find(u => u.id === initUser.id || (u.email && u.email.toLowerCase() === initUser.email.toLowerCase()));
         if (!found) {
           currentUsers.push(initUser);
           usersModified = true;
-        } else {
-          if (initUser.role === 'artist' && needsMigration) {
+        } else if (initUser.role === 'artist') {
+          if (!found.specialization || !found.bio) {
             found.specialization = initUser.specialization;
             found.bio = initUser.bio;
-            usersModified = true;
-          }
-          if (initUser.password && !found.password) {
-            found.password = initUser.password;
+            found.avatar = initUser.avatar;
             usersModified = true;
           }
         }
       });
 
-      if (usersModified) setData('users', currentUsers);
+      if (usersModified) {
+        setData('users', currentUsers);
+      }
+      if (localStorage.getItem('artloom_sec_v2') !== 'done') {
+        const activeSess = getData('currentUser', null);
+        if (activeSess && (activeSess.role || '').toLowerCase() === 'admin') {
+          removeData('currentUser');
+        }
+        localStorage.setItem('artloom_sec_v2', 'done');
+      }
+    } else {
+      setData('users', initialUsers);
     }
 
-    if (needsMigration) {
-      // B. Invalidate any existing admin session from before credential migration
-      const activeSession = getData('currentUser', null);
-      if (activeSession && String(activeSession.role || '').toLowerCase() === 'admin') {
-        removeData('currentUser');
-      }
-
-      // C. Upgrade categories to the 10 curated painting varieties
-      setData('categories', initialCategories);
-
-      // D. Upgrade ONLY sample artworks (preserving any user/artist-uploaded artworks!)
-      const sampleMap = {};
-      initialArtworks.forEach(a => { sampleMap[a.id] = a; });
-
-      const storedArtworks = getData('artworks', []);
-      if (!Array.isArray(storedArtworks) || storedArtworks.length === 0) {
-        setData('artworks', initialArtworks);
-      } else {
-        let artworksChanged = false;
-        const upgraded = storedArtworks.map(art => {
-          const sample = sampleMap[art.id];
-          const isLegacySample = sample && (art.isSample === true || (typeof art.image === 'string' && art.image.startsWith('images/artworks/')));
-          if (isLegacySample) {
-            artworksChanged = true;
-            return {
-              ...sample,
-              // Preserve live auction state if bids were already placed
-              currentBid: art.currentBid || sample.currentBid,
-              currentBidder: art.currentBidder || sample.currentBidder,
-              currentBidderEmail: art.currentBidderEmail || sample.currentBidderEmail,
-              currentBidderId: art.currentBidderId || sample.currentBidderId,
-              auctionStatus: art.auctionStatus || sample.auctionStatus,
-              winnerName: art.winnerName || sample.winnerName,
-              winnerEmail: art.winnerEmail || sample.winnerEmail,
-              winningBid: art.winningBid || sample.winningBid,
-              announcedAt: art.announcedAt || sample.announcedAt
+    // B. Sync and Upgrade Artworks (Ensure all 50 sample artworks exist)
+    const currentArtworks = getData('artworks', []);
+    if (!currentArtworks || currentArtworks.length < 40) {
+      setData('artworks', initialArtworks);
+    } else {
+      if (localStorage.getItem('zenith_migration_v3')) {
+        const sampleById = {};
+        initialArtworks.forEach(s => { sampleById[s.id] = s; });
+        currentArtworks.forEach((art, idx) => {
+          if (sampleById[art.id] && art.isSample) {
+            currentArtworks[idx] = {
+              ...sampleById[art.id],
+              currentBid: art.currentBid || sampleById[art.id].currentBid,
+              currentBidder: art.currentBidder || sampleById[art.id].currentBidder,
+              auctionStatus: art.auctionStatus || sampleById[art.id].auctionStatus,
+              winnerName: art.winnerName || sampleById[art.id].winnerName,
+              winningBid: art.winningBid || sampleById[art.id].winningBid
             };
           }
-          return art;
         });
-
-        // Ensure all 50 sample artworks exist if missing
-        initialArtworks.forEach(sample => {
-          if (!upgraded.some(a => Number(a.id) === Number(sample.id))) {
-            upgraded.push(sample);
-            artworksChanged = true;
+        localStorage.removeItem('zenith_migration_v3');
+        setData('artworks', currentArtworks);
+      }
+      // Validate auction properties on existing artworks
+    const curatedGalleryMap = {
+      1: "assets/images/landscape-alpine-waters.jpg",
+      2: "assets/images/landscape-coastal-waters.jpg",
+      3: "assets/images/abstract-cobalt-crimson.jpg",
+      4: "assets/images/portrait-blue-vessel.jpg",
+      5: "assets/images/contemporary-solar-waters.jpg",
+      6: "assets/images/contemporary-chromatic-wave.jpg",
+      7: "assets/images/modern-twin-forms.jpg",
+      8: "assets/images/modern-primary-composition.jpg",
+      9: "assets/images/floral-pale-roses.jpg",
+      10: "assets/images/traditional-dome-waterfront.jpg",
+      11: "assets/images/nature-forest-waters.jpg",
+      12: "assets/images/watercolor-wildflower-hills.jpg",
+      13: "assets/images/watercolor-meadow-trees.jpg",
+      14: "assets/images/landscape-trees-rock.jpg",
+      15: "assets/images/oil-golden-wheatfield.jpg",
+      16: "assets/images/traditional-cabin-gate.jpg",
+      17: "assets/images/portrait-dark-elegance.jpg",
+      18: "assets/images/portrait-white-scarf.jpg",
+      19: "assets/images/portrait-profile-collar.jpg",
+      20: "assets/images/portrait-wildflower-field.jpg",
+      21: "assets/images/abstract-bold-brushstrokes.jpg",
+      22: "assets/images/modern-emerald-ochre.jpg",
+      23: "assets/images/abstract-azure-earth.jpg",
+      24: "assets/images/modern-organic-forms.jpg",
+      25: "assets/images/abstract-crimson-amber.jpg",
+      26: "assets/images/traditional-palazzo-fresco.jpg",
+      27: "assets/images/traditional-baroque-fresco.jpg",
+      28: "assets/images/traditional-cathedral-gathering.jpg",
+      29: "assets/images/landscape-river-boat.jpg",
+      30: "assets/images/floral-wildflowers-vase.jpg",
+      31: "assets/images/nature-highland-deer.jpg",
+      32: "assets/images/landscape-mountain-lake.jpg",
+      33: "assets/images/landscape-island-vista.jpg",
+      34: "assets/images/landscape-glacial-boat.jpg",
+      35: "assets/images/watercolor-amber-rose.jpg",
+      36: "assets/images/abstract-monochrome-contrast.jpg",
+      37: "assets/images/contemporary-expressive-field.jpg",
+      38: "assets/images/nature-avian-forest.jpg",
+      39: "assets/images/oil-white-roses.jpg",
+      40: "assets/images/traditional-equestrian-group.jpg",
+      41: "assets/images/oil-pastoral-meadow.jpg",
+      42: "assets/images/floral-blush-petals.jpg",
+      43: "assets/images/floral-classical-still-life.jpg",
+      44: "assets/images/watercolor-cerulean-wash.jpg",
+      45: "assets/images/floral-vase-table.jpg",
+      46: "assets/images/contemporary-gold-crimson.jpg",
+      47: "assets/images/oil-botanical-table.jpg",
+      48: "assets/images/oil-sail-ship-sea.jpg",
+      49: "assets/images/floral-bloom-bouquet.jpg",
+      50: "assets/images/oil-crimson-roses.jpg"
+    };
+    let artworksModified = false;
+    currentArtworks.forEach(art => {
+      const isSampleImg = !art.image || art.image.startsWith("images/artworks/") || art.image.startsWith("assets/images/");
+      if (curatedGalleryMap[art.id] && isSampleImg && art.image !== curatedGalleryMap[art.id]) {
+        art.image = curatedGalleryMap[art.id];
+        artworksModified = true;
+      }
+        if (art.type === 'Auction') {
+          if (!art.auctionStatus) {
+            art.auctionStatus = 'LIVE';
+            artworksModified = true;
           }
-        });
-
-        if (artworksChanged) setData('artworks', upgraded);
-      }
-
-      // E. Update legacy SVG thumbnails in purchases without deleting user orders
-      const storedPurchases = getData('purchases', []);
-      if (Array.isArray(storedPurchases) && storedPurchases.length > 0) {
-        let purchasesChanged = false;
-        storedPurchases.forEach(p => {
-          const sample = sampleMap[p.artworkId];
-          if (sample && typeof p.image === 'string' && p.image.startsWith('images/artworks/')) {
-            p.image = sample.image;
-            p.artworkName = sample.name;
-            purchasesChanged = true;
+          if (art.startingPrice === undefined) {
+            art.startingPrice = art.price;
+            artworksModified = true;
           }
-        });
-        if (purchasesChanged) setData('purchases', storedPurchases);
-      }
-
-      // F. Ensure exhibitions exist
-      if (!localStorage.getItem('exhibitions')) {
-        setData('exhibitions', initialExhibitions);
-      }
-
-      localStorage.setItem(migrationKey, 'done');
-    } else {
-      // Ensure live auction items always have a valid endTime for countdown timers
-      const storedArtworks = getData('artworks', []);
-      let timerUpdated = false;
-      storedArtworks.forEach((art, idx) => {
-        if (art.type === 'Auction' && (art.auctionStatus || 'LIVE') === 'LIVE' && !art.endTime) {
-          art.endTime = offsetHoursISO(16 + (idx % 48));
-          timerUpdated = true;
         }
       });
-      if (timerUpdated) setData('artworks', storedArtworks);
+      if (artworksModified) {
+        setData('artworks', currentArtworks);
+      }
+    }
+
+    // C. Sync auctionBids key
+    const currentBids = getData('bids', []);
+    if (!currentBids || currentBids.length < 20) {
+      setData('bids', initialBids);
+      setData('auctionBids', initialBids);
+    } else if (!localStorage.getItem('auctionBids')) {
+      setData('auctionBids', currentBids);
+    }
+
+    // D. Sync auctionResults
+    const currentResults = getData('auctionResults', []);
+    if (!currentResults || currentResults.length < 5) {
+      setData('auctionResults', initialAuctionResults);
+    }
+
+    // E. Sync purchases
+    const currentPurchases = getData('purchases', []);
+    if (!currentPurchases || currentPurchases.length < 3) {
+      setData('purchases', initialPurchases);
+    }
+
+    // F. Ensure all bids have userEmail
+    const bidsToCheck = getData('bids', []);
+    let bidsModified = false;
+    if (bidsToCheck && bidsToCheck.length > 0) {
+      const allUsers = getData('users', initialUsers);
+      bidsToCheck.forEach(b => {
+        if (!b.userEmail) {
+          const userObj = allUsers.find(u => u.id === b.userId);
+          b.userEmail = userObj ? userObj.email : 'user@artgallery.com';
+          bidsModified = true;
+        }
+      });
+      if (bidsModified) {
+        setData('bids', bidsToCheck);
+        setData('auctionBids', bidsToCheck);
+      }
     }
   } catch (syncErr) {
-    console.warn('Storage migration note:', syncErr);
+    console.warn("Storage sync check warning:", syncErr);
   }
 }
 
@@ -1651,5 +1630,5 @@ function saveAuctionResult(resultRecord) {
   return results;
 }
 
-// Automatically initialize sample data & safe migration on load
+// Automatically seed sample data on first load
 initializeSampleData();

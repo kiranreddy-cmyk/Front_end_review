@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Control Center — ZENITH Fine Art Gallery</title>
+  <title>Admin Dashboard — ArtLoom Curated Gallery</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -15,23 +15,24 @@
   <header class="site-header">
     <div class="container navbar">
       <a href="index.html" class="brand-logo">
-        <img src="images/logo.svg" alt="ZENITH Fine Art Gallery">
+        <img src="images/logo.svg" alt="ArtLoom Logo">
       </a>
 
-      <button type="button" class="menu-toggle" id="menuToggle" aria-label="Toggle Navigation">☰</button>
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle Navigation">☰</button>
 
       <ul class="nav-links" id="navLinks">
         <li><a href="index.html">Home</a></li>
         <li><a href="artworks.html">Gallery</a></li>
         <li><a href="artist-profile.html">Artists</a></li>
         <li><a href="auction.html">Auctions</a></li>
-        <li><a href="exhibitions.html">Exhibitions</a></li>
         <li><a href="reviews.html">Reviews</a></li>
         <li><a href="about.html">About</a></li>
-        <li><a href="admin-dashboard.html" class="active">Admin</a></li>
+        <li><a href="admin-dashboard.html" class="active">Admin Dashboard</a></li>
       </ul>
 
-      <div class="nav-actions" id="navActions"></div>
+      <div class="nav-actions" id="navActions">
+        <!-- Injected dynamically via auth.js -->
+      </div>
     </div>
   </header>
 
@@ -42,20 +43,23 @@
         <div class="dashboard-greeting">
           <div style="display: flex; align-items: center; gap: 10px;">
             <span class="role-tag role-admin">System Administrator</span>
-            <span style="color: var(--gold-primary); font-size: 0.85rem;">• Curator Control Portal</span>
           </div>
           <h1>Admin Control Center</h1>
-          <p>Monitor platform analytics, moderate users, manage artworks, categories, purchases, and live auctions.</p>
+          <p>Monitor platform statistics, moderate users, manage artworks, categories, purchases, and auctions.</p>
         </div>
-        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-          <button type="button" onclick="openAddArtworkModal()" class="btn btn-gold">+ Add New Artwork</button>
-          <button type="button" onclick="logout()" class="btn btn-danger">Logout</button>
+        <div style="display: flex; gap: 10px;">
+          <button onclick="openAddArtworkModal()" class="btn btn-accent">
+            + Add New Artwork
+          </button>
+          <button onclick="logout()" class="btn btn-outline" style="color: var(--danger); border-color: var(--danger);">
+            Logout
+          </button>
         </div>
       </div>
     </div>
 
     <div class="container">
-      <!-- Dynamic KPI Metric Cards -->
+      <!-- Dynamic KPI Metric Cards (CSS Grid) -->
       <div class="stats-grid">
         <div class="stat-card">
           <div class="stat-icon stat-icon-blue">👥</div>
@@ -105,33 +109,34 @@
           </div>
         </div>
 
-        <div class="stat-card">
+        <div class="stat-card" style="grid-column: span 2;">
           <div class="stat-icon stat-icon-green">💰</div>
           <div class="stat-info">
             <h3 id="statTotalRevenue">₹0</h3>
-            <p>Sales Volume</p>
+            <p>Platform Sales Volume</p>
           </div>
         </div>
       </div>
 
-      <!-- Navigation Tabs -->
+      <!-- Navigation Tabs (Flexbox) -->
       <div class="dashboard-tabs">
-        <button type="button" class="dash-tab-btn active" data-target="tabArtworks">Manage Artworks</button>
-        <button type="button" class="dash-tab-btn" data-target="tabUsers">Manage Users</button>
-        <button type="button" class="dash-tab-btn" data-target="tabCategories">Manage Categories</button>
-        <button type="button" class="dash-tab-btn" data-target="tabPurchases">Purchases Log</button>
-        <button type="button" class="dash-tab-btn" data-target="tabAuctions">Auction Management</button>
-        <button type="button" class="dash-tab-btn" data-target="tabReviews">Reviews Moderation</button>
+        <button class="dash-tab-btn active" data-target="tabArtworks">Manage Artworks</button>
+        <button class="dash-tab-btn" data-target="tabUsers">Manage Users</button>
+        <button class="dash-tab-btn" data-target="tabCategories">Manage Categories</button>
+        <button class="dash-tab-btn" data-target="tabPurchases">Purchases Log</button>
+        <button class="dash-tab-btn" data-target="tabAuctions">Auction Management</button>
+        <button class="dash-tab-btn" data-target="tabReviews">Reviews Moderation</button>
       </div>
 
+      <!-- Tab Panes -->
       <!-- 1. Manage Artworks -->
       <div class="tab-pane active" id="tabArtworks">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 12px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
           <div>
-            <h2 style="font-size: 1.5rem; color: #ffffff;">Catalog Artworks</h2>
-            <p style="color: var(--text-muted); font-size: 0.9rem;">Add, edit metadata, update pricing, or remove artworks from the gallery.</p>
+            <h2 style="font-size: 1.4rem; font-weight: 800;">Catalog Artworks</h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Add, edit metadata, update prices, or remove artworks from gallery.</p>
           </div>
-          <button type="button" onclick="openAddArtworkModal()" class="btn btn-sm btn-gold">+ Add Artwork</button>
+          <button onclick="openAddArtworkModal()" class="btn btn-sm btn-accent">+ Add Artwork</button>
         </div>
 
         <div class="table-container">
@@ -148,7 +153,9 @@
                 <th>Actions</th>
               </tr>
             </thead>
-            <tbody id="adminArtworksTableBody"></tbody>
+            <tbody id="adminArtworksTableBody">
+              <!-- Rendered via admin.js -->
+            </tbody>
           </table>
         </div>
       </div>
@@ -156,8 +163,8 @@
       <!-- 2. Manage Users -->
       <div class="tab-pane" id="tabUsers">
         <div style="margin-bottom: 18px;">
-          <h2 style="font-size: 1.5rem; color: #ffffff;">Registered Accounts</h2>
-          <p style="color: var(--text-muted); font-size: 0.9rem;">Audit registered collectors, exhibiting artists, and gallery administrators.</p>
+          <h2 style="font-size: 1.4rem; font-weight: 800;">Registered Accounts</h2>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">View registered collectors, artists, and system administrators.</p>
         </div>
 
         <div class="table-container">
@@ -172,7 +179,9 @@
                 <th>Actions</th>
               </tr>
             </thead>
-            <tbody id="adminUsersTableBody"></tbody>
+            <tbody id="adminUsersTableBody">
+              <!-- Rendered via admin.js -->
+            </tbody>
           </table>
         </div>
       </div>
@@ -180,18 +189,20 @@
       <!-- 3. Manage Categories -->
       <div class="tab-pane" id="tabCategories">
         <div style="margin-bottom: 18px;">
-          <h2 style="font-size: 1.5rem; color: #ffffff;">Artwork Categories</h2>
-          <p style="color: var(--text-muted); font-size: 0.9rem;">Active painting styles and their current catalog distribution.</p>
+          <h2 style="font-size: 1.4rem; font-weight: 800;">Artwork Categories</h2>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">Active collection categories and their current artwork distribution.</p>
         </div>
 
-        <div class="category-grid" id="adminCategoriesContainer"></div>
+        <div class="category-grid" id="adminCategoriesContainer">
+          <!-- Rendered via admin.js -->
+        </div>
       </div>
 
       <!-- 4. Purchases Log -->
       <div class="tab-pane" id="tabPurchases">
         <div style="margin-bottom: 18px;">
-          <h2 style="font-size: 1.5rem; color: #ffffff;">Transactions &amp; Purchases Log</h2>
-          <p style="color: var(--text-muted); font-size: 0.9rem;">Audit trail of all artwork acquisitions completed across ZENITH.</p>
+          <h2 style="font-size: 1.4rem; font-weight: 800;">Transactions &amp; Purchases Log</h2>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">Audit trail of all artwork acquisitions made across the platform.</p>
         </div>
 
         <div class="table-container">
@@ -207,17 +218,19 @@
                 <th>Status</th>
               </tr>
             </thead>
-            <tbody id="adminPurchasesTableBody"></tbody>
+            <tbody id="adminPurchasesTableBody">
+              <!-- Rendered via admin.js -->
+            </tbody>
           </table>
         </div>
       </div>
 
-      <!-- 5. Auction Management -->
+      <!-- 5. Auction & Bidding Management -->
       <div class="tab-pane" id="tabAuctions">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 12px;">
           <div>
-            <h2 style="font-size: 1.5rem; color: #ffffff;">Auction &amp; Bidding Management</h2>
-            <p style="color: var(--text-muted); font-size: 0.9rem;">Monitor live bids, review bid history, close lots, and officially declare winning collectors.</p>
+            <h2 style="font-size: 1.4rem; font-weight: 800;">Auction &amp; Bidding Management</h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Monitor live bids, review complete bid history, close auctions, and officially declare winning collectors.</p>
           </div>
           <div style="display: flex; gap: 8px; flex-wrap: wrap;">
             <span class="badge badge-auction" id="adminAuctionLiveCount">0 Live</span>
@@ -239,7 +252,9 @@
                 <th>Action</th>
               </tr>
             </thead>
-            <tbody id="adminAuctionsTableBody"></tbody>
+            <tbody id="adminAuctionsTableBody">
+              <!-- Rendered via admin.js -->
+            </tbody>
           </table>
         </div>
       </div>
@@ -247,7 +262,7 @@
       <!-- 6. Reviews Moderation -->
       <div class="tab-pane" id="tabReviews">
         <div style="margin-bottom: 18px;">
-          <h2 style="font-size: 1.5rem; color: #ffffff;">Collector Critiques &amp; Ratings</h2>
+          <h2 style="font-size: 1.4rem; font-weight: 800;">Community Reviews &amp; Ratings</h2>
           <p style="color: var(--text-muted); font-size: 0.9rem;">Moderate collector feedback and star ratings.</p>
         </div>
 
@@ -263,7 +278,9 @@
                 <th>Actions</th>
               </tr>
             </thead>
-            <tbody id="adminReviewsTableBody"></tbody>
+            <tbody id="adminReviewsTableBody">
+              <!-- Rendered via admin.js -->
+            </tbody>
           </table>
         </div>
       </div>
@@ -273,16 +290,14 @@
   <!-- Footer -->
   <footer class="site-footer">
     <div class="container footer-bottom">
-      <div>&copy; 2026 ZENITH Fine Art Gallery. All rights reserved.</div>
-      <div style="color: var(--gold-primary);">Curator Control Center</div>
+      <div>&copy; 2026 ArtLoom Online Art Gallery. All rights reserved.</div>
+      <div>Admin Control Portal</div>
     </div>
   </footer>
 
   <!-- Scripts -->
-  <script src="js/config.local.js"></script>
   <script src="js/storage.js"></script>
   <script src="js/auth.js"></script>
-  <script src="js/cart.js"></script>
   <script src="js/admin.js"></script>
 </body>
 </html>
