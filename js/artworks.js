@@ -22,6 +22,11 @@ function toggleFavorite(artworkId, btnElement) {
     return;
   }
 
+  if (getNormalizedRole(user) === 'admin') {
+    showToast('Administrators cannot save customer favorites.', 'error');
+    return;
+  }
+
   const favorites = getData('favorites', {});
   if (!favorites[user.id]) {
     favorites[user.id] = [];
@@ -58,7 +63,8 @@ function toggleFavorite(artworkId, btnElement) {
 
 // Render a single Artwork Card HTML
 function createArtworkCardHTML(art) {
-  const isFav = isArtworkFavorited(art.id);
+  const isAdmin = isCurrentUserAdmin();
+  const isFav = !isAdmin && isArtworkFavorited(art.id);
   let typeBadgeClass = 'badge-sale';
   let badgeLabel = art.type;
   let priceDisplay = art.price;
@@ -89,9 +95,11 @@ function createArtworkCardHTML(art) {
       <div class="artwork-image-wrap">
         <img src="${art.image}" alt="${art.name}" loading="lazy" onerror="this.src='assets/images/landscape-alpine-waters.jpg'">
         <span class="badge ${typeBadgeClass} artwork-badge-floating">${badgeLabel}</span>
-        <button class="btn-fav-floating ${isFav ? 'active' : ''}" onclick="toggleFavorite(${art.id}, this)" title="${isFav ? 'Remove Favorite' : 'Add to Favorites'}">
-          ${isFav ? '♥' : '♡'}
-        </button>
+        ${!isAdmin ? `
+          <button class="btn-fav-floating ${isFav ? 'active' : ''}" onclick="toggleFavorite(${art.id}, this)" title="${isFav ? 'Remove Favorite' : 'Add to Favorites'}">
+            ${isFav ? '♥' : '♡'}
+          </button>
+        ` : ''}
       </div>
       <div class="artwork-body">
         <div class="artwork-meta-row">
@@ -476,9 +484,11 @@ function initArtworkDetailsPage() {
             ${formatCurrency(art.price)}
           </div>
         </div>
-        <button onclick="openBuyModal(${art.id})" class="btn btn-lg btn-accent">
-          Buy Now
-        </button>
+        ${currentRole !== 'admin' ? `
+          <button onclick="openBuyModal(${art.id})" class="btn btn-lg btn-accent">
+            Buy Now
+          </button>
+        ` : ''}
       </div>
     `;
   }
@@ -522,9 +532,11 @@ function initArtworkDetailsPage() {
         </div>
 
         <div class="details-actions-row">
-          <button class="btn btn-outline ${isFav ? 'active' : ''}" id="detailsFavBtn" onclick="toggleDetailsFavorite(${art.id})">
-            ${isFav ? '♥ In Favorites' : '♡ Add to Favorites'}
-          </button>
+          ${currentRole !== 'admin' ? `
+            <button class="btn btn-outline ${isFav ? 'active' : ''}" id="detailsFavBtn" onclick="toggleDetailsFavorite(${art.id})">
+              ${isFav ? '♥ In Favorites' : '♡ Add to Favorites'}
+            </button>
+          ` : ''}
           <a href="artist-profile.html?artist=${encodeURIComponent(art.artist)}" class="btn btn-outline">
             View Artist Profile
           </a>
@@ -588,6 +600,10 @@ function initArtworkDetailsPage() {
 }
 
 function toggleDetailsFavorite(artId) {
+  if (isCurrentUserAdmin()) {
+    showToast('Administrators cannot save customer favorites.', 'error');
+    return;
+  }
   const btn = document.getElementById('detailsFavBtn');
   toggleFavorite(artId, null);
   const isFav = isArtworkFavorited(artId);
@@ -604,6 +620,11 @@ function openBuyModal(artId) {
   if (!user) {
     showToast('Please login to purchase artwork', 'warning');
     setTimeout(() => { window.location.href = 'login.html'; }, 1000);
+    return;
+  }
+
+  if (getNormalizedRole(user) === 'admin') {
+    showToast('Administrators cannot purchase artworks.', 'error');
     return;
   }
 
@@ -666,6 +687,10 @@ function closeBuyModal() {
 function confirmPurchase(artId) {
   const user = getCurrentUser();
   if (!user) return;
+  if (getNormalizedRole(user) === 'admin') {
+    showToast('Administrators cannot complete customer purchases.', 'error');
+    return;
+  }
 
   const artworks = getData('artworks', []);
   const art = artworks.find(a => a.id === artId);

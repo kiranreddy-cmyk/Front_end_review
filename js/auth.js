@@ -47,6 +47,11 @@ function getNormalizedRole(user) {
   return normalizeRoleString(user.role);
 }
 
+// Helper to check whether the current logged-in account is an Administrator
+function isCurrentUserAdmin() {
+  return getNormalizedRole(getCurrentUser()) === 'admin';
+}
+
 // Get Logged In User
 function getCurrentUser() {
   const user = getData('currentUser', null);

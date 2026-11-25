@@ -16,6 +16,11 @@ function getStarRatingHTML(rating) {
 
 // 1. Render Reviews on artwork-details.html
 function renderArtworkReviews(artworkId) {
+  const reviewFormCard = document.getElementById('artworkReviewFormCard');
+  if (reviewFormCard) {
+    reviewFormCard.style.display = isCurrentUserAdmin() ? 'none' : '';
+  }
+
   const reviewsContainer = document.getElementById('artworkReviewsList');
   const reviewCountEl = document.getElementById('artworkReviewCount');
   if (!reviewsContainer) return;
@@ -56,6 +61,11 @@ function submitArtworkReview(e, artworkId) {
   if (!user) {
     showToast('Please login to leave a review', 'warning');
     setTimeout(() => { window.location.href = 'login.html'; }, 1000);
+    return;
+  }
+
+  if (getNormalizedRole(user) === 'admin') {
+    showToast('Administrators cannot submit customer reviews.', 'error');
     return;
   }
 
@@ -102,6 +112,13 @@ function submitArtworkReview(e, artworkId) {
 
 // 2. Initialize Community Reviews Page (reviews.html)
 function initReviewsPage() {
+  const globalReviewFormCard = document.getElementById('globalReviewFormCard');
+  const reviewsLayoutGrid = document.getElementById('reviewsLayoutGrid');
+  if (isCurrentUserAdmin()) {
+    if (globalReviewFormCard) globalReviewFormCard.style.display = 'none';
+    if (reviewsLayoutGrid) reviewsLayoutGrid.style.gridTemplateColumns = '1fr';
+  }
+
   const reviewsFeed = document.getElementById('communityReviewsFeed');
   const artworkSelect = document.getElementById('reviewArtworkSelect');
   if (!reviewsFeed) return;
@@ -152,6 +169,11 @@ function handleGlobalReviewSubmit(e) {
   if (!user) {
     showToast('Please login to submit a review', 'warning');
     setTimeout(() => { window.location.href = 'login.html'; }, 1000);
+    return;
+  }
+
+  if (getNormalizedRole(user) === 'admin') {
+    showToast('Administrators cannot submit customer reviews.', 'error');
     return;
   }
 

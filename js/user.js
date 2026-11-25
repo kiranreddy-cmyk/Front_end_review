@@ -54,6 +54,10 @@ function initUserDashboard() {
 // 2. Initialize Favorites Page (favorites.html)
 function renderFavoritesPage() {
   const user = getCurrentUser();
+  if (getNormalizedRole(user) === 'admin') {
+    window.location.href = 'admin-dashboard.html';
+    return;
+  }
   const container = document.getElementById('favoritesGrid');
   if (!container) return;
 
@@ -118,6 +122,10 @@ function renderFavoritesPage() {
 function initPurchasesPage() {
   const user = requireAuth();
   if (!user) return;
+  if (getNormalizedRole(user) === 'admin') {
+    window.location.href = 'admin-dashboard.html';
+    return;
+  }
 
   const tableBody = document.getElementById('userPurchasesTableBody');
   const emptyState = document.getElementById('purchasesEmptyState');
