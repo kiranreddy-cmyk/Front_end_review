@@ -1073,6 +1073,43 @@ button, input, select, textarea {
   border-color: var(--accent);
 }
 
+button.stat-card-interactive {
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.stat-card-interactive:hover {
+  border-color: var(--accent);
+  box-shadow: 0 6px 18px rgba(176, 141, 87, 0.16);
+}
+
+.stat-card-interactive:active {
+  transform: translateY(0);
+}
+
+.stat-card-interactive:focus-visible {
+  outline: 2px solid var(--accent-dark);
+  outline-offset: 3px;
+  border-color: var(--accent);
+  box-shadow: 0 6px 18px rgba(176, 141, 87, 0.18);
+}
+
+.stat-card-interactive.active-card {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent), 0 6px 18px rgba(176, 141, 87, 0.14);
+}
+
+.form-control-compact {
+  width: auto;
+  min-width: 165px;
+  padding: 7px 12px;
+  font-size: 0.86rem;
+}
+
 .stat-icon {
   width: 52px;
   height: 52px;
@@ -1137,6 +1174,23 @@ button, input, select, textarea {
   color: var(--accent-dark);
   border-bottom-color: var(--accent);
   font-weight: 700;
+}
+
+.dash-tab-btn:focus-visible {
+  outline: 2px solid var(--accent-dark);
+  outline-offset: -2px;
+}
+
+.visually-hidden:where(:not(:focus-within, :active)) {
+  position: absolute !important;
+  clip-path: inset(50%) !important;
+  overflow: hidden !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  white-space: nowrap !important;
 }
 
 .tab-pane {
@@ -1673,5 +1727,24 @@ button, input, select, textarea {
     flex-direction: column;
     gap: 10px;
     text-align: center;
+  }
+}
+
+@media (max-width: 520px) {
+  .stat-card-wide {
+    grid-column: span 1 !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .stat-card-interactive {
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  }
+  .stat-card-interactive:hover,
+  .stat-card-interactive:active {
+    transform: none;
   }
 }

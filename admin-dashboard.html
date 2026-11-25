@@ -60,77 +60,77 @@
 
     <div class="container">
       <!-- Dynamic KPI Metric Cards (CSS Grid) -->
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-icon stat-icon-blue">👥</div>
+      <div class="stats-grid" role="region" aria-label="Platform statistics">
+        <button type="button" class="stat-card stat-card-interactive" data-target="tabUsers" data-user-role="all" aria-label="Total Users — open Manage Users">
+          <div class="stat-icon stat-icon-blue" aria-hidden="true">👥</div>
           <div class="stat-info">
             <h3 id="statTotalUsers">0</h3>
             <p>Total Users</p>
           </div>
-        </div>
+        </button>
 
-        <div class="stat-card">
-          <div class="stat-icon stat-icon-gold">🎨</div>
+        <button type="button" class="stat-card stat-card-interactive" data-target="tabUsers" data-user-role="artist" aria-label="Total Artists — open Manage Users filtered by Artist">
+          <div class="stat-icon stat-icon-gold" aria-hidden="true">🎨</div>
           <div class="stat-info">
             <h3 id="statTotalArtists">0</h3>
             <p>Total Artists</p>
           </div>
-        </div>
+        </button>
 
-        <div class="stat-card">
-          <div class="stat-icon stat-icon-purple">🖼️</div>
+        <button type="button" class="stat-card stat-card-interactive" data-target="tabArtworks" aria-label="Total Artworks — open Manage Artworks">
+          <div class="stat-icon stat-icon-purple" aria-hidden="true">🖼️</div>
           <div class="stat-info">
             <h3 id="statTotalArtworks">0</h3>
             <p>Total Artworks</p>
           </div>
-        </div>
+        </button>
 
-        <div class="stat-card">
-          <div class="stat-icon stat-icon-green">🛍️</div>
+        <button type="button" class="stat-card stat-card-interactive" data-target="tabPurchases" aria-label="Total Purchases — open Purchases Log">
+          <div class="stat-icon stat-icon-green" aria-hidden="true">🛍️</div>
           <div class="stat-info">
             <h3 id="statTotalPurchases">0</h3>
             <p>Total Purchases</p>
           </div>
-        </div>
+        </button>
 
-        <div class="stat-card">
-          <div class="stat-icon stat-icon-gold">🔨</div>
+        <button type="button" class="stat-card stat-card-interactive" data-target="tabAuctions" data-auction-status="LIVE" aria-label="Live Auctions — open Auction Management for active auctions">
+          <div class="stat-icon stat-icon-gold" aria-hidden="true">🔨</div>
           <div class="stat-info">
             <h3 id="statTotalAuctions">0</h3>
             <p>Live Auctions</p>
           </div>
-        </div>
+        </button>
 
-        <div class="stat-card">
-          <div class="stat-icon stat-icon-blue">⭐</div>
+        <button type="button" class="stat-card stat-card-interactive" data-target="tabReviews" aria-label="Total Reviews — open Reviews Moderation">
+          <div class="stat-icon stat-icon-blue" aria-hidden="true">⭐</div>
           <div class="stat-info">
             <h3 id="statTotalReviews">0</h3>
             <p>Total Reviews</p>
           </div>
-        </div>
+        </button>
 
-        <div class="stat-card" style="grid-column: span 2;">
-          <div class="stat-icon stat-icon-green">💰</div>
+        <button type="button" class="stat-card stat-card-interactive stat-card-wide" style="grid-column: span 2;" data-target="tabPurchases" data-highlight-sales="true" aria-label="Platform Sales Volume — open Purchases Log and total sales">
+          <div class="stat-icon stat-icon-green" aria-hidden="true">💰</div>
           <div class="stat-info">
             <h3 id="statTotalRevenue">₹0</h3>
             <p>Platform Sales Volume</p>
           </div>
-        </div>
+        </button>
       </div>
 
       <!-- Navigation Tabs (Flexbox) -->
-      <div class="dashboard-tabs">
-        <button class="dash-tab-btn active" data-target="tabArtworks">Manage Artworks</button>
-        <button class="dash-tab-btn" data-target="tabUsers">Manage Users</button>
-        <button class="dash-tab-btn" data-target="tabCategories">Manage Categories</button>
-        <button class="dash-tab-btn" data-target="tabPurchases">Purchases Log</button>
-        <button class="dash-tab-btn" data-target="tabAuctions">Auction Management</button>
-        <button class="dash-tab-btn" data-target="tabReviews">Reviews Moderation</button>
+      <div class="dashboard-tabs" id="adminManagementSection" role="tablist" aria-label="Admin management sections">
+        <button type="button" role="tab" id="tabBtnArtworks" aria-selected="true" class="dash-tab-btn active" data-target="tabArtworks">Manage Artworks</button>
+        <button type="button" role="tab" id="tabBtnUsers" aria-selected="false" class="dash-tab-btn" data-target="tabUsers">Manage Users</button>
+        <button type="button" role="tab" id="tabBtnCategories" aria-selected="false" class="dash-tab-btn" data-target="tabCategories">Manage Categories</button>
+        <button type="button" role="tab" id="tabBtnPurchases" aria-selected="false" class="dash-tab-btn" data-target="tabPurchases">Purchases Log</button>
+        <button type="button" role="tab" id="tabBtnAuctions" aria-selected="false" class="dash-tab-btn" data-target="tabAuctions">Auction Management</button>
+        <button type="button" role="tab" id="tabBtnReviews" aria-selected="false" class="dash-tab-btn" data-target="tabReviews">Reviews Moderation</button>
       </div>
 
       <!-- Tab Panes -->
       <!-- 1. Manage Artworks -->
-      <div class="tab-pane active" id="tabArtworks">
+      <div class="tab-pane active" id="tabArtworks" role="tabpanel" aria-labelledby="tabBtnArtworks">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
           <div>
             <h2 style="font-size: 1.4rem; font-weight: 800;">Catalog Artworks</h2>
@@ -161,10 +161,22 @@
       </div>
 
       <!-- 2. Manage Users -->
-      <div class="tab-pane" id="tabUsers">
-        <div style="margin-bottom: 18px;">
-          <h2 style="font-size: 1.4rem; font-weight: 800;">Registered Accounts</h2>
-          <p style="color: var(--text-muted); font-size: 0.9rem;">View registered collectors, artists, and system administrators.</p>
+      <div class="tab-pane" id="tabUsers" role="tabpanel" aria-labelledby="tabBtnUsers">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 12px;">
+          <div>
+            <h2 style="font-size: 1.4rem; font-weight: 800;">Registered Accounts</h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">View registered collectors, artists, and system administrators.</p>
+          </div>
+          <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+            <span class="badge badge-category" id="adminUsersFilterCount">0 Accounts</span>
+            <label for="adminUserRoleFilter" class="visually-hidden">Filter accounts by role</label>
+            <select id="adminUserRoleFilter" class="form-control form-control-compact" aria-label="Filter accounts by role">
+              <option value="all">All Roles</option>
+              <option value="user">Buyer / User</option>
+              <option value="artist">Artist</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
         </div>
 
         <div class="table-container">
@@ -175,6 +187,7 @@
                 <th>User</th>
                 <th>Email Address</th>
                 <th>Role</th>
+                <th>Status</th>
                 <th>Joined Date</th>
                 <th>Actions</th>
               </tr>
@@ -187,7 +200,7 @@
       </div>
 
       <!-- 3. Manage Categories -->
-      <div class="tab-pane" id="tabCategories">
+      <div class="tab-pane" id="tabCategories" role="tabpanel" aria-labelledby="tabBtnCategories">
         <div style="margin-bottom: 18px;">
           <h2 style="font-size: 1.4rem; font-weight: 800;">Artwork Categories</h2>
           <p style="color: var(--text-muted); font-size: 0.9rem;">Active collection categories and their current artwork distribution.</p>
@@ -199,10 +212,16 @@
       </div>
 
       <!-- 4. Purchases Log -->
-      <div class="tab-pane" id="tabPurchases">
-        <div style="margin-bottom: 18px;">
-          <h2 style="font-size: 1.4rem; font-weight: 800;">Transactions &amp; Purchases Log</h2>
-          <p style="color: var(--text-muted); font-size: 0.9rem;">Audit trail of all artwork acquisitions made across the platform.</p>
+      <div class="tab-pane" id="tabPurchases" role="tabpanel" aria-labelledby="tabBtnPurchases">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 12px;">
+          <div>
+            <h2 style="font-size: 1.4rem; font-weight: 800;">Transactions &amp; Purchases Log</h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Audit trail of all artwork acquisitions made across the platform.</p>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+            <span class="badge badge-category" id="adminPurchasesCountBadge">0 Orders</span>
+            <span class="badge badge-sale" id="adminPurchasesTotalVolume">Total Sales: ₹0</span>
+          </div>
         </div>
 
         <div class="table-container">
@@ -226,16 +245,23 @@
       </div>
 
       <!-- 5. Auction & Bidding Management -->
-      <div class="tab-pane" id="tabAuctions">
+      <div class="tab-pane" id="tabAuctions" role="tabpanel" aria-labelledby="tabBtnAuctions">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 12px;">
           <div>
             <h2 style="font-size: 1.4rem; font-weight: 800;">Auction &amp; Bidding Management</h2>
             <p style="color: var(--text-muted); font-size: 0.9rem;">Monitor live bids, review complete bid history, close auctions, and officially declare winning collectors.</p>
           </div>
-          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
             <span class="badge badge-auction" id="adminAuctionLiveCount">0 Live</span>
             <span class="badge badge-category" id="adminAuctionClosedCount">0 Closed</span>
             <span class="badge badge-sale" id="adminAuctionAnnouncedCount">0 Winner Announced</span>
+            <label for="adminAuctionStatusFilter" class="visually-hidden">Filter auctions by status</label>
+            <select id="adminAuctionStatusFilter" class="form-control form-control-compact" aria-label="Filter auctions by status">
+              <option value="all">All Auctions</option>
+              <option value="LIVE">Live Only</option>
+              <option value="CLOSED">Closed</option>
+              <option value="WINNER ANNOUNCED">Winner Announced</option>
+            </select>
           </div>
         </div>
 
@@ -260,7 +286,7 @@
       </div>
 
       <!-- 6. Reviews Moderation -->
-      <div class="tab-pane" id="tabReviews">
+      <div class="tab-pane" id="tabReviews" role="tabpanel" aria-labelledby="tabBtnReviews">
         <div style="margin-bottom: 18px;">
           <h2 style="font-size: 1.4rem; font-weight: 800;">Community Reviews &amp; Ratings</h2>
           <p style="color: var(--text-muted); font-size: 0.9rem;">Moderate collector feedback and star ratings.</p>

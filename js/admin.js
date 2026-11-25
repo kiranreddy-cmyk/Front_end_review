@@ -7,6 +7,88 @@
 // Route Guard: Ensure Admin Access Only
 const currentAdmin = requireAuth(['admin']);
 
+// Determine whether a purchase record represents a completed transaction
+function isCompletedPurchase(purchase) {
+  const status = String((purchase && purchase.status) || 'Completed').trim().toLowerCase();
+  return !['cancelled', 'canceled', 'pending', 'failed', 'refunded'].includes(status);
+}
+
+// Activate an Admin Dashboard tab, optionally applying filters and smooth-scrolling
+function activateAdminTab(targetId, options = {}) {
+  const {
+    userRoleFilter = null,
+    auctionStatusFilter = null,
+    scroll = false,
+    activeCardEl = null,
+    focusTab = false
+  } = options;
+
+  const tabButtons = Array.from(document.querySelectorAll('.dash-tab-btn'));
+  const tabPanes = Array.from(document.querySelectorAll('.tab-pane'));
+  const targetBtn = tabButtons.find(b => b.getAttribute('data-target') === targetId);
+  const targetPane = document.getElementById(targetId);
+
+  if (!targetBtn || !targetPane) return;
+
+  tabButtons.forEach(btn => {
+    const isTarget = btn === targetBtn;
+    btn.classList.toggle('active', isTarget);
+    btn.setAttribute('aria-selected', isTarget ? 'true' : 'false');
+  });
+
+  tabPanes.forEach(pane => {
+    pane.classList.toggle('active', pane === targetPane);
+  });
+
+  document.querySelectorAll('.stat-card-interactive').forEach(card => {
+    card.classList.toggle('active-card', Boolean(activeCardEl && card === activeCardEl));
+  });
+
+  if (targetId === 'tabUsers') {
+    const roleFilterEl = document.getElementById('adminUserRoleFilter');
+    if (roleFilterEl && userRoleFilter !== null) {
+      roleFilterEl.value = userRoleFilter;
+    }
+    renderAdminUsersTable();
+  } else if (targetId === 'tabAuctions') {
+    const auctionFilterEl = document.getElementById('adminAuctionStatusFilter');
+    if (auctionFilterEl && auctionStatusFilter !== null) {
+      auctionFilterEl.value = auctionStatusFilter;
+    }
+    renderAdminAuctionsTable();
+  } else if (targetId === 'tabArtworks') {
+    renderAdminArtworksTable();
+  } else if (targetId === 'tabCategories') {
+    renderAdminCategoriesList();
+  } else if (targetId === 'tabPurchases') {
+    renderAdminPurchasesTable();
+  } else if (targetId === 'tabReviews') {
+    renderAdminReviewsTable();
+  }
+
+  renderAdminStats();
+
+  // Keep active tab visible in horizontal scroll containers on smaller screens
+  if (typeof targetBtn.scrollIntoView === 'function') {
+    targetBtn.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+  }
+
+  if (scroll) {
+    const managementSection = document.getElementById('adminManagementSection') || targetPane;
+    const prefersReducedMotion = typeof window !== 'undefined' &&
+      window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    managementSection.scrollIntoView({
+      behavior: prefersReducedMotion ? 'auto' : 'smooth',
+      block: 'start'
+    });
+  }
+
+  if (focusTab) {
+    targetBtn.focus({ preventScroll: true });
+  }
+}
+
 // Initialize Admin Dashboard
 function initAdminDashboard() {
   if (!currentAdmin) return;
@@ -19,17 +101,83 @@ function initAdminDashboard() {
   renderAdminAuctionsTable();
   renderAdminReviewsTable();
 
-  // Tab switching logic
-  const tabButtons = document.querySelectorAll('.dash-tab-btn');
-  tabButtons.forEach(btn => {
+  // Tab switching logic (click + keyboard Arrow/Home/End navigation)
+  const tabButtons = Array.from(document.querySelectorAll('.dash-tab-btn'));
+  tabButtons.forEach((btn, idx) => {
     btn.addEventListener('click', () => {
-      tabButtons.forEach(b => b.classList.remove('active'));
-      document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-
-      btn.classList.add('active');
-      const targetTab = document.getElementById(btn.getAttribute('data-target'));
-      if (targetTab) targetTab.classList.add('active');
+      const targetId = btn.getAttribute('data-target');
+      const opts = {};
+      if (targetId === 'tabUsers') opts.userRoleFilter = 'all';
+      if (targetId === 'tabAuctions') opts.auctionStatusFilter = 'all';
+      activateAdminTab(targetId, opts);
     });
+
+    btn.addEventListener('keydown', (e) => {
+      let nextIdx = null;
+      if (e.key === 'ArrowRight') nextIdx = (idx + 1) % tabButtons.length;
+      else if (e.key === 'ArrowLeft') nextIdx = (idx - 1 + tabButtons.length) % tabButtons.length;
+      else if (e.key === 'Home') nextIdx = 0;
+      else if (e.key === 'End') nextIdx = tabButtons.length - 1;
+
+      if (nextIdx !== null) {
+        e.preventDefault();
+        const nextBtn = tabButtons[nextIdx];
+        const targetId = nextBtn.getAttribute('data-target');
+        const opts = { focusTab: true };
+        if (targetId === 'tabUsers') opts.userRoleFilter = 'all';
+        if (targetId === 'tabAuctions') opts.auctionStatusFilter = 'all';
+        activateAdminTab(targetId, opts);
+      }
+    });
+  });
+
+  // Interactive Statistics Cards
+  document.querySelectorAll('.stat-card-interactive').forEach(card => {
+    card.addEventListener('click', (e) => {
+      const targetId = card.getAttribute('data-target');
+      if (!targetId) return;
+      const userRole = card.getAttribute('data-user-role');
+      const auctionStatus = card.getAttribute('data-auction-status');
+
+      activateAdminTab(targetId, {
+        userRoleFilter: userRole !== null ? userRole : null,
+        auctionStatusFilter: auctionStatus !== null ? auctionStatus : null,
+        scroll: true,
+        activeCardEl: card,
+        focusTab: e.detail === 0
+      });
+    });
+  });
+
+  // Role & Auction Status filter dropdowns
+  const roleFilterEl = document.getElementById('adminUserRoleFilter');
+  if (roleFilterEl) {
+    roleFilterEl.addEventListener('change', () => {
+      renderAdminUsersTable();
+      renderAdminStats();
+    });
+  }
+
+  const auctionFilterEl = document.getElementById('adminAuctionStatusFilter');
+  if (auctionFilterEl) {
+    auctionFilterEl.addEventListener('change', () => {
+      renderAdminAuctionsTable();
+      renderAdminStats();
+    });
+  }
+
+  // Refresh stats and tables automatically when Local Storage updates in another tab
+  window.addEventListener('storage', (e) => {
+    const watchedKeys = ['users', 'artworks', 'purchases', 'reviews', 'bids', 'categories'];
+    if (!e.key || watchedKeys.includes(e.key)) {
+      renderAdminStats();
+      renderAdminArtworksTable();
+      renderAdminUsersTable();
+      renderAdminCategoriesList();
+      renderAdminPurchasesTable();
+      renderAdminAuctionsTable();
+      renderAdminReviewsTable();
+    }
   });
 }
 
@@ -46,7 +194,9 @@ function renderAdminStats() {
   const totalPurchases = purchases.length;
   const liveAuctions = artworks.filter(a => a.type === 'Auction' && (a.auctionStatus || 'LIVE') === 'LIVE').length;
   const totalReviews = reviews.length;
-  const totalRevenue = purchases.reduce((sum, p) => sum + Number(p.price || 0), 0);
+  const totalRevenue = purchases
+    .filter(isCompletedPurchase)
+    .reduce((sum, p) => sum + Number(p.price || 0), 0);
 
   // Update DOM elements
   const elUsers = document.getElementById('statTotalUsers');
@@ -206,6 +356,8 @@ function handleSaveNewArtwork(e) {
   showToast('Artwork added successfully!', 'success');
   renderAdminStats();
   renderAdminArtworksTable();
+  renderAdminCategoriesList();
+  renderAdminAuctionsTable();
 }
 
 // Open Edit Artwork Modal
@@ -301,6 +453,8 @@ function handleUpdateArtwork(e, artId) {
   showToast('Artwork updated successfully!', 'success');
   renderAdminStats();
   renderAdminArtworksTable();
+  renderAdminCategoriesList();
+  renderAdminAuctionsTable();
 }
 
 function closeArtworkModal() {
@@ -321,6 +475,8 @@ function deleteArtwork(artId) {
   showToast(`Artwork #${artId} deleted successfully.`, 'info');
   renderAdminStats();
   renderAdminArtworksTable();
+  renderAdminCategoriesList();
+  renderAdminAuctionsTable();
 }
 
 // 3. Render Users Management Table
@@ -329,8 +485,33 @@ function renderAdminUsersTable() {
   if (!tableBody) return;
 
   const users = getData('users', []);
+  const roleFilterEl = document.getElementById('adminUserRoleFilter');
+  const roleFilter = roleFilterEl ? roleFilterEl.value : 'all';
 
-  tableBody.innerHTML = users.map(u => `
+  const filteredUsers = roleFilter === 'all'
+    ? users
+    : users.filter(u => normalizeRoleString(u.role) === roleFilter);
+
+  const countBadge = document.getElementById('adminUsersFilterCount');
+  if (countBadge) {
+    const label = roleFilter === 'artist'
+      ? (filteredUsers.length === 1 ? 'Artist' : 'Artists')
+      : (filteredUsers.length === 1 ? 'Account' : 'Accounts');
+    countBadge.textContent = `${filteredUsers.length} ${label}`;
+  }
+
+  if (filteredUsers.length === 0) {
+    const emptyMsg = roleFilter === 'artist'
+      ? 'No registered artists found yet.'
+      : 'No accounts found for the selected filter.';
+    tableBody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--text-muted); padding: 24px;">${emptyMsg}</td></tr>`;
+    return;
+  }
+
+  tableBody.innerHTML = filteredUsers.map(u => {
+    const normRole = normalizeRoleString(u.role);
+    const accountStatus = u.status || 'Active';
+    return `
     <tr>
       <td>#${u.id}</td>
       <td>
@@ -340,7 +521,8 @@ function renderAdminUsersTable() {
         </div>
       </td>
       <td>${u.email}</td>
-      <td><span class="role-tag role-${u.role}">${u.role}</span></td>
+      <td><span class="role-tag role-${normRole}">${u.role}</span></td>
+      <td><span class="badge badge-sale">${accountStatus}</span></td>
       <td>${u.createdAt || '2026-01-01'}</td>
       <td>
         ${u.id === currentAdmin.id ? `
@@ -350,7 +532,8 @@ function renderAdminUsersTable() {
         `}
       </td>
     </tr>
-  `).join('');
+  `;
+  }).join('');
 }
 
 // Delete User
@@ -402,6 +585,18 @@ function renderAdminPurchasesTable() {
   if (!tableBody) return;
 
   const purchases = getData('purchases', []);
+  const completedPurchases = purchases.filter(isCompletedPurchase);
+  const totalSalesAmount = completedPurchases.reduce((sum, p) => sum + Number(p.price || 0), 0);
+
+  const countBadge = document.getElementById('adminPurchasesCountBadge');
+  if (countBadge) {
+    countBadge.textContent = `${purchases.length} ${purchases.length === 1 ? 'Order' : 'Orders'}`;
+  }
+
+  const volumeBadge = document.getElementById('adminPurchasesTotalVolume');
+  if (volumeBadge) {
+    volumeBadge.textContent = `Total Sales: ${formatCurrency(totalSalesAmount)}`;
+  }
 
   if (purchases.length === 0) {
     tableBody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--text-muted);">No purchases logged yet.</td></tr>`;
@@ -433,6 +628,8 @@ function renderAdminAuctionsTable() {
 
   const artworks = getData('artworks', []).filter(a => a.type === 'Auction');
   const allBids = getData('bids', []);
+  const statusFilterEl = document.getElementById('adminAuctionStatusFilter');
+  const statusFilter = statusFilterEl ? statusFilterEl.value : 'all';
 
   // Update status badges if present in tab header
   const liveCountEl = document.getElementById('adminAuctionLiveCount');
@@ -447,12 +644,19 @@ function renderAdminAuctionsTable() {
   if (closedCountEl) closedCountEl.textContent = `${closedCount} Closed`;
   if (announcedCountEl) announcedCountEl.textContent = `${announcedCount} Winner Announced`;
 
-  if (artworks.length === 0) {
-    tableBody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--text-muted); padding: 24px;">No auction items configured yet.</td></tr>`;
+  const displayedAuctions = statusFilter === 'all'
+    ? artworks
+    : artworks.filter(a => (a.auctionStatus || 'LIVE') === statusFilter);
+
+  if (displayedAuctions.length === 0) {
+    const emptyMsg = statusFilter === 'LIVE'
+      ? 'No active live auctions at the moment.'
+      : 'No auction items match the selected filter.';
+    tableBody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--text-muted); padding: 24px;">${emptyMsg}</td></tr>`;
     return;
   }
 
-  tableBody.innerHTML = artworks.map(art => {
+  tableBody.innerHTML = displayedAuctions.map(art => {
     const artBids = allBids.filter(b => Number(b.artworkId) === Number(art.id));
     const bidsCount = artBids.length;
     const currentHighBid = Number(art.currentBid || art.startingPrice || art.price);
