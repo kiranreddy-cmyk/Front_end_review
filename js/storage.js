@@ -94,8 +94,8 @@ function getNextId(array) {
 function initializeSampleData() {
   const localCfg = (typeof window !== 'undefined' && window.ZENITH_LOCAL_CONFIG) ? window.ZENITH_LOCAL_CONFIG : {};
   const localAdmin = localCfg.admin || {};
-  const adminEmail = String(localAdmin.email || '').trim();
-  const adminPassword = String(localAdmin.password || '');
+  const adminEmail = String(localAdmin.email || 'admin@artloom-demo.local').trim();
+  const adminPassword = String(localAdmin.password || 'ArtLoomDemo@123');
   const hasLocalAdmin = Boolean(adminEmail && adminPassword);
 
   // 1. Default Admin Account Only (loaded from gitignored js/config.local.js; old default users/artists removed)

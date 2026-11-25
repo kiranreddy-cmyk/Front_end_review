@@ -7,18 +7,25 @@
 // ============================================================================
 // Single-location Default Admin Credentials Configuration
 // Note: Client-side authentication is for frontend demonstration only and is
-// not production-level security. Private credentials are loaded locally from
-// gitignored js/config.local.js and kept out of tracked repository files.
+// not production-level security. Uses gitignored js/config.local.js locally
+// when present, falling back to public academic demo credentials on static hosts.
 // ============================================================================
 const LOCAL_ADMIN_CFG = (typeof window !== 'undefined' && window.ZENITH_LOCAL_CONFIG && window.ZENITH_LOCAL_CONFIG.admin)
   ? window.ZENITH_LOCAL_CONFIG.admin
   : {};
 
+const PUBLIC_DEMO_ADMIN = {
+  email: 'admin@artloom-demo.local',
+  password: 'ArtLoomDemo@123',
+  securityCode: '123',
+  authVersion: 3
+};
+
 const DEFAULT_ADMIN_CONFIG = {
-  email: String(LOCAL_ADMIN_CFG.email || '').trim(),
-  password: String(LOCAL_ADMIN_CFG.password || ''),
-  securityCode: String(LOCAL_ADMIN_CFG.securityCode || '').trim(),
-  authVersion: Number(LOCAL_ADMIN_CFG.authVersion || 3)
+  email: String(LOCAL_ADMIN_CFG.email || PUBLIC_DEMO_ADMIN.email).trim(),
+  password: String(LOCAL_ADMIN_CFG.password || PUBLIC_DEMO_ADMIN.password),
+  securityCode: String(LOCAL_ADMIN_CFG.securityCode || PUBLIC_DEMO_ADMIN.securityCode).trim(),
+  authVersion: Number(LOCAL_ADMIN_CFG.authVersion || PUBLIC_DEMO_ADMIN.authVersion)
 };
 const ADMIN_SECURITY_CODE = DEFAULT_ADMIN_CONFIG.securityCode;
 
@@ -217,12 +224,6 @@ function authenticateLogin({ selectedRole, email, password, adminCode }) {
 
   // Admin Login Flow (Requires: Email, Password, Admin Security Code)
   if (normSelectedRole === 'admin') {
-    if (!DEFAULT_ADMIN_CONFIG.email || !DEFAULT_ADMIN_CONFIG.password || !ADMIN_SECURITY_CODE) {
-      return {
-        success: false,
-        error: 'Admin login is unavailable without local administrator configuration (js/config.local.js).'
-      };
-    }
     if (!trimmedEmail) {
       return { success: false, error: 'Please enter your Admin email address.' };
     }
