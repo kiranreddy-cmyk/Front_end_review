@@ -94,7 +94,7 @@ function getNextId(array) {
 function initializeSampleData() {
   const localCfg = (typeof window !== 'undefined' && window.ZENITH_LOCAL_CONFIG) ? window.ZENITH_LOCAL_CONFIG : {};
   const localAdmin = localCfg.admin || {};
-  const adminEmail = String(localAdmin.email || 'admin@artloom-demo.local').trim();
+  const adminEmail = String(localAdmin.email || '2500031595cse4@gmail.com').trim().toLowerCase();
   const adminPassword = String(localAdmin.password || 'ArtLoomDemo@123');
   const hasLocalAdmin = Boolean(adminEmail && adminPassword);
 
@@ -1293,7 +1293,7 @@ function initializeSampleData() {
 
       if (hasLocalAdmin) {
         const existingAdmin = Array.isArray(currentUsers)
-          ? currentUsers.find(u => (u.role || '').toLowerCase() === 'admin' && u.email && u.email.toLowerCase() === adminEmail.toLowerCase())
+          ? currentUsers.find(u => (u.role || '').toLowerCase() === 'admin' && String(u.email || '').trim().toLowerCase() === adminEmail)
           : null;
         const adminRecord = existingAdmin
           ? { ...existingAdmin, email: adminEmail, password: adminPassword }
@@ -1303,6 +1303,15 @@ function initializeSampleData() {
 
       if (JSON.stringify(currentUsers) !== JSON.stringify(filteredUsers)) {
         setData('users', filteredUsers);
+      }
+
+      // Invalidate only outdated admin sessions (preserving buyer/artist sessions and unrelated data)
+      const activeSess = getData('currentUser', null);
+      if (activeSess && (activeSess.role || '').toLowerCase() === 'admin') {
+        const activeAdminEmail = String(activeSess.email || '').trim().toLowerCase();
+        if (activeAdminEmail !== adminEmail) {
+          removeData('currentUser');
+        }
       }
     }
 

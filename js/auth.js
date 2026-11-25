@@ -15,14 +15,14 @@ const LOCAL_ADMIN_CFG = (typeof window !== 'undefined' && window.ZENITH_LOCAL_CO
   : {};
 
 const PUBLIC_DEMO_ADMIN = {
-  email: 'admin@artloom-demo.local',
+  email: '2500031595cse4@gmail.com',
   password: 'ArtLoomDemo@123',
   securityCode: '123',
   authVersion: 3
 };
 
 const DEFAULT_ADMIN_CONFIG = {
-  email: String(LOCAL_ADMIN_CFG.email || PUBLIC_DEMO_ADMIN.email).trim(),
+  email: String(LOCAL_ADMIN_CFG.email || PUBLIC_DEMO_ADMIN.email).trim().toLowerCase(),
   password: String(LOCAL_ADMIN_CFG.password || PUBLIC_DEMO_ADMIN.password),
   securityCode: String(LOCAL_ADMIN_CFG.securityCode || PUBLIC_DEMO_ADMIN.securityCode).trim(),
   authVersion: Number(LOCAL_ADMIN_CFG.authVersion || PUBLIC_DEMO_ADMIN.authVersion)
@@ -51,8 +51,9 @@ function getNormalizedRole(user) {
 function getCurrentUser() {
   const user = getData('currentUser', null);
   if (user && getNormalizedRole(user) === 'admin') {
-    const emailMatches = DEFAULT_ADMIN_CONFIG.email && user.email &&
-      user.email.toLowerCase() === DEFAULT_ADMIN_CONFIG.email.toLowerCase();
+    const normalizedUserEmail = String(user.email || '').trim().toLowerCase();
+    const expectedAdminEmail = String(DEFAULT_ADMIN_CONFIG.email || '').trim().toLowerCase();
+    const emailMatches = Boolean(expectedAdminEmail && normalizedUserEmail && normalizedUserEmail === expectedAdminEmail);
     if (!emailMatches || user.authVersion !== DEFAULT_ADMIN_CONFIG.authVersion) {
       removeData('currentUser');
       return null;
@@ -215,6 +216,7 @@ function handleLoginRoleChange() {
 function authenticateLogin({ selectedRole, email, password, adminCode }) {
   const normSelectedRole = normalizeRoleString(selectedRole);
   const trimmedEmail = String(email || '').trim();
+  const normalizedEmail = trimmedEmail.toLowerCase();
   const rawPassword = String(password || '');
   const trimmedAdminCode = String(adminCode || '').trim();
 
@@ -224,7 +226,7 @@ function authenticateLogin({ selectedRole, email, password, adminCode }) {
 
   // Admin Login Flow (Requires: Email, Password, Admin Security Code)
   if (normSelectedRole === 'admin') {
-    if (!trimmedEmail) {
+    if (!normalizedEmail) {
       return { success: false, error: 'Please enter your Admin email address.' };
     }
     if (!rawPassword) {
@@ -237,8 +239,8 @@ function authenticateLogin({ selectedRole, email, password, adminCode }) {
       return { success: false, error: 'Invalid Admin Security Code. Admin login denied.' };
     }
 
-    const isDefaultAdminEmail = trimmedEmail.toLowerCase() === DEFAULT_ADMIN_CONFIG.email.toLowerCase();
-    if (!isDefaultAdminEmail) {
+    const expectedAdminEmail = String(DEFAULT_ADMIN_CONFIG.email || '').trim().toLowerCase();
+    if (normalizedEmail !== expectedAdminEmail) {
       return { success: false, error: 'Invalid Admin email address. Please check your credentials.' };
     }
 
@@ -247,28 +249,34 @@ function authenticateLogin({ selectedRole, email, password, adminCode }) {
     }
 
     const users = getData('users', []);
-    let adminUser = users.find(u =>
-      (u.role || '').toLowerCase() === 'admin' &&
-      u.email && u.email.toLowerCase() === DEFAULT_ADMIN_CONFIG.email.toLowerCase()
-    );
+    const nonAdminUsers = Array.isArray(users)
+      ? users.filter(u => (u.role || '').toLowerCase() !== 'admin')
+      : [];
+    let adminUser = Array.isArray(users)
+      ? users.find(u =>
+          (u.role || '').toLowerCase() === 'admin' &&
+          String(u.email || '').trim().toLowerCase() === expectedAdminEmail
+        )
+      : null;
 
-    if (!adminUser) {
-      adminUser = {
-        id: 1,
-        name: "Admin Administrator",
-        email: DEFAULT_ADMIN_CONFIG.email,
-        password: DEFAULT_ADMIN_CONFIG.password,
-        role: "admin",
-        avatar: "images/avatar-admin.svg",
-        createdAt: "2026-01-10"
-      };
-      users.unshift(adminUser);
-      setData('users', users);
+    const syncedAdminUser = {
+      id: adminUser ? adminUser.id : 1,
+      name: adminUser ? adminUser.name : "Admin Administrator",
+      email: expectedAdminEmail,
+      password: DEFAULT_ADMIN_CONFIG.password,
+      role: "admin",
+      avatar: (adminUser && adminUser.avatar) ? adminUser.avatar : "images/avatar-admin.svg",
+      createdAt: (adminUser && adminUser.createdAt) ? adminUser.createdAt : "2026-01-10"
+    };
+
+    const updatedUsers = [syncedAdminUser, ...nonAdminUsers];
+    if (JSON.stringify(users) !== JSON.stringify(updatedUsers)) {
+      setData('users', updatedUsers);
     }
 
     return {
       success: true,
-      user: { ...adminUser, authVersion: DEFAULT_ADMIN_CONFIG.authVersion },
+      user: { ...syncedAdminUser, authVersion: DEFAULT_ADMIN_CONFIG.authVersion },
       redirectUrl: 'admin-dashboard.html'
     };
   }
