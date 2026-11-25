@@ -94,149 +94,22 @@ function getNextId(array) {
 function initializeSampleData() {
   const localCfg = (typeof window !== 'undefined' && window.ZENITH_LOCAL_CONFIG) ? window.ZENITH_LOCAL_CONFIG : {};
   const localAdmin = localCfg.admin || {};
-  const demoAdminEmail = String(localAdmin.email || 'admin@artloom-demo.local').trim();
-  const demoAdminPassword = String(localAdmin.password || 'DemoAdmin@123');
+  const adminEmail = String(localAdmin.email || '').trim();
+  const adminPassword = String(localAdmin.password || '');
+  const hasLocalAdmin = Boolean(adminEmail && adminPassword);
 
-  // 1. Initial Users (Admin, Buyers, and 10 Sample Artists)
-  const initialUsers = [
+  // 1. Default Admin Account Only (loaded from gitignored js/config.local.js; old default users/artists removed)
+  const initialUsers = hasLocalAdmin ? [
     {
       id: 1,
       name: "Admin Administrator",
-      email: demoAdminEmail,
-      password: demoAdminPassword,
+      email: adminEmail,
+      password: adminPassword,
       role: "admin",
       avatar: "images/avatar-admin.svg",
       createdAt: "2026-01-10"
-    },
-    {
-      id: 2,
-      name: "Kiran Reddy",
-      email: "user@artgallery.com",
-      password: "user123",
-      role: "user",
-      avatar: "images/avatar-user.svg",
-      createdAt: "2026-02-15"
-    },
-    {
-      id: 3,
-      name: "Elena Vance",
-      email: "artist@artgallery.com",
-      password: "artist123",
-      role: "artist",
-      avatar: "images/avatar-artist.svg",
-      specialization: "Landscape & Impressionism",
-      bio: "Elena Vance is a contemporary fine artist celebrated for vivid light play, serene natural vistas, and expressive oil paintings. Her works are held in private galleries across the country.",
-      createdAt: "2026-01-20"
-    },
-    {
-      id: 4,
-      name: "Marcus Sterling",
-      email: "marcus@artgallery.com",
-      password: "artist123",
-      role: "artist",
-      avatar: "images/avatar-artist.svg",
-      specialization: "Digital Art & Sculpture",
-      bio: "Marcus Sterling merges tactile sculpting with generative 3D digital mediums, creating visionary pieces that question space, geometry, and human emotion.",
-      createdAt: "2026-02-01"
-    },
-    {
-      id: 5,
-      name: "Rahul Sharma",
-      email: "rahul@artgallery.com",
-      password: "user123",
-      role: "user",
-      avatar: "images/avatar-user.svg",
-      createdAt: "2026-02-20"
-    },
-    {
-      id: 6,
-      name: "Sophia Bennett",
-      email: "sophia@artgallery.com",
-      password: "artist123",
-      role: "artist",
-      avatar: "images/avatar-artist.svg",
-      specialization: "Nature Art & Oil Painting",
-      bio: "Sophia Bennett captures the serene rhythms of untouched forests, botanical forms, and wild flora through rich, layered oil glazes on Belgian linen.",
-      createdAt: "2026-02-05"
-    },
-    {
-      id: 7,
-      name: "Daniel Carter",
-      email: "daniel@artgallery.com",
-      password: "artist123",
-      role: "artist",
-      avatar: "images/avatar-artist.svg",
-      specialization: "Contemporary Portraiture",
-      bio: "Daniel Carter specializes in expressive, high-contrast contemporary portraiture that illuminates human vulnerability, psychological depth, and emotional character.",
-      createdAt: "2026-02-08"
-    },
-    {
-      id: 8,
-      name: "Olivia Morgan",
-      email: "olivia@artgallery.com",
-      password: "artist123",
-      role: "artist",
-      avatar: "images/avatar-artist.svg",
-      specialization: "Abstract & Color Psychology",
-      bio: "Olivia Morgan explores chromatic harmony, emotional energy, and non-representational geometries, crafting large-scale abstract compositions that resonate with modern spaces.",
-      createdAt: "2026-02-12"
-    },
-    {
-      id: 9,
-      name: "Arjun Mehta",
-      email: "arjun@artgallery.com",
-      password: "artist123",
-      role: "artist",
-      avatar: "images/avatar-artist.svg",
-      specialization: "Traditional Art & Heritage",
-      bio: "Arjun Mehta reinterprets classical Indian miniature traditions, heritage architecture, and temple frescoes with rich pigment washes and intricate detailing.",
-      createdAt: "2026-02-15"
-    },
-    {
-      id: 10,
-      name: "Maya Anderson",
-      email: "maya@artgallery.com",
-      password: "artist123",
-      role: "artist",
-      avatar: "images/avatar-artist.svg",
-      specialization: "Fine Art Photography",
-      bio: "Maya Anderson is an award-winning fine art and documentary photographer capturing fleeting moments of atmospheric light, cinematic landscapes, and cultural heritage.",
-      createdAt: "2026-02-18"
-    },
-    {
-      id: 11,
-      name: "Ethan Williams",
-      email: "ethan@artgallery.com",
-      password: "artist123",
-      role: "artist",
-      avatar: "images/avatar-artist.svg",
-      specialization: "Modern Sculpture & Bronze",
-      bio: "Ethan Williams creates architectural bronzes and dynamic stone sculptures, exploring organic flow, kinetic tension, and monolithic balance.",
-      createdAt: "2026-02-22"
-    },
-    {
-      id: 12,
-      name: "Isabella Rossi",
-      email: "isabella@artgallery.com",
-      password: "artist123",
-      role: "artist",
-      avatar: "images/avatar-artist.svg",
-      specialization: "Minimalist & Line Art",
-      bio: "Isabella Rossi is renowned for minimalist ink wash and elegant one-line drawings, balancing negative space with powerful emotional restraint.",
-      createdAt: "2026-02-25"
-    },
-    {
-      id: 13,
-      name: "Noah Thompson",
-      email: "noah@artgallery.com",
-      password: "artist123",
-      role: "artist",
-      avatar: "images/avatar-artist.svg",
-      specialization: "Cyberpunk & Generative 3D Art",
-      bio: "Noah Thompson pioneers at the intersection of creative coding, algorithmic fractals, and immersive cyberpunk aesthetics, pushing the frontier of generative 3D art.",
-      createdAt: "2026-03-01"
     }
-  ];
+  ] : [];
 
   if (!localStorage.getItem('users')) {
     setData('users', initialUsers);
@@ -1404,52 +1277,33 @@ function initializeSampleData() {
   // 9. Retro-compatibility & Live Storage Migration
   // Automatically upgrades active browser sessions to the complete 10-artist, 50-artwork catalog
   try {
-    // A. Sync and Upgrade Users (Ensure all 10 verified artists and admin account exist)
-    const currentUsers = getData('users', []);
-    if (currentUsers && currentUsers.length > 0) {
-      let usersModified = false;
-
-      // Ensure default admin user
-      const adminUser = currentUsers.find(u => (u.role || '').toLowerCase() === 'admin');
-      if (adminUser) {
-        if (adminUser.email !== demoAdminEmail || adminUser.password !== demoAdminPassword) {
-          adminUser.email = demoAdminEmail;
-          adminUser.password = demoAdminPassword;
-          usersModified = true;
-        }
-      } else {
-        currentUsers.unshift(initialUsers[0]);
-        usersModified = true;
-      }
-
-      // Ensure all 10 artists exist in currentUsers
-      initialUsers.forEach(initUser => {
-        const found = currentUsers.find(u => u.id === initUser.id || (u.email && u.email.toLowerCase() === initUser.email.toLowerCase()));
-        if (!found) {
-          currentUsers.push(initUser);
-          usersModified = true;
-        } else if (initUser.role === 'artist') {
-          if (!found.specialization || !found.bio) {
-            found.specialization = initUser.specialization;
-            found.bio = initUser.bio;
-            found.avatar = initUser.avatar;
-            usersModified = true;
-          }
-        }
-      });
-
-      if (usersModified) {
-        setData('users', currentUsers);
-      }
-      if (localStorage.getItem('artloom_sec_v2') !== 'done') {
-        const activeSess = getData('currentUser', null);
-        if (activeSess && (activeSess.role || '').toLowerCase() === 'admin') {
-          removeData('currentUser');
-        }
-        localStorage.setItem('artloom_sec_v2', 'done');
-      }
+    // A. One-time Account Reset & Admin Sync (Preserves all artworks, categories, bids, reviews, and purchases)
+    if (localStorage.getItem('artloom_account_reset_v3') !== 'done') {
+      // Clear existing login sessions across all roles (user, artist, admin)
+      removeData('currentUser');
+      // Remove previously registered user, artist, and old admin accounts without recreating defaults
+      setData('users', initialUsers.slice());
+      localStorage.setItem('artloom_account_reset_v3', 'done');
+      localStorage.setItem('artloom_sec_v2', 'done');
     } else {
-      setData('users', initialUsers);
+      const currentUsers = getData('users', []);
+      let filteredUsers = Array.isArray(currentUsers)
+        ? currentUsers.filter(u => (u.role || '').toLowerCase() !== 'admin')
+        : [];
+
+      if (hasLocalAdmin) {
+        const existingAdmin = Array.isArray(currentUsers)
+          ? currentUsers.find(u => (u.role || '').toLowerCase() === 'admin' && u.email && u.email.toLowerCase() === adminEmail.toLowerCase())
+          : null;
+        const adminRecord = existingAdmin
+          ? { ...existingAdmin, email: adminEmail, password: adminPassword }
+          : initialUsers[0];
+        filteredUsers.unshift(adminRecord);
+      }
+
+      if (JSON.stringify(currentUsers) !== JSON.stringify(filteredUsers)) {
+        setData('users', filteredUsers);
+      }
     }
 
     // B. Sync and Upgrade Artworks (Ensure all 50 sample artworks exist)
@@ -1580,7 +1434,7 @@ function initializeSampleData() {
       bidsToCheck.forEach(b => {
         if (!b.userEmail) {
           const userObj = allUsers.find(u => u.id === b.userId);
-          b.userEmail = userObj ? userObj.email : 'user@artgallery.com';
+          b.userEmail = userObj ? userObj.email : '';
           bidsModified = true;
         }
       });

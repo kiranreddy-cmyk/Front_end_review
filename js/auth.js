@@ -7,18 +7,18 @@
 // ============================================================================
 // Single-location Default Admin Credentials Configuration
 // Note: Client-side authentication is for frontend demonstration only and is
-// not production-level security. Uses gitignored js/config.local.js locally
-// when present, with safe public demo placeholders for static deployments.
+// not production-level security. Private credentials are loaded locally from
+// gitignored js/config.local.js and kept out of tracked repository files.
 // ============================================================================
 const LOCAL_ADMIN_CFG = (typeof window !== 'undefined' && window.ZENITH_LOCAL_CONFIG && window.ZENITH_LOCAL_CONFIG.admin)
   ? window.ZENITH_LOCAL_CONFIG.admin
   : {};
 
 const DEFAULT_ADMIN_CONFIG = {
-  email: String(LOCAL_ADMIN_CFG.email || 'admin@artloom-demo.local').trim(),
-  password: String(LOCAL_ADMIN_CFG.password || 'DemoAdmin@123'),
-  securityCode: String(LOCAL_ADMIN_CFG.securityCode || '000').trim(),
-  authVersion: Number(LOCAL_ADMIN_CFG.authVersion || 2)
+  email: String(LOCAL_ADMIN_CFG.email || '').trim(),
+  password: String(LOCAL_ADMIN_CFG.password || ''),
+  securityCode: String(LOCAL_ADMIN_CFG.securityCode || '').trim(),
+  authVersion: Number(LOCAL_ADMIN_CFG.authVersion || 3)
 };
 const ADMIN_SECURITY_CODE = DEFAULT_ADMIN_CONFIG.securityCode;
 
@@ -43,9 +43,13 @@ function getNormalizedRole(user) {
 // Get Logged In User
 function getCurrentUser() {
   const user = getData('currentUser', null);
-  if (user && getNormalizedRole(user) === 'admin' && user.authVersion !== DEFAULT_ADMIN_CONFIG.authVersion) {
-    removeData('currentUser');
-    return null;
+  if (user && getNormalizedRole(user) === 'admin') {
+    const emailMatches = DEFAULT_ADMIN_CONFIG.email && user.email &&
+      user.email.toLowerCase() === DEFAULT_ADMIN_CONFIG.email.toLowerCase();
+    if (!emailMatches || user.authVersion !== DEFAULT_ADMIN_CONFIG.authVersion) {
+      removeData('currentUser');
+      return null;
+    }
   }
   return user;
 }
@@ -213,6 +217,12 @@ function authenticateLogin({ selectedRole, email, password, adminCode }) {
 
   // Admin Login Flow (Requires: Email, Password, Admin Security Code)
   if (normSelectedRole === 'admin') {
+    if (!DEFAULT_ADMIN_CONFIG.email || !DEFAULT_ADMIN_CONFIG.password || !ADMIN_SECURITY_CODE) {
+      return {
+        success: false,
+        error: 'Admin login is unavailable without local administrator configuration (js/config.local.js).'
+      };
+    }
     if (!trimmedEmail) {
       return { success: false, error: 'Please enter your Admin email address.' };
     }
@@ -226,25 +236,21 @@ function authenticateLogin({ selectedRole, email, password, adminCode }) {
       return { success: false, error: 'Invalid Admin Security Code. Admin login denied.' };
     }
 
-    const users = getData('users', []);
-    // Find admin user in localStorage or check default admin config
-    let adminUser = users.find(u => 
-      (u.role || '').toLowerCase() === 'admin' && 
-      u.email && u.email.toLowerCase() === trimmedEmail.toLowerCase()
-    );
-
     const isDefaultAdminEmail = trimmedEmail.toLowerCase() === DEFAULT_ADMIN_CONFIG.email.toLowerCase();
-
-    if (!adminUser && !isDefaultAdminEmail) {
+    if (!isDefaultAdminEmail) {
       return { success: false, error: 'Invalid Admin email address. Please check your credentials.' };
     }
 
-    const expectedPassword = adminUser ? adminUser.password : DEFAULT_ADMIN_CONFIG.password;
-    if (rawPassword !== expectedPassword) {
+    if (rawPassword !== DEFAULT_ADMIN_CONFIG.password) {
       return { success: false, error: 'Invalid Admin password. Please check your credentials.' };
     }
 
-    // Ensure admin user exists in users array
+    const users = getData('users', []);
+    let adminUser = users.find(u =>
+      (u.role || '').toLowerCase() === 'admin' &&
+      u.email && u.email.toLowerCase() === DEFAULT_ADMIN_CONFIG.email.toLowerCase()
+    );
+
     if (!adminUser) {
       adminUser = {
         id: 1,
@@ -430,9 +436,9 @@ function initSignupForm() {
 
     const normalizedRole = normalizeRoleString(role);
 
-    // Create New User Object
+    // Create New User Object (ID >= 101 avoids colliding with legacy artwork/bid/purchase/review IDs)
     const newUser = {
-      id: getNextId(users),
+      id: Math.max(getNextId(users), 101),
       name: name,
       email: email,
       password: password,

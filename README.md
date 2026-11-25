@@ -117,13 +117,13 @@ front_end_review_1/
 
 ## 🔑 Pre-Configured Sample Login Credentials
 
-When first opened, sample data is automatically seeded into `localStorage`. On `login.html`, one-click **Quick-Fill** buttons are provided for fast evaluator testing.
+When first opened, artworks, categories, auctions, reviews, and purchases are automatically seeded into `localStorage`. Buyers and Artists register directly via `signup.html`, and the default Admin account is configured privately in local gitignored `js/config.local.js`.
 
-| Role | Email Address | Password | Admin Security Code | Landing Page |
+| Role | Account Setup | Password | Admin Security Code | Landing Page |
 |---|---|---|---|---|
-| **Admin** | `admin@artloom-demo.local` | `DemoAdmin@123` | `000` *(Public Demo; override via local gitignored `js/config.local.js`)* | `admin-dashboard.html` |
-| **Buyer / User** | `user@artgallery.com` | `user123` | *Not Required* | `user-dashboard.html` |
-| **Artist** | `artist@artgallery.com` | `artist123` | *Not Required* | `artist-dashboard.html` |
+| **Admin** | Configured locally in `js/config.local.js` | *Private (Local Config)* | *Private (Local Config)* | `admin-dashboard.html` |
+| **Buyer / User** | Registered via `signup.html` | *User-chosen* | *Not Required* | `user-dashboard.html` |
+| **Artist** | Registered via `signup.html` | *User-chosen* | *Not Required* | `artist-dashboard.html` |
 
 ---
 
@@ -177,7 +177,7 @@ Follow this recommended sequence for the examiner/evaluator:
 
 ### Phase 5: Administrator Panel Demonstration
 1. Click **Logout** $\rightarrow$ Go to `login.html`.
-2. Login as Admin using the configured demo credentials (`admin@artloom-demo.local`).
+2. Login as Admin using the administrator credentials configured in `js/config.local.js`.
 3. Arrive at `admin-dashboard.html`. Inspect the 7 dynamic metric cards.
 4. Switch to **Manage Artworks** tab: click **Edit** or **Delete** on an artwork.
 5. Switch to **Manage Users** tab: observe registered accounts and removal control.
