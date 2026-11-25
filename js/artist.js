@@ -1,8 +1,16 @@
 /**
- * artist.js - Artist Dashboard, My Artworks CRUD, & Artist Profile Showcase
- * Online Art Gallery (ArtLoom) - SDC Project Review-1
- * Strictly Vanilla JavaScript & LocalStorage
+ * artist.js - Artist Studio, My Artworks CRUD, & Artist Portfolio Showcase
+ * ZENITH Fine Art Gallery & Auction House
+ * Pure Vanilla JavaScript & LocalStorage
  */
+
+function getArtistCategoryOptionsHTML(selectedCat = 'Oil Painting') {
+  const cats = getData('categories', []);
+  const names = cats.length > 0
+    ? cats.map(c => c.name)
+    : ['Abstract', 'Oil Painting', 'Watercolor', 'Landscape', 'Nature', 'Portrait', 'Contemporary', 'Modern Art', 'Traditional', 'Floral'];
+  return names.map(name => `<option value="${name}" ${name === selectedCat ? 'selected' : ''}>${name}</option>`).join('');
+}
 
 // Route Guard: Ensure Artist Access
 function getAuthorizedArtist() {
@@ -75,7 +83,7 @@ function renderArtistArtworksTable(artist) {
     <tr>
       <td>#${art.id}</td>
       <td>
-        <img src="${art.image}" alt="${art.name}" class="table-thumb" onerror="this.src='images/artworks/artwork-1.svg'">
+        <img src="${art.image}" alt="${art.name}" class="table-thumb" onerror="this.src='assets/images/floral-classical-still-life.jpg'">
       </td>
       <td><strong>${art.name}</strong></td>
       <td><span class="badge badge-category">${art.category}</span></td>
@@ -123,14 +131,7 @@ function openArtistAddModal() {
           <div class="form-group">
             <label>Category *</label>
             <select id="artistArtCategory" class="form-control" required>
-              <option value="Painting">Painting</option>
-              <option value="Digital Art">Digital Art</option>
-              <option value="Photography">Photography</option>
-              <option value="Drawing">Drawing</option>
-              <option value="Portrait">Portrait</option>
-              <option value="Landscape">Landscape</option>
-              <option value="Abstract">Abstract</option>
-              <option value="Sculpture">Sculpture</option>
+              ${getArtistCategoryOptionsHTML('Oil Painting')}
             </select>
           </div>
           <div class="form-group">
@@ -146,8 +147,8 @@ function openArtistAddModal() {
           <input type="number" id="artistArtPrice" class="form-control" required min="100" placeholder="e.g. 20000">
         </div>
         <div class="form-group">
-          <label>Artwork Image File or URL</label>
-          <input type="text" id="artistArtImage" class="form-control" value="images/artworks/artwork-1.svg">
+          <label>Artwork Image Path or URL</label>
+          <input type="text" id="artistArtImage" class="form-control" value="assets/images/oil-golden-wheatfield.jpg">
         </div>
         <div class="form-group">
           <label>Description *</label>
@@ -176,7 +177,7 @@ function handleArtistSaveArtwork(e) {
   const category = document.getElementById('artistArtCategory').value;
   const type = document.getElementById('artistArtType').value;
   const price = Number(document.getElementById('artistArtPrice').value);
-  const image = document.getElementById('artistArtImage').value.trim() || 'images/artworks/artwork-1.svg';
+  const image = document.getElementById('artistArtImage').value.trim() || 'assets/images/oil-golden-wheatfield.jpg';
   const description = document.getElementById('artistArtDesc').value.trim();
 
   const newArt = {
@@ -190,6 +191,7 @@ function handleArtistSaveArtwork(e) {
     startingPrice: type === 'Auction' ? price : undefined,
     currentBid: type === 'Auction' ? price : undefined,
     currentBidder: type === 'Auction' ? 'Starting Price' : undefined,
+    endTime: type === 'Auction' ? offsetHoursISO(48) : undefined,
     image,
     description,
     featured: false,
@@ -241,14 +243,7 @@ function openArtistEditModal(artId) {
           <div class="form-group">
             <label>Category *</label>
             <select id="editArtCategory" class="form-control" required>
-              <option value="Painting" ${art.category === 'Painting' ? 'selected' : ''}>Painting</option>
-              <option value="Digital Art" ${art.category === 'Digital Art' ? 'selected' : ''}>Digital Art</option>
-              <option value="Photography" ${art.category === 'Photography' ? 'selected' : ''}>Photography</option>
-              <option value="Drawing" ${art.category === 'Drawing' ? 'selected' : ''}>Drawing</option>
-              <option value="Portrait" ${art.category === 'Portrait' ? 'selected' : ''}>Portrait</option>
-              <option value="Landscape" ${art.category === 'Landscape' ? 'selected' : ''}>Landscape</option>
-              <option value="Abstract" ${art.category === 'Abstract' ? 'selected' : ''}>Abstract</option>
-              <option value="Sculpture" ${art.category === 'Sculpture' ? 'selected' : ''}>Sculpture</option>
+              ${getArtistCategoryOptionsHTML(art.category)}
             </select>
           </div>
           <div class="form-group">
@@ -394,28 +389,28 @@ function initArtistProfilePage() {
     );
 
     profileContainer.innerHTML = `
-      <div style="background-color: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 36px; margin-bottom: 40px; box-shadow: var(--shadow-sm);">
+      <div style="background: var(--surface-card); border: 1px solid var(--border-gold); border-radius: var(--radius-lg); padding: 36px; margin-bottom: 40px; box-shadow: var(--shadow-lg);">
         <div style="display: flex; gap: 30px; align-items: center; flex-wrap: wrap;">
-          <img src="${artistUser.avatar || 'images/avatar-artist.svg'}" alt="${artistUser.name}" style="width: 110px; height: 110px; border-radius: 50%; object-fit: cover; border: 4px solid var(--accent-light);">
+          <img src="${artistUser.avatar || 'images/avatar-artist.svg'}" alt="${artistUser.name}" style="width: 110px; height: 110px; border-radius: 50%; object-fit: cover; border: 3px solid var(--gold-primary);">
           <div style="flex: 1; min-width: 260px;">
             <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-              <h1 style="font-size: 2rem; font-weight: 800; margin: 0;">${artistUser.name}</h1>
+              <h1 style="font-size: 2rem; color: #ffffff; margin: 0;">${artistUser.name}</h1>
               <span class="role-tag role-artist">Verified Master Artist</span>
             </div>
-            <p style="color: var(--accent); font-weight: 600; margin: 6px 0 10px; font-size: 1.05rem;">${artistUser.specialization || 'Contemporary Fine Artist'}</p>
-            <p style="color: var(--text-muted); max-width: 720px; line-height: 1.6; font-size: 0.96rem;">${artistUser.bio || 'Creating original artworks with deep expression and technique.'}</p>
+            <p style="color: var(--gold-primary); font-weight: 600; margin: 6px 0 10px; font-size: 1.05rem;">${artistUser.specialization || 'Contemporary Fine Artist'}</p>
+            <p style="color: var(--text-muted); max-width: 720px; line-height: 1.65; font-size: 0.96rem;">${artistUser.bio || 'Creating original paintings with deep expression and technique.'}</p>
             <div style="display: flex; gap: 28px; margin-top: 20px; flex-wrap: wrap;">
               <div>
-                <strong style="font-size: 1.3rem; color: var(--primary);">${artworks.length}</strong>
-                <div style="font-size: 0.82rem; color: var(--text-muted); text-transform: uppercase;">Original Artworks</div>
+                <strong style="font-size: 1.3rem; color: #ffffff;">${artworks.length}</strong>
+                <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;">Original Artworks</div>
               </div>
               <div>
-                <strong style="font-size: 1.3rem; color: var(--accent);">5.0 ★</strong>
-                <div style="font-size: 0.82rem; color: var(--text-muted); text-transform: uppercase;">Collector Rating</div>
+                <strong style="font-size: 1.3rem; color: var(--gold-primary);">5.0 ★</strong>
+                <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;">Collector Rating</div>
               </div>
               <div>
-                <strong style="font-size: 1.3rem; color: var(--text-main);">100%</strong>
-                <div style="font-size: 0.82rem; color: var(--text-muted); text-transform: uppercase;">Authenticity Verified</div>
+                <strong style="font-size: 1.3rem; color: var(--success);">100%</strong>
+                <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;">Authenticity Verified</div>
               </div>
             </div>
           </div>

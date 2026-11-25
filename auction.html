@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Live Fine Art Auctions — ArtLoom Online Art Gallery</title>
+  <title>Live Fine Art Auctions — ZENITH Fine Art Gallery</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -15,85 +15,88 @@
   <header class="site-header">
     <div class="container navbar">
       <a href="index.html" class="brand-logo">
-        <img src="images/logo.svg" alt="ArtLoom Logo">
+        <img src="images/logo.svg" alt="ZENITH Fine Art Gallery">
       </a>
 
-      <button class="menu-toggle" id="menuToggle" aria-label="Toggle Navigation">☰</button>
+      <button type="button" class="menu-toggle" id="menuToggle" aria-label="Toggle Navigation">☰</button>
 
       <ul class="nav-links" id="navLinks">
         <li><a href="index.html">Home</a></li>
         <li><a href="artworks.html">Gallery</a></li>
         <li><a href="artist-profile.html">Artists</a></li>
         <li><a href="auction.html" class="active">Auctions</a></li>
+        <li><a href="exhibitions.html">Exhibitions</a></li>
         <li><a href="reviews.html">Reviews</a></li>
         <li><a href="about.html">About</a></li>
       </ul>
 
-      <div class="nav-actions" id="navActions">
-        <!-- Injected dynamically via auth.js -->
-      </div>
+      <div class="nav-actions" id="navActions"></div>
     </div>
   </header>
 
   <main class="main-content">
-    <div class="container" style="padding-top: 45px;">
+    <div class="container" style="padding-top: 44px;">
       <!-- Page Header -->
-      <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 28px; flex-wrap: wrap; gap: 16px;">
+      <div class="section-header-split" style="margin-bottom: 30px;">
         <div>
-          <span class="section-subtitle">Live Bidding Salon</span>
-          <h1 style="font-size: 2.8rem; font-weight: 700; line-height: 1.15;">Curated Fine Art Auctions</h1>
-          <p style="color: var(--text-muted); font-size: 0.98rem; margin-top: 4px;">Place competitive bids on certified rare artworks with verified live highest-bid tracking.</p>
+          <span class="section-subtitle">Live Bidding Arena</span>
+          <h1 style="font-size: clamp(2rem, 3.5vw, 2.75rem); color: #ffffff;">Active Fine Art Auctions</h1>
+          <p style="color: var(--text-muted); font-size: 0.96rem; margin-top: 4px;">
+            Place competitive bids on rare paintings with live countdown timers and verified bid history.
+          </p>
         </div>
         <div>
-          <span class="badge badge-auction" id="activeAuctionsCount" style="font-size: 0.86rem; padding: 6px 16px;">Loading...</span>
+          <span class="badge badge-auction" id="activeAuctionsCount" style="font-size: 0.84rem; padding: 7px 16px;">Loading...</span>
         </div>
       </div>
 
-      <!-- Live Auction Cards Grid (CSS Grid) -->
-      <div class="artwork-grid" id="auctionGrid" style="margin-bottom: 50px;">
+      <!-- Auction Grid -->
+      <div class="artwork-grid" id="auctionGrid" style="margin-bottom: 48px;">
         <!-- Rendered dynamically via auction.js -->
       </div>
 
       <!-- My Bids History Section -->
-      <div id="myBidsSection" style="background-color: #FFFFFF; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 34px; box-shadow: var(--shadow-sm);">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-          <div>
-            <h2 style="font-size: 1.7rem; font-weight: 700; color: var(--text-heading);">My Bids History</h2>
-            <p style="color: var(--text-muted); font-size: 0.90rem;">Review all bids placed under your collector account and track your leading status.</p>
-          </div>
+      <section id="myBidsSection" style="background: var(--surface-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 32px; box-shadow: var(--shadow-md);">
+        <div style="margin-bottom: 20px;">
+          <h2 style="font-size: 1.65rem; color: #ffffff;">My Bids History</h2>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">
+            Review all bids placed under your collector account and monitor your leading status.
+          </p>
         </div>
 
         <div class="table-container">
           <table class="custom-table">
             <thead>
               <tr>
-                <th>Bid Reference</th>
+                <th>Bid Ref</th>
                 <th>Artwork Piece</th>
                 <th>Your Bid Amount</th>
-                <th>Bid Timestamp</th>
+                <th>Timestamp</th>
                 <th>Status</th>
               </tr>
             </thead>
             <tbody id="myBidsTableBody">
-              <!-- Rendered via auction.js -->
+              <!-- Populated via auction.js -->
             </tbody>
           </table>
         </div>
-      </div>
+      </section>
     </div>
   </main>
 
   <!-- Footer -->
   <footer class="site-footer">
     <div class="container footer-bottom">
-      <div>&copy; 2026 ArtLoom Online Art Gallery. All rights reserved.</div>
-      <div style="color: var(--accent);">Live Auctions • SDC Project Review-1</div>
+      <div>&copy; 2026 ZENITH Fine Art Gallery. All rights reserved.</div>
+      <div style="color: var(--gold-primary);">Live Fine Art Auctions</div>
     </div>
   </footer>
 
   <!-- Scripts -->
+  <script src="js/config.local.js"></script>
   <script src="js/storage.js"></script>
   <script src="js/auth.js"></script>
+  <script src="js/cart.js"></script>
   <script src="js/artworks.js"></script>
   <script src="js/auction.js"></script>
 </body>

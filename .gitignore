@@ -1,0 +1,11 @@
+# Local private credentials & environment configuration
+js/config.local.js
+*.local.js
+.env
+.env.*
+
+# OS and editor artifacts
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

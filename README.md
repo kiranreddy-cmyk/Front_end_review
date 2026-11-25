@@ -1,205 +1,44 @@
-# Online Art Gallery — ArtLoom
+# ZENITH — Fine Art Gallery & Live Auctions
 
-**SDC Project Review-1 | Frontend Web Development**
-
-A complete, fully functional, college-level web application designed and built for **SDC Project Review-1**. The platform connects art lovers, collectors, and independent artists within a digital art ecosystem.
+A responsive, multi-page frontend web application for a curated fine art gallery and live auction marketplace, built with semantic HTML5, CSS3 (CSS Grid & Flexbox), Vanilla JavaScript, and browser `localStorage` persistence.
 
 ---
 
-## 📋 Technology Restrictions Compliance
+## Key Features
 
-In strict accordance with the college guidelines:
-* **HTML5**: Semantic, accessible markup across 14 pages.
-* **CSS3**: Built entirely using **CSS Grid** and **Flexbox** layouts with custom design tokens. No Bootstrap, no Tailwind, and no external CSS libraries.
-* **Vanilla JavaScript (ES6+)**: Pure client-side JavaScript for all logic, routing, search, filtering, and CRUD operations. No React, no Vue, no Angular, and no external libraries.
-* **Local Storage**: Complete browser-based persistence layer (`localStorage`) handling users, artwork catalogs, purchases, bids, favorites, categories, and reviews.
-* **Zero Backend**: Works natively by opening HTML files directly in any modern browser (`file:///` protocol or local web server).
-
----
-
-## 🎨 Problem Statement & Solution
-
-### The Problem
-Traditional art commerce frequently marginalizes emerging artists through prohibitive exhibition costs, high gallery commissions, and lack of accessible digital storefronts. Concurrently, collectors struggle to find verified original art across diverse media (paintings, photography, digital art, sculptures) with transparent pricing and real-time bidding mechanisms.
-
-### The Solution
-**ArtLoom** is a lightweight, responsive online art gallery web application providing:
-1. **Curated Art Discovery**: 8 distinct categories with instant search, category filtering, and sorting.
-2. **Collector Ecosystem**: Full purchase simulation, receipt tracking, wishlist favoriting, and critique reviews.
-3. **Live Auction Simulation**: Dynamic bidding system with real-time validation and leading/outbid tracking.
-4. **Artist Studio**: Dedicated portal for independent artists to showcase and manage their portfolios.
-5. **Admin Control Center**: Comprehensive KPI counters, artwork CRUD, user moderation, and transaction logs.
+- **Curated Fine Art Showcase (`index.html`, `artworks.html`, `artwork-details.html`)**: Browse 50 original paintings across 10 disciplines (*Abstract*, *Oil Painting*, *Watercolor*, *Landscape*, *Nature*, *Portrait*, *Contemporary*, *Modern Art*, *Traditional*, and *Floral*) with real-time search, category filtering, availability filtering, and sorting.
+- **Shopping Cart & Checkout Simulation (`js/cart.js`)**: Slide-over acquisition cart drawer available across every page, simulated checkout workflow, order history (`purchases.html`), and printable Acquisition Receipts & Certificates of Authenticity.
+- **Live Auctions & Countdown Timers (`auction.html`, `js/auction.js`)**: Timed competitive bidding with live 1-second countdown timers, bid validation, personal bid history, and administrator auction closing & winner declaration controls.
+- **Virtual Exhibitions (`exhibitions.html`, `js/exhibitions.js`)**: Curated seasonal exhibition cards with an interactive Exhibition Room viewer modal and exhibition creation support for artists and administrators.
+- **Exhibiting Artists & Collector Reviews (`artist-profile.html`, `reviews.html`)**: Resident artist directory, portfolio showcases, and 1–5 star collector critiques.
+- **Role-Based Dashboards (`user-dashboard.html`, `artist-dashboard.html`, `admin-dashboard.html`)**: Dedicated portals for Collectors (favorites, purchases, bids), Artists (artwork upload, edit, delete, revenue stats), and Administrators (KPI overview, catalog CRUD, user management, auction moderation, and review moderation).
 
 ---
 
-## 👥 User Roles & Modules
+## Security & Local Configuration
 
-### 1. Admin Module
-* **Access**: Restricted to accounts with role `admin` (`admin-dashboard.html`).
-* **KPI Metrics**: Dynamic dashboard cards showing Total Users, Total Artists, Total Artworks, Total Purchases, Total Auctions, Total Reviews, and Platform Sales Volume.
-* **Artwork Catalog Management**: Full CRUD capabilities — Add Artwork, Edit Artwork, and Delete Artwork with confirmation.
-* **User Management**: Audit registered users and remove accounts.
-* **Category Distribution**: Real-time artwork count per category.
-* **Audit Logs**: Transaction log for purchases and active auction bidding status.
+Authentication in this frontend project (`js/auth.js` and `js/storage.js`) uses client-side validation and `localStorage` strictly for **frontend demonstration purposes** and **is not production-level security**. A production deployment must implement server-side authentication, password hashing, CSRF protection, and HTTP-only session tokens.
 
-### 2. User (Collector) Module
-* **Access**: Authenticated collectors (`user-dashboard.html`).
-* **Personalized Workspace**: Welcome banner, active bid counts, favorite count, and purchase statistics.
-* **Purchases & Orders**: "Buy Now" flow with confirmation modal; generates transaction records and displays invoices on `purchases.html`.
-* **Wishlist / Favorites**: One-click heart toggle saving artworks to `favorites.html` with remove capability.
-* **Live Auction Bidding**: Interactive bid placement with validation (bid must exceed current highest bid) and personal bid history tracking.
-* **Community Reviews**: 1–5 star rating submissions and detailed written feedback.
-
-### 3. Artist Module
-* **Access**: Exhibiting artists (`artist-dashboard.html`).
-* **Artist Studio**: Track my exhibited works, total sales revenue, active auction lots, and collector reviews.
-* **Artwork Upload**: Add new creations with medium, category, description, and price pre-assigned to the artist.
-* **Catalog Control**: Edit and delete only the artist's own artworks.
-* **Public Profile**: Verified artist portfolio showcase (`artist-profile.html`) displaying biography, specialization, and exhibition gallery.
+Private local credentials are excluded from version control via `.gitignore`:
+1. Copy `js/config.example.js` to `js/config.local.js`.
+2. Populate your local administrator and demonstration credentials inside `js/config.local.js`.
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
-```text
-front_end_review_1/
-├── index.html                 # Main Homepage (Hero, Categories, Featured Artworks)
-├── login.html                 # Authentication & Quick-Fill Demo Credentials
-├── signup.html                # Registration Form with LocalStorage validation
-├── admin-dashboard.html       # Administrator Control Panel
-├── user-dashboard.html        # Collector User Dashboard
-├── artist-dashboard.html      # Artist Studio Workspace
-├── artworks.html              # Gallery with Real-time Search & Category Filters
-├── artwork-details.html       # Detailed Artwork View, Buy Now modal, Auction & Reviews
-├── artist-profile.html        # Public Artist Bio and Artworks Showcase
-├── favorites.html             # User Shortlisted Favorites
-├── purchases.html             # Transaction History & Order Receipts
-├── auction.html               # Live Auction Hub & My Bids tracker
-├── reviews.html               # Community Feedback & Review Submission
-├── about.html                 # Project Objectives, Architecture & Demo Guide
-│
-├── css/
-│   └── style.css              # Unified CSS3 Design System (CSS Grid & Flexbox)
-│
-├── js/
-│   ├── storage.js             # Local Storage helper & Sample Data Initializer
-│   ├── auth.js                # Auth, Role-based Route Protection & Dynamic Navbar
-│   ├── artworks.js            # Gallery, Real-time Search, Filters, Buy Modal & Details
-│   ├── admin.js               # Admin KPI counters, CRUD Artworks & User moderation
-│   ├── artist.js              # Artist Studio stats, My Artworks CRUD & Profile logic
-│   ├── user.js                # User Dashboard stats, Favorites & Purchases rendering
-│   ├── auction.js             # Live Auction Hub, Bidding Validation & Bid History
-│   └── reviews.js             # Review submission, Average rating & Stars renderer
-│
-├── images/
-│   ├── logo.svg               # ArtLoom SVG Brand Logo
-│   ├── avatar-admin.svg       # Administrator Avatar
-│   ├── avatar-user.svg        # Collector Avatar
-│   ├── avatar-artist.svg      # Artist Avatar
-│   └── artworks/              # 12 Local SVG artworks for 100% offline reliability
-│       ├── artwork-1.svg      # Golden Horizon (Landscape / Painting)
-│       ├── artwork-2.svg      # Neon Cyber Odyssey (Digital Art)
-│       ├── artwork-3.svg      # Soul of the Wild (Photography)
-│       ├── artwork-4.svg      # Graphite Elegance (Drawing)
-│       ├── artwork-5.svg      # Lady in Saffron (Portrait)
-│       ├── artwork-6.svg      # Whispers of the Ocean (Landscape)
-│       ├── artwork-7.svg      # Geometric Reverie (Abstract)
-│       ├── artwork-8.svg      # Bronze Harmony (Sculpture)
-│       ├── artwork-9.svg      # Midnight Serenade (Abstract)
-│       ├── artwork-10.svg     # The Old Craftsman (Portrait)
-│       ├── artwork-11.svg     # Metropolis Awakening (Digital Art)
-│       └── artwork-12.svg     # Marble Flora (Sculpture)
-│
-└── README.md                  # Project Documentation & SDC Review Guide
-```
-
----
-
-## 🔑 Pre-Configured Sample Login Credentials
-
-When first opened, sample data is automatically seeded into `localStorage`. On `login.html`, one-click **Quick-Fill** buttons are provided for fast evaluator testing.
-
-| Role | Email Address | Password | Admin Security Code | Landing Page |
-|---|---|---|---|---|
-| **Admin** | `gajulashanmendrasai@gmail.com` | `Kiran@2507518` | *Confidential (Required)* | `admin-dashboard.html` |
-| **Buyer / User** | `user@artgallery.com` | `user123` | *Not Required* | `user-dashboard.html` |
-| **Artist** | `artist@artgallery.com` | `artist123` | *Not Required* | `artist-dashboard.html` |
-
----
-
-## 🚀 How to Run the Application
-
-1. **Clone or Download** this project directory:
-   ```bash
-   cd front_end_review_1
-   ```
-2. **Open in Browser**:
-   * Double-click `index.html` directly in your file explorer, OR
-   * Right-click `index.html` $\rightarrow$ Open With $\rightarrow$ Google Chrome / Microsoft Edge / Mozilla Firefox.
-3. **No Setup Required**:
-   * No `npm install`, no `node`, no Python server, and no database setup required.
-   * All data automatically initializes on first page load.
-
----
-
-## 🎯 Demonstration Flow for SDC Review-1
-
-Follow this recommended sequence for the examiner/evaluator:
-
-### Phase 1: Visitor Experience & Catalog Exploration
-1. Open `index.html`. Observe the **ArtLoom** header, hero section, 8 categories, and featured artworks.
-2. Click **Gallery** (`artworks.html`).
-3. Test **Real-time Search**: Type `Landscape` or `Elena`. Observe real-time filtering without page refresh.
-4. Test **Category Filter**: Click `Sculpture` or `Digital Art`.
-5. Test **Sorting**: Switch sort order to `Price: Low to High`.
-6. Click **View Details** on any artwork (`artwork-details.html`).
-
-### Phase 2: User Sign Up & Purchase Simulation
-1. Click **Sign Up** (`signup.html`). Register a new test collector.
-2. Or go to **Login** (`login.html`), click `👤 User` Quick-Fill, and click **Sign In**.
-3. Arrive at `user-dashboard.html` showing dynamic collector stats.
-4. Navigate to `artworks.html`, click the heart icon (♡ $\rightarrow$ ♥) to add to favorites. Open `favorites.html` to verify persistence.
-5. Open an artwork marked **For Sale** $\rightarrow$ Click **Buy Now** $\rightarrow$ Confirm modal $\rightarrow$ Navigate to `purchases.html` to view the invoice receipt and total collection value.
-
-### Phase 3: Live Auction Simulation
-1. Navigate to `auction.html`.
-2. Review current highest bid and top bidder.
-3. Enter a bid lower than current: observe the validation error toast.
-4. Enter a higher bid and click **Bid**: observe the instant toast confirmation, updated top bidder, and new entry in **My Bids History**.
-
-### Phase 4: Artist Studio Demonstration
-1. Click **Logout** $\rightarrow$ Go to `login.html`.
-2. Click `🎨 Artist` Quick-Fill $\rightarrow$ Login as `artist@artgallery.com`.
-3. Arrive at `artist-dashboard.html`.
-4. Click **+ Upload New Artwork** $\rightarrow$ Fill form $\rightarrow$ Submit.
-5. Observe the new artwork appear in "My Artwork Catalog" and in the public gallery.
-6. Click **View Public Profile** to inspect `artist-profile.html`.
-
-### Phase 5: Administrator Panel Demonstration
-1. Click **Logout** $\rightarrow$ Go to `login.html`.
-2. Click `👑 Admin` Quick-Fill $\rightarrow$ Login as `gajulashanmendrasai@gmail.com`.
-3. Arrive at `admin-dashboard.html`. Inspect the 7 dynamic metric cards.
-4. Switch to **Manage Artworks** tab: click **Edit** or **Delete** on an artwork.
-5. Switch to **Manage Users** tab: observe registered accounts and removal control.
-6. Switch to **Purchases Log** & **Auctions Log** to audit all collector activities.
-
----
-
-## 📊 SDC Requirements Mapping Table
-
-| SDC Requirement | Implementation Details | Status |
-|---|---|:---:|
-| **1. Online Art Gallery Problem Statement** | Clearly demonstrated through dedicated collector, artist, and admin portals addressing art discovery, direct acquisition, and auction transparency. | ✅ Satisfied |
-| **2. Admin and User Modules** | Fully implemented `admin-dashboard.html` and `user-dashboard.html`, supplemented with an `artist-dashboard.html`. | ✅ Satisfied |
-| **3. Only HTML, CSS, and Vanilla JavaScript** | 100% zero external dependencies. No React, Angular, Vue, Bootstrap, Tailwind, Node, PHP, or Python. | ✅ Satisfied |
-| **4. CSS Grid and Flexbox for UI Layouts** | CSS Grid used for artwork cards, dashboard KPI cards, categories showcase; Flexbox used for navbars, filters, action buttons, and modals. | ✅ Satisfied |
-| **5. Signup and Login using Local Storage** | Validated signup form (regex, min length, password match, duplicate email check) storing user objects in `localStorage.users`. Session managed via `localStorage.currentUser`. | ✅ Satisfied |
-| **6. Module-wise Navigation & Redirection** | Dynamic JavaScript navigation with page protection (`requireAuth`). Automatic role routing: Admin $\rightarrow$ Admin Dashboard, User $\rightarrow$ User Dashboard, Artist $\rightarrow$ Artist Dashboard. | ✅ Satisfied |
-| **7. All Major Functionalities Working** | Real-time search, category filtering, artwork details, Buy Now flow, live auction bidding validation, favorites toggle, reviews with star ratings, and full Admin CRUD. | ✅ Satisfied |
-| **8. GitHub-Ready** | Clean directory structure, meaningful naming conventions, git-friendly layout, comprehensive documentation, and local SVG fallbacks for offline evaluation. | ✅ Satisfied |
-| **9. Easy to Demonstrate during SDC Review** | Pre-seeded with 12 artworks across all 8 categories, pre-configured demo users, one-click demo credentials fill, and interactive toast feedback. | ✅ Satisfied |
-
----
-
-## 📜 License & Academic Integrity
-Developed by **Kiran Reddy** for **SDC Project Review-1**. All code adheres to the academic guidelines set forth by the evaluation committee.
+- `index.html` — Homepage (Hero spotlight, Browse by Category, Featured Artworks, Live Auction banner, Exhibitions, Footer)
+- `artworks.html` — Full artwork catalog with search, category pills, and sorting
+- `artwork-details.html` — Artwork provenance, purchase/bidding actions, and critiques
+- `auction.html` — Live auctions with real-time countdown timers and bid history
+- `exhibitions.html` — Virtual exhibitions hall and room viewer
+- `artist-profile.html` — Exhibiting artists directory and individual portfolios
+- `favorites.html` — Collector saved favorites wishlist
+- `purchases.html` — Order history and acquisition ledger
+- `reviews.html` — Community critiques and star ratings
+- `about.html` — Gallery mission, curatorial standards, and provenance overview
+- `login.html` & `signup.html` — Manual sign-in and account registration
+- `user-dashboard.html`, `artist-dashboard.html`, `admin-dashboard.html` — Role-protected portals
+- `css/style.css` — Obsidian & Champagne Gold CSS3 stylesheet (CSS Grid & Flexbox)
+- `js/` — `storage.js`, `auth.js`, `cart.js`, `artworks.js`, `auction.js`, `exhibitions.js`, `artist.js`, `user.js`, `admin.js`, `reviews.js`
+- `assets/images/` — Curated painting images sourced from Unsplash (`IMAGE_CREDITS.md`)

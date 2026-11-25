@@ -1,7 +1,7 @@
 /**
- * user.js - User Dashboard, Favorites Management, & Purchases History
- * Online Art Gallery (ArtLoom) - SDC Project Review-1
- * Strictly Vanilla JavaScript & LocalStorage
+ * user.js - Collector Salon, Favorites Management, & Purchases History
+ * ZENITH Fine Art Gallery & Auction House
+ * Pure Vanilla JavaScript & LocalStorage
  */
 
 // 1. Initialize User Dashboard (user-dashboard.html)
@@ -90,7 +90,7 @@ function renderFavoritesPage() {
   container.innerHTML = favArtworks.map(art => `
     <div class="artwork-card" data-id="${art.id}">
       <div class="artwork-image-wrap">
-        <img src="${art.image}" alt="${art.name}" onerror="this.src='images/artworks/artwork-1.svg'">
+        <img src="${art.image}" alt="${art.name}" onerror="this.src='assets/images/floral-classical-still-life.jpg'">
         <span class="badge ${art.type === 'Auction' ? 'badge-auction' : 'badge-sale'} artwork-badge-floating">${art.type}</span>
       </div>
       <div class="artwork-body">
@@ -145,7 +145,7 @@ function initPurchasesPage() {
       <td><strong>#ORD-${p.id}</strong></td>
       <td>
         <div style="display: flex; align-items: center; gap: 12px;">
-          <img src="${p.image || 'images/artworks/artwork-1.svg'}" class="table-thumb" alt="${p.artworkName}">
+          <img src="${p.image || 'assets/images/floral-classical-still-life.jpg'}" class="table-thumb" alt="${p.artworkName}" onerror="this.src='assets/images/floral-classical-still-life.jpg'">
           <div>
             <div style="font-weight: 700;">${p.artworkName}</div>
             <div style="font-size: 0.82rem; color: var(--text-muted);">${p.artist}</div>

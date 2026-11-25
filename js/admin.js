@@ -1,11 +1,19 @@
 /**
- * admin.js - Professional Admin Dashboard & Management Functions
- * Online Art Gallery (ArtLoom) - SDC Project Review-1
- * Strictly Vanilla JavaScript & LocalStorage
+ * admin.js - Administrator Control Center & Management Functions
+ * ZENITH Fine Art Gallery & Auction House
+ * Pure Vanilla JavaScript & LocalStorage
  */
 
-// Route Guard: Ensure Admin Access Only
+// Route Guard: Ensure Admin Access Only (prevents unauthorized direct URL navigation)
 const currentAdmin = requireAuth(['admin']);
+
+function getCategoryOptionsHTML(selectedCat = 'Oil Painting') {
+  const cats = getData('categories', []);
+  const names = cats.length > 0
+    ? cats.map(c => c.name)
+    : ['Abstract', 'Oil Painting', 'Watercolor', 'Landscape', 'Nature', 'Portrait', 'Contemporary', 'Modern Art', 'Traditional', 'Floral'];
+  return names.map(name => `<option value="${name}" ${name === selectedCat ? 'selected' : ''}>${name}</option>`).join('');
+}
 
 // Initialize Admin Dashboard
 function initAdminDashboard() {
@@ -82,7 +90,7 @@ function renderAdminArtworksTable() {
     <tr>
       <td>#${art.id}</td>
       <td>
-        <img src="${art.image}" alt="${art.name}" class="table-thumb" onerror="this.src='images/artworks/artwork-1.svg'">
+        <img src="${art.image}" alt="${art.name}" class="table-thumb" onerror="this.src='assets/images/floral-classical-still-life.jpg'">
       </td>
       <td><strong>${art.name}</strong></td>
       <td>${art.artist}</td>
@@ -128,14 +136,7 @@ function openAddArtworkModal() {
           <div class="form-group">
             <label>Category *</label>
             <select id="newArtCategory" class="form-control" required>
-              <option value="Painting">Painting</option>
-              <option value="Digital Art">Digital Art</option>
-              <option value="Photography">Photography</option>
-              <option value="Drawing">Drawing</option>
-              <option value="Portrait">Portrait</option>
-              <option value="Landscape">Landscape</option>
-              <option value="Abstract">Abstract</option>
-              <option value="Sculpture">Sculpture</option>
+              ${getCategoryOptionsHTML('Oil Painting')}
             </select>
           </div>
           <div class="form-group">
@@ -151,8 +152,8 @@ function openAddArtworkModal() {
           <input type="number" id="newArtPrice" class="form-control" required min="100" placeholder="e.g. 15000">
         </div>
         <div class="form-group">
-          <label>Image (Local SVG or Web URL)</label>
-          <input type="text" id="newArtImage" class="form-control" placeholder="images/artworks/artwork-1.svg" value="images/artworks/artwork-1.svg">
+          <label>Image (Local Asset Path or Web URL)</label>
+          <input type="text" id="newArtImage" class="form-control" placeholder="assets/images/oil-golden-wheatfield.jpg" value="assets/images/oil-golden-wheatfield.jpg">
         </div>
         <div class="form-group">
           <label>Description *</label>
@@ -178,7 +179,7 @@ function handleSaveNewArtwork(e) {
   const category = document.getElementById('newArtCategory').value;
   const type = document.getElementById('newArtType').value;
   const price = Number(document.getElementById('newArtPrice').value);
-  const image = document.getElementById('newArtImage').value.trim() || 'images/artworks/artwork-1.svg';
+  const image = document.getElementById('newArtImage').value.trim() || 'assets/images/oil-golden-wheatfield.jpg';
   const description = document.getElementById('newArtDesc').value.trim();
 
   const newArt = {
@@ -192,6 +193,7 @@ function handleSaveNewArtwork(e) {
     startingPrice: type === 'Auction' ? price : undefined,
     currentBid: type === 'Auction' ? price : undefined,
     currentBidder: type === 'Auction' ? 'Starting Price' : undefined,
+    endTime: type === 'Auction' ? offsetHoursISO(48) : undefined,
     image,
     description,
     featured: false,
@@ -241,14 +243,7 @@ function openEditArtworkModal(artId) {
           <div class="form-group">
             <label>Category *</label>
             <select id="editArtCategory" class="form-control" required>
-              <option value="Painting" ${art.category === 'Painting' ? 'selected' : ''}>Painting</option>
-              <option value="Digital Art" ${art.category === 'Digital Art' ? 'selected' : ''}>Digital Art</option>
-              <option value="Photography" ${art.category === 'Photography' ? 'selected' : ''}>Photography</option>
-              <option value="Drawing" ${art.category === 'Drawing' ? 'selected' : ''}>Drawing</option>
-              <option value="Portrait" ${art.category === 'Portrait' ? 'selected' : ''}>Portrait</option>
-              <option value="Landscape" ${art.category === 'Landscape' ? 'selected' : ''}>Landscape</option>
-              <option value="Abstract" ${art.category === 'Abstract' ? 'selected' : ''}>Abstract</option>
-              <option value="Sculpture" ${art.category === 'Sculpture' ? 'selected' : ''}>Sculpture</option>
+              ${getCategoryOptionsHTML(art.category)}
             </select>
           </div>
           <div class="form-group">
@@ -413,7 +408,7 @@ function renderAdminPurchasesTable() {
       <td>#ORD-${p.id}</td>
       <td>
         <div style="display: flex; align-items: center; gap: 10px;">
-          <img src="${p.image || 'images/artworks/artwork-1.svg'}" class="table-thumb" alt="${p.artworkName}">
+          <img src="${p.image || 'assets/images/floral-classical-still-life.jpg'}" class="table-thumb" alt="${p.artworkName}">
           <strong>${p.artworkName}</strong>
         </div>
       </td>
@@ -515,7 +510,7 @@ function renderAdminAuctionsTable() {
       <tr>
         <td>
           <div style="display: flex; align-items: center; gap: 10px;">
-            <img src="${art.image || 'images/artworks/artwork-1.svg'}" class="table-thumb" alt="${art.name}" onerror="this.src='images/artworks/artwork-1.svg'">
+            <img src="${art.image || 'assets/images/floral-classical-still-life.jpg'}" class="table-thumb" alt="${art.name}" onerror="this.src='assets/images/floral-classical-still-life.jpg'">
             <div>
               <strong>${art.name}</strong>
               <div style="font-size: 0.78rem; color: var(--text-muted);">by ${art.artist}</div>

@@ -1,14 +1,39 @@
 /**
- * auction.js - Live Auction Hub & User Bidding Simulation
- * Online Art Gallery (ArtLoom) - SDC Project Review-1
- * Strictly Vanilla JavaScript & LocalStorage
+ * auction.js - Live Auction Hub, Countdown Timers & Bidding Simulation
+ * ZENITH Fine Art Gallery & Auction House
+ * Pure Vanilla JavaScript & LocalStorage
  */
+
+let auctionHubTimer = null;
+
+function updateAuctionCountdowns() {
+  const elements = document.querySelectorAll('[data-auction-countdown]');
+  elements.forEach(el => {
+    const endTimeStr = el.getAttribute('data-auction-countdown');
+    const diff = new Date(endTimeStr).getTime() - Date.now();
+    if (!endTimeStr || isNaN(diff) || diff <= 0) {
+      el.innerHTML = `<span class="badge badge-closed">CLOSING SOON</span>`;
+      return;
+    }
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+    el.innerHTML = `
+      <span class="timer-box">${days}d</span> :
+      <span class="timer-box">${String(hours).padStart(2, '0')}h</span> :
+      <span class="timer-box">${String(minutes).padStart(2, '0')}m</span> :
+      <span class="timer-box gold">${String(seconds).padStart(2, '0')}s</span>
+    `;
+  });
+}
 
 // 1. Initialize Auction Hub Page (auction.html)
 function initAuctionHub() {
   const auctionGrid = document.getElementById('auctionGrid');
   const activeAuctionsCountEl = document.getElementById('activeAuctionsCount');
-
   if (!auctionGrid) return;
 
   const artworks = getData('artworks', []).filter(a => a.type === 'Auction');
@@ -21,14 +46,13 @@ function initAuctionHub() {
   const currentUser = getCurrentUser();
   const currentRole = getNormalizedRole(currentUser);
 
-  // Render Auction Cards
   if (artworks.length === 0) {
     auctionGrid.innerHTML = `
       <div class="empty-state" style="grid-column: 1 / -1;">
         <div class="empty-state-icon">🔨</div>
         <h3>No Live Auctions Currently</h3>
-        <p>Check back soon for new curated live auction pieces.</p>
-        <a href="artworks.html" class="btn btn-primary">Browse Gallery</a>
+        <p>Check back soon for new curated auction lots.</p>
+        <a href="artworks.html" class="btn btn-gold">Browse Collection</a>
       </div>
     `;
   } else {
@@ -37,113 +61,85 @@ function initAuctionHub() {
       const minNextBid = currentHighest + 1;
       const status = art.auctionStatus || 'LIVE';
 
-      let floatingBadge = `<span class="badge badge-auction artwork-badge-floating">Live Auction</span>`;
-      let statusMeta = `<span style="font-size: 0.8rem; color: var(--accent); font-weight: 700;">⏱ Live Bidding</span>`;
+      let floatingBadge = `<span class="badge badge-live-red artwork-badge-floating">● Live Bidding</span>`;
+      let statusMeta = `<span style="font-size: 0.78rem; color: var(--gold-primary); font-weight: 700;">LIVE</span>`;
       let actionAreaHTML = '';
 
       if (status === 'WINNER ANNOUNCED') {
         floatingBadge = `<span class="badge badge-sale artwork-badge-floating">🏆 Winner Announced</span>`;
-        statusMeta = `<span style="font-size: 0.8rem; color: var(--success); font-weight: 700;">✓ Winner Declared</span>`;
+        statusMeta = `<span style="font-size: 0.78rem; color: var(--success); font-weight: 700;">Winner Declared</span>`;
         actionAreaHTML = `
-          <div style="background-color: var(--accent-light); border: 1px solid var(--accent-border); border-radius: var(--radius-sm); padding: 12px; margin: 12px 0;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-              <span style="font-size: 0.88rem; font-weight: 700; color: var(--accent-dark);">🏆 AUCTION RESULT</span>
-              <span class="badge badge-sale" style="font-size: 0.72rem;">Winner Announced</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; font-size: 0.88rem; margin-bottom: 4px;">
+          <div style="background: var(--bg-black); border: 1px solid var(--border-gold); border-radius: var(--radius-sm); padding: 12px; margin: 12px 0;">
+            <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 4px;">
               <span style="color: var(--text-muted);">Winning Bid:</span>
-              <strong style="color: var(--accent); font-size: 1.2rem;">${formatCurrency(art.winningBid || art.currentBid)}</strong>
+              <strong style="color: var(--gold-primary); font-size: 1.15rem;">${formatCurrency(art.winningBid || art.currentBid)}</strong>
             </div>
-            <div style="display: flex; justify-content: space-between; font-size: 0.88rem;">
+            <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
               <span style="color: var(--text-muted);">Winner:</span>
-              <strong style="color: var(--text-main);">${art.winnerName || 'Winner Announced'}</strong>
+              <strong style="color: #ffffff;">${art.winnerName || 'Winner Announced'}</strong>
             </div>
           </div>
-          <div style="margin-top: 10px; text-align: center;">
-            <a href="artwork-details.html?id=${art.id}" class="btn btn-sm btn-outline btn-block">
-              View Auction Result
-            </a>
-          </div>
+          <a href="artwork-details.html?id=${art.id}" class="btn btn-sm btn-outline-gold btn-block" style="margin-top: auto;">View Auction Result</a>
         `;
       } else if (status === 'CLOSED') {
         floatingBadge = `<span class="badge badge-closed artwork-badge-floating">Auction Closed</span>`;
-        statusMeta = `<span style="font-size: 0.8rem; color: var(--danger); font-weight: 700;">⏱ Closed by Admin</span>`;
+        statusMeta = `<span style="font-size: 0.78rem; color: var(--danger); font-weight: 700;">Closed</span>`;
         actionAreaHTML = `
-          <div style="background-color: var(--surface-alt); padding: 12px; border-radius: var(--radius-sm); margin: 12px 0; border: 1px solid var(--border);">
-            <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 4px;">
-              <span style="color: var(--text-muted);">Starting Price:</span>
-              <span>${formatCurrency(art.startingPrice || art.price)}</span>
+          <div style="background: var(--bg-black); padding: 12px; border-radius: var(--radius-sm); margin: 12px 0; border: 1px solid var(--border);">
+            <div style="display: flex; justify-content: space-between; font-size: 0.84rem; margin-bottom: 4px;">
+              <span style="color: var(--text-muted);">Final Highest Bid:</span>
+              <strong style="color: var(--gold-primary);">${formatCurrency(currentHighest)}</strong>
             </div>
-            <div style="display: flex; justify-content: space-between; align-items: baseline;">
-              <span style="font-size: 0.85rem; color: var(--text-muted);">Final Highest Bid:</span>
-              <strong style="color: var(--accent); font-size: 1.2rem;">${formatCurrency(currentHighest)}</strong>
-            </div>
-            <div style="font-size: 0.8rem; color: var(--accent-dark); font-weight: 700; margin-top: 6px; text-align: center;">
-              🔒 Auction Closed • Waiting for Winner Announcement
+            <div style="font-size: 0.78rem; color: var(--text-muted); text-align: center; margin-top: 6px;">
+              Awaiting Winner Announcement
             </div>
           </div>
-          <div style="margin-top: 10px; text-align: center;">
-            <a href="artwork-details.html?id=${art.id}" class="btn btn-sm btn-outline btn-block">
-              View Details
-            </a>
-          </div>
+          <a href="artwork-details.html?id=${art.id}" class="btn btn-sm btn-outline btn-block" style="margin-top: auto;">View Lot Details</a>
         `;
       } else {
-        // LIVE AUCTION - Role-based controls
         let cardControlsHTML = '';
         if (currentRole === 'artist') {
-          // Artist cannot participate in bidding
           cardControlsHTML = `
-            <div style="background-color: var(--surface-alt); border: 1px dashed var(--border); border-radius: 6px; padding: 10px; margin: 8px 0; font-size: 0.84rem; color: var(--text-muted); text-align: center;">
+            <div style="background: var(--surface-alt); border: 1px dashed var(--border); border-radius: var(--radius-sm); padding: 10px; margin: 8px 0; font-size: 0.82rem; color: var(--text-muted); text-align: center;">
               Artists cannot participate in bidding.
             </div>
-            <div style="margin-top: 8px; text-align: center;">
-              <a href="artwork-details.html?id=${art.id}" class="btn btn-sm btn-outline btn-block">
-                View Artwork
-              </a>
-            </div>
+            <a href="artwork-details.html?id=${art.id}" class="btn btn-sm btn-outline btn-block">View Artwork</a>
           `;
         } else if (currentRole === 'admin') {
-          // Admin manages auctions, does not participate in bidding
           cardControlsHTML = `
             <div style="display: flex; gap: 8px; margin-top: 8px;">
-              <a href="artwork-details.html?id=${art.id}" class="btn btn-sm btn-outline btn-block">
-                View Bids
-              </a>
-              <a href="admin-dashboard.html" class="btn btn-sm btn-primary btn-block">
-                Admin Panel
-              </a>
+              <a href="artwork-details.html?id=${art.id}" class="btn btn-sm btn-outline btn-block">View Bids</a>
+              <a href="admin-dashboard.html" class="btn btn-sm btn-gold btn-block">Admin Panel</a>
             </div>
           `;
         } else {
-          // Buyer / User (or guest):
           cardControlsHTML = `
-            <!-- Quick Bid Form -->
             <form onsubmit="handleQuickBid(event, ${art.id})" style="display: flex; gap: 8px; margin-top: 4px;">
-              <input type="number" id="quickBidInput_${art.id}" class="form-control" style="padding: 8px 12px; font-size: 0.9rem;" 
-                placeholder="Min ${formatCurrency(minNextBid)}" min="${currentHighest + 1}" required>
-              <button type="submit" class="btn btn-sm btn-accent">Bid</button>
+              <input type="number" id="quickBidInput_${art.id}" class="form-control" style="padding: 8px 12px; font-size: 0.88rem;" placeholder="Min ${formatCurrency(minNextBid)}" min="${minNextBid}" required>
+              <button type="submit" class="btn btn-sm btn-gold">Bid</button>
             </form>
             <div style="margin-top: 10px; text-align: center;">
-              <a href="artwork-details.html?id=${art.id}" style="font-size: 0.88rem; color: var(--text-muted); text-decoration: underline;">
-                View Details &amp; Full History
-              </a>
+              <a href="artwork-details.html?id=${art.id}" style="font-size: 0.84rem; color: var(--gold-primary);">View Lot &amp; Full Bid Log →</a>
             </div>
           `;
         }
 
         actionAreaHTML = `
-          <div style="background-color: var(--surface-alt); padding: 12px; border-radius: 8px; margin: 12px 0;">
-            <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 4px;">
-              <span style="color: var(--text-muted);">Starting Price:</span>
-              <span>${formatCurrency(art.startingPrice || art.price)}</span>
+          <div style="background: var(--bg-black); padding: 10px 12px; border-radius: var(--radius-sm); border: 1px solid var(--border); margin-bottom: 10px; text-align: center;">
+            <div style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px;">Time Remaining</div>
+            <div class="auction-countdown" data-auction-countdown="${art.endTime || ''}">Loading...</div>
+          </div>
+          <div style="background: var(--bg-black); padding: 12px; border-radius: var(--radius-sm); margin-bottom: 12px; border: 1px solid var(--border-gold);">
+            <div style="display: flex; justify-content: space-between; font-size: 0.82rem; margin-bottom: 4px;">
+              <span style="color: var(--text-muted);">Starting Bid:</span>
+              <span style="color: #ffffff;">${formatCurrency(art.startingPrice || art.price)}</span>
             </div>
             <div style="display: flex; justify-content: space-between; align-items: baseline;">
-              <span style="font-size: 0.85rem; color: var(--text-muted);">Current Bid:</span>
-              <strong style="color: var(--accent); font-size: 1.3rem;">${formatCurrency(currentHighest)}</strong>
+              <span style="font-size: 0.82rem; color: var(--text-muted);">Current Highest:</span>
+              <strong style="color: var(--gold-primary); font-size: 1.25rem;">${formatCurrency(currentHighest)}</strong>
             </div>
             <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 4px; text-align: right;">
-              Top Bidder: <strong>${art.currentBidder || 'None yet'}</strong>
+              Leader: <strong style="color: #ffffff;">${art.currentBidder || 'None yet'}</strong>
             </div>
           </div>
           ${cardControlsHTML}
@@ -151,9 +147,11 @@ function initAuctionHub() {
       }
 
       return `
-        <div class="artwork-card" data-id="${art.id}">
+        <article class="artwork-card" data-id="${art.id}">
           <div class="artwork-image-wrap">
-            <img src="${art.image}" alt="${art.name}" onerror="this.src='images/artworks/artwork-1.svg'">
+            <a href="artwork-details.html?id=${art.id}" style="display: block; width: 100%; height: 100%;">
+              <img src="${art.image}" alt="${art.altText || art.name}" loading="lazy" onerror="this.src='assets/images/floral-classical-still-life.jpg'">
+            </a>
             ${floatingBadge}
           </div>
           <div class="artwork-body">
@@ -167,42 +165,42 @@ function initAuctionHub() {
             <p class="artwork-artist">by <a href="artist-profile.html?artist=${encodeURIComponent(art.artist)}">${art.artist}</a></p>
             ${actionAreaHTML}
           </div>
-        </div>
+        </article>
       `;
     }).join('');
   }
 
-  // Render My Bids
+  updateAuctionCountdowns();
+  if (auctionHubTimer) clearInterval(auctionHubTimer);
+  auctionHubTimer = setInterval(updateAuctionCountdowns, 1000);
+
   renderMyBidsHistory();
 }
 
-// Quick Bid Handler on Auction Hub (Strict Buyer/User Validation)
+// Quick Bid Handler on Auction Hub
 function handleQuickBid(e, artId) {
   if (e && e.preventDefault) e.preventDefault();
 
-  // 1. A user must be logged in
   const user = getCurrentUser();
   if (!user) {
-    showToast('Please login to place bids', 'warning');
-    setTimeout(() => { window.location.href = 'login.html'; }, 1000);
+    showToast('Please sign in to place bids.', 'warning');
+    setTimeout(() => { window.location.href = 'login.html'; }, 900);
     return;
   }
 
-  // 2. The logged-in user's role must be Buyer/User ('user')
   const role = getNormalizedRole(user);
   if (role !== 'user') {
-    showToast('Only Buyers can place bids.', 'error');
+    showToast('Only registered Collectors can place bids.', 'error');
     return;
   }
 
   const artworks = getData('artworks', []);
-  const art = artworks.find(a => a.id === artId);
+  const art = artworks.find(a => Number(a.id) === Number(artId));
   if (!art) return;
 
-  // 3. The auction must be still LIVE
   const auctionStatus = art.auctionStatus || 'LIVE';
   if (auctionStatus === 'CLOSED' || auctionStatus === 'WINNER ANNOUNCED') {
-    showToast('This auction has ended. Bidding is no longer available.', 'error');
+    showToast('This auction has closed. Bidding is locked.', 'error');
     return;
   }
 
@@ -212,13 +210,11 @@ function handleQuickBid(e, artId) {
   const newBid = Number(inputEl.value);
   const currentHighest = Number(art.currentBid || art.startingPrice || art.price);
 
-  // 4. The bid amount must be higher than current highest bid
   if (!newBid || isNaN(newBid) || newBid <= currentHighest) {
-    showToast('Your bid must be higher than the current highest bid.', 'error');
+    showToast(`Your bid must exceed ${formatCurrency(currentHighest)}.`, 'error');
     return;
   }
 
-  // Update previous bids for this artwork to Outbid
   const bids = getData('bids', []);
   bids.forEach(b => {
     if (Number(b.artworkId) === Number(art.id) && b.status === 'Leading') {
@@ -226,8 +222,7 @@ function handleQuickBid(e, artId) {
     }
   });
 
-  // Store in Bids history
-  const newBidRecord = {
+  bids.push({
     id: getNextId(bids),
     artworkId: art.id,
     artworkName: art.name,
@@ -237,12 +232,10 @@ function handleQuickBid(e, artId) {
     bidAmount: newBid,
     date: new Date().toLocaleString(),
     status: 'Leading'
-  };
-  bids.push(newBidRecord);
+  });
   setData('bids', bids);
   setData('auctionBids', bids);
 
-  // Update Artwork
   art.currentBid = newBid;
   art.currentBidder = user.name;
   art.currentBidderEmail = user.email || '';
@@ -250,11 +243,11 @@ function handleQuickBid(e, artId) {
   art.bidsCount = (art.bidsCount || 0) + 1;
   setData('artworks', artworks);
 
-  showToast(`Bid of ${formatCurrency(newBid)} placed successfully! You are the top bidder.`, 'success');
+  showToast(`Bid of ${formatCurrency(newBid)} placed! You are the leading bidder.`, 'success');
   initAuctionHub();
 }
 
-// Render "My Bids" History Table (Buyer/User only)
+// Render "My Bids" History Table
 function renderMyBidsHistory() {
   const tableBody = document.getElementById('myBidsTableBody');
   const myBidsSection = document.getElementById('myBidsSection');
@@ -272,20 +265,20 @@ function renderMyBidsHistory() {
   const bids = getData('bids', []).filter(b => b.userId === user.id);
 
   if (bids.length === 0) {
-    tableBody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 20px;">You haven't placed any bids yet.</td></tr>`;
+    tableBody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 24px;">You haven't placed any bids yet.</td></tr>`;
     return;
   }
 
   const artworks = getData('artworks', []);
 
   tableBody.innerHTML = bids.slice().reverse().map(b => {
-    const art = artworks.find(a => a.id === b.artworkId);
+    const art = artworks.find(a => Number(a.id) === Number(b.artworkId));
     let statusText = 'Outbid';
     let statusBadgeClass = 'badge-category';
 
     if (art) {
       const artStatus = art.auctionStatus || 'LIVE';
-      const isTopBid = art.currentBid === b.bidAmount && (art.currentBidder === user.name || art.currentBidderId === user.id);
+      const isTopBid = Number(art.currentBid) === Number(b.bidAmount) && (art.currentBidder === user.name || art.currentBidderId === user.id);
 
       if (artStatus === 'WINNER ANNOUNCED') {
         const isWinner = art.winnerName === user.name || art.winnerUserId === user.id || (art.winnerEmail && art.winnerEmail === user.email);
@@ -294,37 +287,21 @@ function renderMyBidsHistory() {
           statusBadgeClass = 'badge-sale';
         } else {
           statusText = 'Ended (Outbid)';
-          statusBadgeClass = 'badge-category';
         }
       } else if (artStatus === 'CLOSED') {
-        if (isTopBid) {
-          statusText = 'Leading (Closed)';
-          statusBadgeClass = 'badge-sale';
-        } else {
-          statusText = 'Closed (Outbid)';
-          statusBadgeClass = 'badge-category';
-        }
+        statusText = isTopBid ? 'Leading (Closed)' : 'Closed (Outbid)';
+        statusBadgeClass = isTopBid ? 'badge-sale' : 'badge-category';
       } else {
-        // LIVE
-        if (isTopBid) {
-          statusText = 'Leading';
-          statusBadgeClass = 'badge-sale';
-        } else {
-          statusText = 'Outbid';
-          statusBadgeClass = 'badge-category';
-        }
+        statusText = isTopBid ? 'Leading' : 'Outbid';
+        statusBadgeClass = isTopBid ? 'badge-auction' : 'badge-category';
       }
     }
 
     return `
       <tr>
-        <td>#BID-${b.id}</td>
-        <td>
-          <a href="artwork-details.html?id=${b.artworkId}" style="font-weight: 700; color: var(--text-main);">
-            ${b.artworkName}
-          </a>
-        </td>
-        <td><strong style="color: var(--accent);">${formatCurrency(b.bidAmount)}</strong></td>
+        <td><code>#BID-${b.id}</code></td>
+        <td><a href="artwork-details.html?id=${b.artworkId}" style="font-weight: 700; color: #ffffff;">${b.artworkName}</a></td>
+        <td><strong style="color: var(--gold-primary);">${formatCurrency(b.bidAmount)}</strong></td>
         <td>${b.date}</td>
         <td><span class="badge ${statusBadgeClass}">${statusText}</span></td>
       </tr>
@@ -332,7 +309,6 @@ function renderMyBidsHistory() {
   }).join('');
 }
 
-// Initialize on DOM Ready
 document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById('auctionGrid')) {
     initAuctionHub();

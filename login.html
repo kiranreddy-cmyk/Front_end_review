@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sign In — ArtLoom Curated Gallery</title>
+  <title>Sign In — ZENITH Fine Art Gallery</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -15,7 +15,7 @@
   <header class="site-header">
     <div class="container navbar">
       <a href="index.html" class="brand-logo">
-        <img src="images/logo.svg" alt="ArtLoom Logo">
+        <img src="images/logo.svg" alt="ZENITH Fine Art Gallery">
       </a>
 
       <button class="menu-toggle" id="menuToggle" aria-label="Toggle Navigation">☰</button>
@@ -25,13 +25,14 @@
         <li><a href="artworks.html">Gallery</a></li>
         <li><a href="artist-profile.html">Artists</a></li>
         <li><a href="auction.html">Auctions</a></li>
+        <li><a href="exhibitions.html">Exhibitions</a></li>
         <li><a href="reviews.html">Reviews</a></li>
         <li><a href="about.html">About</a></li>
       </ul>
 
       <div class="nav-actions" id="navActions">
-        <a href="login.html" class="btn btn-sm btn-outline active">Login</a>
-        <a href="signup.html" class="btn btn-sm btn-accent">Sign Up</a>
+        <a href="login.html" class="btn btn-sm btn-outline active">Sign In</a>
+        <a href="signup.html" class="btn btn-sm btn-accent">Join Gallery</a>
       </div>
     </div>
   </header>
@@ -40,66 +41,58 @@
     <div class="container">
       <div class="auth-wrapper">
         <div class="auth-header">
-          <h2>Welcome Back</h2>
-          <p>Sign in to access your ArtLoom dashboard, favorites, bids, and purchases.</p>
+          <span class="section-subtitle">Member &amp; Curator Access</span>
+          <h2>Sign In to ZENITH</h2>
+          <p>Enter your credentials manually to access your collector salon, artist studio, or curator portal.</p>
         </div>
 
-        <form id="loginForm" novalidate>
+        <!-- Account Type Switcher Tabs -->
+        <div class="auth-role-tabs" role="tablist" aria-label="Account Type">
+          <button type="button" class="auth-role-tab active" data-role="user" onclick="selectLoginRoleTab('user')">Collector</button>
+          <button type="button" class="auth-role-tab" data-role="artist" onclick="selectLoginRoleTab('artist')">Artist</button>
+          <button type="button" class="auth-role-tab" data-role="admin" onclick="selectLoginRoleTab('admin')">Admin</button>
+        </div>
+
+        <form id="loginForm" autocomplete="off" novalidate>
           <div class="form-group">
-            <label for="loginRole">Login As (Account Type)</label>
+            <label for="loginRole">Account Type</label>
             <select id="loginRole" class="form-control" required>
-              <option value="user" selected>Buyer / User</option>
-              <option value="artist">Artist</option>
-              <option value="admin">Admin</option>
+              <option value="user" selected>Buyer / Collector</option>
+              <option value="artist">Exhibiting Artist</option>
+              <option value="admin">Administrator</option>
             </select>
           </div>
 
           <div class="form-group">
-            <label for="email">Email / Username</label>
-            <input type="text" id="email" class="form-control" placeholder="name@example.com" required autofocus>
+            <label for="email">Email Address</label>
+            <input type="email" id="email" class="form-control" placeholder="Enter your email address" autocomplete="off" value="" required autofocus>
           </div>
 
           <div class="form-group">
             <label for="password">Password</label>
-            <input type="password" id="password" class="form-control" placeholder="••••••••" required>
+            <div class="password-input-wrap">
+              <input type="password" id="password" class="form-control" placeholder="Enter your password" autocomplete="new-password" value="" required>
+              <button type="button" class="password-toggle-btn" onclick="toggleFieldVisibility('password', this)" aria-label="Show or hide password" aria-pressed="false">Show</button>
+            </div>
           </div>
 
           <div class="form-group" id="adminCodeGroup" style="display: none;">
-            <label for="adminCode">Admin Security Code</label>
-            <input type="password" id="adminCode" class="form-control" placeholder="Enter Admin Security Code" autocomplete="off">
-            <small style="font-size: 0.78rem; color: var(--text-muted);">Required for Administrator authentication.</small>
+            <label for="adminCode">Security Code</label>
+            <div class="password-input-wrap">
+              <input type="password" id="adminCode" class="form-control" placeholder="Enter administrator security code" autocomplete="off" value="">
+              <button type="button" class="password-toggle-btn" onclick="toggleFieldVisibility('adminCode', this)" aria-label="Show or hide security code" aria-pressed="false">Show</button>
+            </div>
+            <small style="font-size: 0.78rem; color: var(--text-muted);">Required for administrator verification.</small>
           </div>
 
-          <div id="loginError" class="form-error" style="margin-bottom: 16px;"></div>
+          <div id="loginError" class="form-error" style="margin-bottom: 16px;" role="alert"></div>
 
-          <button type="submit" class="btn btn-primary btn-block btn-lg">Sign In</button>
+          <button type="submit" id="loginSubmitBtn" class="btn btn-gold btn-block btn-lg">Sign In</button>
         </form>
 
-        <p style="text-align: center; margin-top: 20px; font-size: 0.95rem; color: var(--text-muted);">
-          Don't have an account? <a href="signup.html" style="color: var(--accent); font-weight: 600;">Create Account</a>
+        <p style="text-align: center; margin-top: 22px; font-size: 0.92rem; color: var(--text-muted);">
+          New to ZENITH? <a href="signup.html" style="color: var(--gold-primary); font-weight: 600;">Create Collector or Artist Account</a>
         </p>
-
-        <!-- SDC Review-1 Demo Credentials Quick-Fill -->
-        <div class="demo-credentials-box">
-          <h4>⚡ Quick-Fill Demo Credentials (SDC Review)</h4>
-          <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 10px;">
-            Click any role button below to automatically populate test credentials:
-          </p>
-          <div class="demo-buttons-row" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px;">
-            <button type="button" onclick="fillCredentials('user')" class="btn btn-sm btn-outline" title="Login as Kiran Reddy">
-              👤 User 1 (Kiran)
-            </button>
-            <button type="button" onclick="fillCredentials('user2')" class="btn btn-sm btn-outline" title="Login as Rahul Sharma">
-              👤 User 2 (Rahul)
-            </button>
-            <button type="button" onclick="fillCredentials('artist')" class="btn btn-sm btn-outline" title="Login as Elena Vance">
-              🎨 Artist
-            </button>
-            <button type="button" onclick="fillCredentials('admin')" class="btn btn-sm btn-outline" title="Login as Admin Administrator">
-              👑 Admin
-            </button>
-          </div>
-        </div>
       </div>
     </div>
   </main>
@@ -107,13 +100,15 @@
   <!-- Footer -->
   <footer class="site-footer">
     <div class="container footer-bottom">
-      <div>&copy; 2026 ArtLoom Online Art Gallery. All rights reserved.</div>
-      <div>SDC Project Review-1 • Pure HTML, CSS &amp; Vanilla JavaScript</div>
+      <div>&copy; 2026 ZENITH Fine Art Gallery. All rights reserved.</div>
+      <div style="color: var(--gold-primary);">Curated Fine Art &amp; Live Auctions</div>
     </div>
   </footer>
 
   <!-- Scripts -->
+  <script src="js/config.local.js"></script>
   <script src="js/storage.js"></script>
   <script src="js/auth.js"></script>
+  <script src="js/cart.js"></script>
 </body>
 </html>

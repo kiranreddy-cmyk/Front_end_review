@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Collector Salon &amp; Dashboard — ArtLoom Online Art Gallery</title>
+  <title>Collector Salon — ZENITH Fine Art Gallery</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -15,24 +15,23 @@
   <header class="site-header">
     <div class="container navbar">
       <a href="index.html" class="brand-logo">
-        <img src="images/logo.svg" alt="ArtLoom Logo">
+        <img src="images/logo.svg" alt="ZENITH Fine Art Gallery">
       </a>
 
-      <button class="menu-toggle" id="menuToggle" aria-label="Toggle Navigation">☰</button>
+      <button type="button" class="menu-toggle" id="menuToggle" aria-label="Toggle Navigation">☰</button>
 
       <ul class="nav-links" id="navLinks">
         <li><a href="index.html">Home</a></li>
         <li><a href="artworks.html">Gallery</a></li>
         <li><a href="artist-profile.html">Artists</a></li>
         <li><a href="auction.html">Auctions</a></li>
+        <li><a href="exhibitions.html">Exhibitions</a></li>
         <li><a href="reviews.html">Reviews</a></li>
         <li><a href="about.html">About</a></li>
-        <li><a href="user-dashboard.html" class="active">User Dashboard</a></li>
+        <li><a href="user-dashboard.html" class="active">My Salon</a></li>
       </ul>
 
-      <div class="nav-actions" id="navActions">
-        <!-- Injected dynamically via auth.js -->
-      </div>
+      <div class="nav-actions" id="navActions"></div>
     </div>
   </header>
 
@@ -45,19 +44,19 @@
             <span class="role-tag role-user">Collector Salon</span>
           </div>
           <h1 id="userGreeting">Welcome, Collector</h1>
-          <p>Manage your saved favorites, active auction bids, acquired artworks, and critique submissions.</p>
+          <p>Manage your saved favorites, active auction bids, acquired paintings, and critique appraisals.</p>
         </div>
-        <div style="display: flex; gap: 10px;">
-          <a href="artworks.html" class="btn btn-accent">Explore Gallery</a>
-          <button onclick="logout()" class="btn btn-outline">Logout</button>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <a href="artworks.html" class="btn btn-gold">Explore Gallery</a>
+          <button type="button" onclick="logout()" class="btn btn-outline">Logout</button>
         </div>
       </div>
     </div>
 
     <div class="container">
-      <!-- User KPI Metric Cards (CSS Grid) -->
+      <!-- User KPI Metric Cards -->
       <div class="stats-grid">
-        <a href="favorites.html" class="stat-card" style="text-decoration: none;">
+        <a href="favorites.html" class="stat-card">
           <div class="stat-icon stat-icon-red">♥</div>
           <div class="stat-info">
             <h3 id="userTotalFavorites">0</h3>
@@ -65,7 +64,7 @@
           </div>
         </a>
 
-        <a href="purchases.html" class="stat-card" style="text-decoration: none;">
+        <a href="purchases.html" class="stat-card">
           <div class="stat-icon stat-icon-green">🛍️</div>
           <div class="stat-info">
             <h3 id="userTotalPurchases">0</h3>
@@ -73,7 +72,7 @@
           </div>
         </a>
 
-        <a href="auction.html" class="stat-card" style="text-decoration: none;">
+        <a href="auction.html" class="stat-card">
           <div class="stat-icon stat-icon-gold">🔨</div>
           <div class="stat-info">
             <h3 id="userTotalBids">0</h3>
@@ -81,7 +80,7 @@
           </div>
         </a>
 
-        <a href="reviews.html" class="stat-card" style="text-decoration: none;">
+        <a href="reviews.html" class="stat-card">
           <div class="stat-icon stat-icon-blue">⭐</div>
           <div class="stat-info">
             <h3 id="userTotalReviews">0</h3>
@@ -90,38 +89,38 @@
         </a>
       </div>
 
-      <!-- Quick Action Cards (CSS Grid) -->
-      <h2 style="font-size: 1.8rem; font-weight: 700; margin-bottom: 22px; color: var(--text-heading);">Collector Services &amp; Portals</h2>
-      <div class="category-grid" style="margin-bottom: 45px;">
+      <!-- Quick Action Cards -->
+      <h2 style="font-size: 1.75rem; margin-bottom: 20px; color: #ffffff;">Collector Services &amp; Portals</h2>
+      <div class="category-grid" style="margin-bottom: 42px;">
         <a href="artworks.html" class="category-card">
           <div class="category-icon-box">🎨</div>
           <h3>Browse Gallery</h3>
-          <p>Explore all 8 artwork categories with real-time search &amp; filters.</p>
+          <p>Explore ten curated painting categories with real-time search and filtering.</p>
         </a>
 
         <a href="favorites.html" class="category-card">
           <div class="category-icon-box">♥</div>
-          <h3>View Favorites</h3>
-          <p>Inspect and manage your shortlisted paintings and sculptures.</p>
+          <h3>Saved Favorites</h3>
+          <p>Inspect and curate your shortlisted original paintings.</p>
         </a>
 
         <a href="auction.html" class="category-card">
           <div class="category-icon-box">⏱️</div>
           <h3>Live Auctions</h3>
-          <p>Join competitive bidding and track your winning bids in real time.</p>
+          <p>Participate in timed bidding and track your leading auction lots.</p>
         </a>
 
         <a href="purchases.html" class="category-card">
           <div class="category-icon-box">📜</div>
-          <h3>Purchase Orders</h3>
-          <p>View confirmed orders, invoices, and purchase provenance details.</p>
+          <h3>Order History</h3>
+          <p>View confirmed acquisitions, receipts, and provenance certificates.</p>
         </a>
       </div>
 
       <!-- Recent Purchases Preview Table -->
       <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 18px; flex-wrap: wrap; gap: 10px;">
-        <h2 style="font-size: 1.8rem; font-weight: 700; color: var(--text-heading);">Recent Acquisitions</h2>
-        <a href="purchases.html" class="btn btn-sm btn-outline">View All Purchases &rarr;</a>
+        <h2 style="font-size: 1.7rem; color: #ffffff;">Recent Acquisitions</h2>
+        <a href="purchases.html" class="btn btn-sm btn-outline-gold">View All Purchases &rarr;</a>
       </div>
 
       <div class="table-container">
@@ -135,9 +134,7 @@
               <th>Status</th>
             </tr>
           </thead>
-          <tbody id="userRecentPurchasesTable">
-            <!-- Populated via user.js -->
-          </tbody>
+          <tbody id="userRecentPurchasesTable"></tbody>
         </table>
       </div>
     </div>
@@ -146,14 +143,16 @@
   <!-- Footer -->
   <footer class="site-footer">
     <div class="container footer-bottom">
-      <div>&copy; 2026 ArtLoom Online Art Gallery. All rights reserved.</div>
-      <div style="color: var(--accent);">Collector Module • SDC Project Review-1</div>
+      <div>&copy; 2026 ZENITH Fine Art Gallery. All rights reserved.</div>
+      <div style="color: var(--gold-primary);">Collector Salon</div>
     </div>
   </footer>
 
   <!-- Scripts -->
+  <script src="js/config.local.js"></script>
   <script src="js/storage.js"></script>
   <script src="js/auth.js"></script>
+  <script src="js/cart.js"></script>
   <script src="js/user.js"></script>
 </body>
 </html>
